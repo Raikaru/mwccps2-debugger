@@ -47,6 +47,38 @@
       "evidence": "Register-class selector set by the allocation driver and consumed by colorgraph."
     }
   },
+  "pcode_opcode_table": {
+    "address": "0x00626638",
+    "entry_count": 1199,
+    "entry_stride": 48,
+    "string_max_bytes": 128,
+    "fields": {
+      "mnemonic": {"offset": 0, "kind": "pointer"},
+      "alternate_mnemonic": {"offset": 4, "kind": "pointer"},
+      "operand_format": {"offset": 8, "kind": "pointer"},
+      "operand_slot_count": {"offset": 12, "kind": "u8"},
+      "opaque_format_class": {"offset": 13, "kind": "u8"},
+      "opaque_0e": {"offset": 14, "kind": "u16"},
+      "encoding_template": {"offset": 16, "kind": "u32"},
+      "opaque_14": {"offset": 20, "kind": "u32"},
+      "property_flags": {"offset": 24, "kind": "u32"},
+      "format_derived_flags": {"offset": 28, "kind": "u32"},
+      "aux_internal_name": {"offset": 32, "kind": "pointer"},
+      "aux_ordinal": {"offset": 36, "kind": "u32"},
+      "aux_value": {"offset": 40, "kind": "u32"},
+      "aux_class": {"offset": 44, "kind": "u16"},
+      "opaque_2e": {"offset": 46, "kind": "u16"}
+    },
+    "post_initialization_sentinel": {
+      "opcode": 1,
+      "mnemonic": "add",
+      "operand_format": "=d,s,t",
+      "encoding_template": "0x00000020",
+      "property_flags": "0x00006000",
+      "aux_internal_name": "__I_add"
+    },
+    "evidence": "PCodeInfo.c initializer 0x0047ccc0 clears 0x4af entries at 0x00626638 with stride 0x30; independent readers at 0x004925c0, 0x0049bd50, and 0x004c2f30 use the same table. Opcode 1 registration at 0x0047ccc0 supplies the sentinel values."
+  },
   "pcode_breakpoints": {
     "before_scheduling": "0x00435ff7",
     "after_scheduling": "0x00435ffc",
