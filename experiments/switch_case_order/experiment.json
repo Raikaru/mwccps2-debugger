@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "name": "switch_case_order",
+  "question": "Does dispatch form or switch case source order survive into PCode block and comparison order?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "switch_ascending_cases",
+      "source": "switch_ascending_cases.c",
+      "function": "switch_case_order",
+      "intent": "Baseline sparse switch with ascending source cases."
+    },
+    {
+      "name": "ordered_if_chain",
+      "source": "ordered_if_chain.c",
+      "function": "switch_case_order",
+      "intent": "Equivalent comparisons written as an ascending ordered if chain."
+    },
+    {
+      "name": "switch_reordered_cases",
+      "source": "switch_reordered_cases.c",
+      "function": "switch_case_order",
+      "intent": "Equivalent switch whose sparse case labels appear in a different source order."
+    }
+  ]
+}

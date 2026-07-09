@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "name": "commutative_mul_s",
+  "question": "Do commuted mul.s source operands or one explicit scalar local change the PCode operand order or virtual-register layout?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "fresh_times_invariant",
+      "source": "fresh_times_invariant.c",
+      "function": "commutative_mul_s",
+      "intent": "Multiplies the freshly named scalar by the invariant-named scalar in source order."
+    },
+    {
+      "name": "invariant_times_fresh",
+      "source": "invariant_times_fresh.c",
+      "function": "commutative_mul_s",
+      "intent": "Reverses the same scalar multiplication spelling so the invariant-named scalar appears first."
+    },
+    {
+      "name": "local_fresh_times_invariant",
+      "source": "local_fresh_times_invariant.c",
+      "function": "commutative_mul_s",
+      "intent": "Copies fresh through one volatile float local before the same multiplication, a minimal shape likely to create a distinct virtual register."
+    }
+  ]
+}

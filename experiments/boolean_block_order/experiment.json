@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "name": "boolean_block_order",
+  "question": "How do direct boolean materialization, short-circuit early returns, a result local, and an inverted condition differ in PCode block order?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "logical_and_expression",
+      "source": "logical_and_expression.c",
+      "function": "boolean_block_order",
+      "intent": "Baseline direct && boolean materialization."
+    },
+    {
+      "name": "early_returns",
+      "source": "early_returns.c",
+      "function": "boolean_block_order",
+      "intent": "Materialize false through short-circuit early returns."
+    },
+    {
+      "name": "result_local",
+      "source": "result_local.c",
+      "function": "boolean_block_order",
+      "intent": "Assign the materialized result through a local variable."
+    },
+    {
+      "name": "inverted_condition",
+      "source": "inverted_condition.c",
+      "function": "boolean_block_order",
+      "intent": "Test the inverted false condition with a final true return."
+    }
+  ]
+}
