@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "invariant_mask",
+  "question": "Does b210 preserve a loop-internal 16-bit mask or differ from an explicitly hoisted equivalent mask?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "loop_internal_mask",
+      "source": "loop_internal_mask.c",
+      "function": "invariant_mask",
+      "intent": "Apply the invariant mask inside each loop iteration."
+    },
+    {
+      "name": "hoisted_mask",
+      "source": "hoisted_mask.c",
+      "function": "invariant_mask",
+      "intent": "Precompute the same invariant mask before entering the loop."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "compare_destination",
+  "question": "Do equivalent less-than and reversed greater-than spellings alter the selected destination in b210?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "less_than",
+      "source": "less_than.c",
+      "function": "compare_destination",
+      "intent": "Select the left operand when an explicit left-less-than-right comparison succeeds."
+    },
+    {
+      "name": "reversed_greater_than",
+      "source": "reversed_greater_than.c",
+      "function": "compare_destination",
+      "intent": "Use the equivalent right-greater-than-left comparison before selecting the same destination."
+    }
+  ]
+}

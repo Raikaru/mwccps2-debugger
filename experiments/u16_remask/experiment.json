@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "u16_remask",
+  "question": "Does explicitly reapplying a 16-bit mask after narrowing change b210's generated code?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "single_mask",
+      "source": "single_mask.c",
+      "function": "u16_remask",
+      "intent": "Mask the input to 16 bits once and reuse the narrowed value."
+    },
+    {
+      "name": "redundant_remask",
+      "source": "redundant_remask.c",
+      "function": "u16_remask",
+      "intent": "Reapply the equivalent 16-bit mask at each use of the already narrowed value."
+    }
+  ]
+}

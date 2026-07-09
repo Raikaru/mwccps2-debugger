@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "name": "commutative_addu",
+  "question": "How do equivalent indexing and byte-address expressions order the base and scaled-index operands in the PCode addu sequence?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "array_base_index",
+      "source": "array_base_index.c",
+      "function": "commutative_addu",
+      "intent": "Uses ordinary base[index] spelling so the base operand precedes the index in source."
+    },
+    {
+      "name": "array_index_base",
+      "source": "array_index_base.c",
+      "function": "commutative_addu",
+      "intent": "Uses the equivalent index[base] spelling to reverse the source order of the subscript operands."
+    },
+    {
+      "name": "pointer_base_index",
+      "source": "pointer_base_index.c",
+      "function": "commutative_addu",
+      "intent": "Uses typed base + index pointer arithmetic with the pointer base written first."
+    },
+    {
+      "name": "pointer_index_base",
+      "source": "pointer_index_base.c",
+      "function": "commutative_addu",
+      "intent": "Uses equivalent typed index + base pointer arithmetic with the index written first."
+    },
+    {
+      "name": "byte_base_offset",
+      "source": "byte_base_offset.c",
+      "function": "commutative_addu",
+      "intent": "Converts the base to bytes and adds an explicitly scaled byte offset with the base written first."
+    },
+    {
+      "name": "byte_offset_base",
+      "source": "byte_offset_base.c",
+      "function": "commutative_addu",
+      "intent": "Uses the same raw byte offset with the scaled index written before the byte base."
+    }
+  ]
+}
