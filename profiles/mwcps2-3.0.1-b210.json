@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "name": "mwcps2-3.0.1b210-060308",
+  "binary": {
+    "filename": "mwccps2.exe",
+    "sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7",
+    "size": 2180096,
+    "pe_timestamp": "0x440f429b",
+    "image_base": "0x00400000"
+  },
+  "functions": {
+    "CodeGen_Generator": {
+      "address": "0x00435d90",
+      "return_address": "0x004364a1",
+      "evidence": "Backend pass driver; contains both post-schedule and post-coloring trace strings and iterates pcbasicblocks. Canonical name follows the existing MWCC debugger/decomp nomenclature."
+    },
+    "colorgraph": {
+      "address": "0x004c1c20",
+      "completion_breakpoint": "0x004c1d74",
+      "evidence": "Takes an interference-graph node list, assigns physical colors from an availability mask, and returns failure when a node must spill. Signature and behavior match colorgraph in Coloring.c."
+    },
+    "register_allocation_driver": {
+      "address": "0x004c1920",
+      "canonical_name": null,
+      "evidence": "Iterates seven register classes, constructs a coloring work list, invokes colorgraph, and retries after spill processing."
+    },
+    "schedule_current_function": {
+      "address": "0x004c0790",
+      "canonical_name": null,
+      "evidence": "Called by CodeGen_Generator immediately before the post-schedule trace point."
+    }
+  },
+  "globals": {
+    "pcbasicblocks": {
+      "address": "0x006363f0",
+      "kind": "pointer",
+      "evidence": "CodeGen_Generator walks this linked list and each block's instruction list before object generation."
+    },
+    "interferencegraph": {
+      "address": "0x00636634",
+      "kind": "pointer",
+      "evidence": "Base pointer used by colorgraph to resolve interference nodes by virtual-register index."
+    },
+    "coloring_class": {
+      "address": "0x006373ac",
+      "kind": "signed byte",
+      "evidence": "Register-class selector set by the allocation driver and consumed by colorgraph."
+    }
+  },
+  "pcode_breakpoints": {
+    "before_scheduling": "0x00435ff7",
+    "after_scheduling": "0x00435ffc",
+    "before_register_allocation": "0x0043602b",
+    "after_register_allocation": "0x00436030",
+    "after_colorgraph_assignment": "0x004c1d74"
+  },
+  "string_anchors": {
+    "post_coloring": {
+      "string_address": "0x005e2493",
+      "reference_address": "0x004360c1"
+    },
+    "post_schedule": {
+      "string_address": "0x005e25b5",
+      "reference_address": "0x004365ae"
+    },
+    "CodeGen.c": "0x005e1cb0",
+    "Coloring.c": "0x005e90d8",
+    "InstrSelection.c": "0x005e8b80",
+    "PCode.c": "0x005e6131",
+    "Scheduler.c": "0x005e90c1"
+  }
+}
