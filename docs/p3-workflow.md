@@ -150,7 +150,30 @@ stand-in structs and globals rather than copying a whole translation unit.
 Create one baseline and one variant per source lever. See
 [Experiments and artifacts](experiments.md) for the manifest contract.
 
-### Step 4: run the local compiler experiment
+### Step 4: run the bounded solver before manual application
+
+From the debugger repository, let the solver test the focused, evidence-backed
+source forms before applying one by hand:
+
+```powershell
+python mwccps2_solve.py ../Persona3-FES-Decompilation/src/path/file.c FunctionName --p3-root ../Persona3-FES-Decompilation --address 00123450 --max-depth 2 --max-candidates 32 --output build/<function>-solver
+```
+
+Add `--compiler <b210-compiler> --gdb <gdb> --profile
+profiles/mwcps2-3.0.1-b210.json --compiler-flag=-O2` when exact b210 capture
+should also guide the search. Use `--resume` only with the same existing output
+and unchanged identity. Do not add `--allow-assumptions` without recording why
+the assumption is valid for this function.
+
+Read `solve-summary-v1.json`, `solver-evidence-v1.json`, and the emitted
+`best-candidate.c` or `solution.c`. `best-candidate.c` is not permission to
+apply blindly: capture equality and normalized-diff improvement only rank it.
+Only the exact P3 `tools/verify.py` report row `MATCH` creates `solution.c`.
+Missing or partial capture remains unknown; capture-gap records request no new
+collector or anchor.
+
+
+### Step 5: run the local compiler experiment
 
 From `source/mwccps2-debugger`:
 
@@ -164,7 +187,7 @@ Before reading stage differences, confirm every relevant variant records equal
 direct and instrumented object SHA-256 values. If not, the debugger run is not
 admissible evidence.
 
-### Step 5: locate the first semantic divergence
+### Step 6: locate the first semantic divergence
 
 Read:
 
@@ -210,7 +233,7 @@ The tested source variant is not a useful lever for this mismatch under exact
 b210. Stop repeating equivalent spellings and test a different, independently
 motivated property.
 
-### Step 6: compare with established behavior
+### Step 7: compare with established behavior
 
 Before inventing another reducer, consult:
 
@@ -234,7 +257,7 @@ Current reusable findings include:
 These are scoped experiment results. Reproduce the relevant conditions before
 applying them to a P3 function.
 
-### Step 7: apply one source change to P3
+### Step 8: apply one source change to P3
 
 Return to `Persona3-FES-Decompilation`. Apply only the source shape supported by
 the experiment. Preserve established types, names, and local conventions.
@@ -256,7 +279,7 @@ Record whether:
 A smaller diff is useful search evidence but is not completion. Continue until
 `tools/verify.py` reports `MATCH`, or revert the unsuccessful source shape.
 
-### Step 8: preserve reusable evidence
+### Step 9: preserve reusable evidence
 
 If the compiler behavior is reusable:
 

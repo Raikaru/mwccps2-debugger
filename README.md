@@ -86,6 +86,8 @@ mwccps2_experiment.py             normal PCode/regalloc differential runner
 mwccps2_scheduler_experiment.py   live scheduler differential runner
 mwccps2_portability.py            compiler discovery and cross-version corpus
 mwccps2_p3_reduce.py              optional P3 verifier-report bundle adapter
+mwccps2_solve.py                  bounded evidence-guided mismatch search
+
 
 gdb/
   mwccps2_b210_snapshot.py        GDB command for PCode/regalloc snapshots
@@ -109,6 +111,8 @@ analysis/                        machine-readable behavioral conclusions
 reports/                         concrete mismatch explanations
 tests/                           deterministic regression suite
 build/                           ignored local snapshots and summaries
+solver/                           deterministic search, capture, P3, and evidence adapters
+
 ```
 
 ## Quick start
@@ -128,7 +132,7 @@ python -m unittest discover -s tests -p "test_*.py"
 Expected repository baseline:
 
 ```text
-Ran 368 tests
+Ran 390 tests
 OK
 ```
 
@@ -193,6 +197,40 @@ change:
 See [Experiments and artifact interpretation](docs/experiments.md) for the
 complete workflow.
 
+## Solver quick start
+
+`mwccps2_solve.py` performs a deterministic breadth-first search over a small,
+lossless C-source transform catalog. It is bounded by `--max-depth` and
+`--max-candidates`; it does not promise to solve every mismatch or recover
+historical source/AST state.
+
+Capture-only reducer search requires all three exact b210 inputs and a source
+root containing the reducer:
+
+```powershell
+python mwccps2_solve.py experiments/<question>/baseline.c FunctionName --source-root experiments/<question> --compiler <b210-compiler> --gdb <gdb> --profile profiles/mwcps2-3.0.1-b210.json --compiler-flag=-O2 --max-depth 2 --max-candidates 32 --output build/<capture-search>
+```
+
+P3-authoritative search invokes the P3 verifier for every candidate. Its
+normalized difference ranks non-matches, but only its exact report row can
+certify a result:
+
+```powershell
+python mwccps2_solve.py ../Persona3-FES-Decompilation/src/path/file.c FunctionName --p3-root ../Persona3-FES-Decompilation --address 00123450 --max-depth 2 --max-candidates 32 --output build/<p3-search>
+```
+
+For combined capture and P3 verification, resume the same identity-bound run:
+
+```powershell
+python mwccps2_solve.py ../Persona3-FES-Decompilation/src/path/file.c FunctionName --p3-root ../Persona3-FES-Decompilation --address 00123450 --compiler <b210-compiler> --gdb <gdb> --profile profiles/mwcps2-3.0.1-b210.json --compiler-flag=-O2 --max-depth 2 --max-candidates 32 --output build/<combined-search> --resume
+```
+
+The initial combined invocation is identical without `--resume`; `--resume`
+requires its existing `search-checkpoint-v1.json`. See [Getting
+started](docs/getting-started.md#bounded-solver) for selection, objectives, and
+artifacts.
+
+
 ## Common commands
 
 Run a normal b210 differential experiment:
@@ -234,6 +272,13 @@ python mwccps2_p3_reduce.py --config ../Persona3-FES-Decompilation/config/mwccps
 See [P3 matching workflow](docs/p3-workflow.md) before using a debugger result
 to edit game source.
 
+Run a bounded source mismatch search:
+
+```powershell
+python mwccps2_solve.py experiments/<question>/baseline.c FunctionName --source-root experiments/<question> --compiler <b210-compiler> --gdb <gdb> --profile profiles/mwcps2-3.0.1-b210.json --output build/<solver-run>
+```
+
+
 ## Evidence rules
 
 These rules apply to both humans and coding agents:
@@ -264,6 +309,9 @@ These rules apply to both humans and coding agents:
   using the debugger from the main decomp.
 - [Architecture and extension points](docs/architecture.md) — process boundary,
   profiles, GDB collectors, pure models, and adding a build or capture.
+- [Bounded solver](docs/getting-started.md#bounded-solver) — transform gates,
+  stage objectives, resume, artifacts, and authority.
+
 - [Troubleshooting](docs/troubleshooting.md) — fingerprint, GDB, scheduling,
   output-directory, compiler, and interpretation failures.
 
@@ -281,7 +329,9 @@ These rules apply to both humans and coding agents:
 - Wine and Wibo are capability-probed; neither was installed on the validated
   workstation and neither is currently advertised as a proven snapshot
   transport.
-- This is a diagnostic and experiment tool, not an automatic matching engine.
+- This includes a bounded automatic mismatch solver, not a guarantee that every
+  function is solvable. It does not recover a full historical AST or original
+  source.
 
 ## Contributing
 

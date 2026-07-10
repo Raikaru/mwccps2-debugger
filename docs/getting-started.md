@@ -195,6 +195,72 @@ Only b210 receives full live-profile validation. Other builds receive exact PE
 fingerprints and direct-object behavior comparisons unless a separately
 validated live profile is added.
 
+## Bounded solver
+
+`mwccps2_solve.py` searches a deterministic breadth-first frontier of lossless
+source edits. It is an optional aid after a credible reducer or P3 mismatch, not
+a full C parser, original-source recovery tool, or guarantee of a match.
+
+### Select transforms deliberately
+
+By default the solver uses only catalog entries enabled for search. Use repeated
+`--transform <id>` to narrow that catalog. `--include-disabled` exposes
+not-reachable levers for explicit investigation; it does not make them
+evidence-backed defaults. Applications whose preconditions cannot be proven are
+withheld unless `--allow-assumptions` is set. That flag records the assumptions;
+it does not prove C semantic equivalence.
+
+`--integer-type <type>` supplies the integer spelling required by transforms
+that need one. `--max-depth` limits transform-chain length and
+`--max-candidates` limits the generated candidates. Keep both small and
+increase one only for a justified hypothesis.
+
+### Choose evidence stages
+
+Choose at least one evaluator:
+
+- **b210 capture** is selected only by providing `--compiler`, `--gdb`, and
+  `--profile` together, plus `--source-root` (or `--p3-root`) containing the
+  source;
+- **P3 verification** is selected only by providing both `--p3-root` and the
+  eight-hex-digit `--address`.
+
+`--required-stage <stage>` makes a complete capture mandatory before a candidate
+can rank as usable. A missing or partial required stage remains unknown, never
+a digest match. `--stage-objective <stage>=<sha256>` compares the canonical
+ordered occurrence digest of a complete stage, using normalized stage, graph,
+and PCode digests. Objectives guide ranking and prune proven complete
+mismatches; they do not certify retail equality.
+
+### Read solver output
+
+Every solver run writes below `build/<run>/`:
+
+```text
+solve-summary-v1.json             mwccps2-solver-summary v1; termination and best rank
+solver-evidence-v1.json           mwccps2-solver-evidence v1; failures and capture-gap records
+search-checkpoint-v1.json         mwccps2-guided-search-state v1; deterministic BFS state
+run-identity-v1.json              mwccps2-solver-run-identity v1; configuration identity
+best-candidate.c                  best ranked source when not certified
+solution.c                        source only when P3 verify.py reports exact MATCH
+```
+
+The source artifact is one or the other, never both. `best-candidate.c` is
+search progress: snapshot/object equality and P3 `normalized_diff` can rank it,
+but cannot make it a solution. Only the authoritative P3 `tools/verify.py`
+report row `MATCH` sets `matched: true` and writes `solution.c`.
+
+Artifacts use canonical JSON, sorted deterministic ordering, SHA-256
+identities, and no durable raw host paths. Resume accepts only an existing
+checkpoint whose baseline, catalog, objective, and search configuration
+digests, plus the run identity, are unchanged.
+
+Failures are recorded in solver-evidence v1. Missing or partial capture remains
+unknown. A capture-gap request is emitted only when direct/instrumented equality
+is proven and the comparison establishes a blind spot at an already profiled
+stage; otherwise its rejection is recorded. The solver never invents a
+collector, breakpoint, or anchor.
+
 ## Host transport status
 
 - **Windows GDB:** implemented and live-validated.

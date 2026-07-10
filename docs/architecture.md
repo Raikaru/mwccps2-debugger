@@ -7,37 +7,32 @@ those boundaries when extending it.
 ## Data flow
 
 ```text
-experiment.json + C variants
+source C + selected transform catalog
         │
         ▼
-CLI validation and direct compilation
-        │
-        ├──────────────▶ direct.o + SHA-256
+lossless bounded C discovery → assumption-gated applications
         │
         ▼
-transport-neutral GDB request
+deterministic BFS / checkpoint / ranked candidates
         │
-        ▼
-Windows GDB / retrowin32 process transport
+        ├──────────────▶ optional exact-b210 direct + instrumented capture
+        │                         │
+        │                         ▼
+        │                 object-equality gate → complete stage digests
         │
-        ▼
-exact-b210 GDB command
-        │
-        ▼
-profile validation → breakpoints → bounded inferior-memory reads
-        │
-        ▼
-raw capture dictionaries
-        │
-        ▼
-pure Python validation and normalization
-        │
-        ▼
-versioned JSON + deterministic text companions
-        │
-        ▼
-experiment comparison / semantic replay / P3 adapter
+        └──────────────▶ optional authoritative P3 verify.py adapter
+                                  │
+                                  ▼
+                        exact report row + normalized_diff rank
+                                  │
+                                  ▼
+canonical summary, evidence, checkpoint, and source artifact under build/
 ```
+
+Capture evidence and P3 verification are independent inputs. Snapshot/object
+equality and normalized stage data rank or reject candidates; only the P3
+adapter's exact `verify.py` row `MATCH` can certify `solution.c`.
+
 
 The direct object and instrumented object converge only at the acceptance gate.
 A capture is rejected if their hashes differ.
@@ -70,6 +65,36 @@ Responsibilities:
 
 This layer should not contain hard-coded inferior-memory decoding. That belongs
 to the b210 model/profile layer.
+
+### Solver layer
+
+Files:
+
+```text
+mwccps2_solve.py
+decomp/c_ast.py
+decomp/source_transforms.py
+decomp/mwccps2_transforms.py
+solver/search.py
+solver/b210_evaluator.py
+solver/p3_verify.py
+solver/evidence.py
+```
+
+Responsibilities:
+
+- tokenize enough lossless C structure to locate unambiguous transform anchors;
+- enumerate catalog applications deterministically and gate assumptions;
+- apply one bounded source edit per BFS edge and deduplicate source digests;
+- evaluate optional b210 capture and optional P3 verification independently;
+- rank complete stage digest objectives and P3 normalized differences;
+- checkpoint only identity-compatible state and write portable evidence;
+- certify source only from the P3 verifier's exact `MATCH` row.
+
+The solver is not a compiler, full AST recovery layer, or universal matching
+engine. It must not turn missing/partial capture into equality, or create a
+collector, anchor, or semantic claim from a candidate failure.
+
 
 ### Transport layer
 
@@ -307,6 +332,30 @@ Do not rename an opaque tag or flag from one suggestive example.
 8. Extend summary comparison ordering and missing-stage handling.
 9. Add unit tests and one live compiler smoke.
 10. Reconfirm the instrumented object hash.
+
+## Adding an evidence-backed solver transform
+
+1. Identify a source rewrite whose target syntax is unambiguous in the bounded,
+   lossless C model.
+2. State its preconditions, required integer spelling (if any), and every
+   semantic assumption in the catalog manifest.
+3. Keep an unproven or not-reachable lever disabled by default.
+4. Implement deterministic enumeration and application without broad textual
+   replacement.
+5. Add tests for accepted, rejected, assumption-required, integer-typed,
+   ordering, and duplicate-source cases.
+6. Add b210/P3 evidence only for behavior actually observed; an attractive
+   candidate or P3 non-match is not transform evidence.
+7. Preserve the authority boundary: stage digests and object equality rank;
+   only `verify.py` `MATCH` writes `solution.c`.
+
+## Extending solver evidence or evaluation
+
+Keep evaluator output separate from pure search. A new durable field needs a
+versioned schema, canonical ordering, path redaction, malformed-artifact tests,
+and resume-identity coverage. Capture-gap requests may reference only a proven
+blind spot at an existing profile stage with proven capture neutrality; no new
+collector or profile anchor may be inferred from the request.
 
 ## Adding a compiler build
 
