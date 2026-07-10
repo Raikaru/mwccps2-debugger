@@ -82,6 +82,26 @@ Every checked-in experiment must:
 Prefer self-contained C using original stand-in structs/globals. Do not copy a
 whole game translation unit or copyrighted retail bytes into a reducer.
 
+## Solver transform contributions
+
+Add a source transform only when its edit is lossless, bounded, and anchored by
+the conservative C structure. Its catalog entry must state the exact
+preconditions, assumptions, default-search status, and evidence boundary. A
+not-reachable or hypothesis-only lever stays disabled by default; do not enable
+it merely because it produces an attractive candidate.
+
+For each transform, add deterministic tests covering enumeration order,
+application, rejection outside scope or preconditions, assumption gating, type
+parameter handling where applicable, and duplicate/cycle-safe bounded search.
+If it changes capture or P3 ranking behavior, also test required versus partial
+stages, stage-objective digests, checkpoint incompatibility, and the rule that
+only an authoritative P3 verifier `MATCH` can produce `solution.c`.
+
+Do not add a collector, breakpoint, stage anchor, or semantic explanation from
+a solver failure alone. Capture-gap requests require a proven comparison blind
+spot and direct/instrumented equality; otherwise retain the result as unknown
+or record the rejection.
+
 ## Decoder and profile contributions
 
 For every new field, flag, breakpoint, or semantic name, include:

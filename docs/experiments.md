@@ -145,6 +145,47 @@ build/example-run/
 The exact files depend on which compiler stages executed. Missing scheduling
 captures at `-O2` are expected for many reducers.
 
+## Solver evidence artifacts
+
+The bounded solver reuses exact-b210 capture as optional candidate evidence; it
+does not turn a reducer result into a retail match. Its output is local under
+`build/<solver-run>/`:
+
+```text
+solve-summary-v1.json
+solver-evidence-v1.json
+search-checkpoint-v1.json
+run-identity-v1.json
+best-candidate.c or solution.c
+```
+
+`solve-summary-v1.json` is `mwccps2-solver-summary` v1 and names termination,
+candidate counts, best source digest, retail rank, `matched`, and artifact
+names. `solver-evidence-v1.json` is `mwccps2-solver-evidence` v1 with
+`failures`, `capture_gap_requests`, and `capture_gap_rejections`. Per-stage
+evidence records observed normalized, graph, and PCode SHA-256 values only.
+
+The checkpoint is `mwccps2-guided-search-state` v1: canonical BFS candidates,
+frontier, attempts, and digests for baseline source, transform catalog,
+objective, and configuration. `run-identity-v1.json` additionally binds the
+evaluation authorities and their configuration without retaining host paths.
+These schemas are deterministic, content-addressed where applicable, and reject
+durable raw host paths.
+
+Complete stage observations may have a canonical ordered-occurrence digest.
+Partial or missing observations have no digest and remain unknown. Thus a
+required stage or stage objective never silently treats an absent capture as
+equal. Direct/instrumented object equality establishes capture neutrality; it
+does not establish P3 equality. A P3 `normalized_diff` ranks candidates, while
+only the exact `tools/verify.py` `MATCH` row creates `solution.c` and
+`matched: true`; all other best results are `best-candidate.c`.
+
+When object evidence proves an existing comparison boundary is blind, the
+solver can write a pending capture-gap request for that already profiled stage.
+It does not invent a collector or anchor. Missing, partial, or otherwise
+unproven evidence produces no request (or a recorded rejection) and remains
+unknown.
+
 ## Evidence hierarchy
 
 Use evidence in this order:

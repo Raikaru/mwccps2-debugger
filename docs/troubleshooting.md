@@ -104,6 +104,55 @@ Do not use the snapshots to explain compiler behavior. Reduce the collector to
 read-only state, compare exact commands/environments, use a fresh output, and
 rerun until hashes match.
 
+## Solver rejects a host path
+
+Solver output, checkpoints, and evidence are portable durable artifacts. They
+reject raw local absolute paths, including a source string that embeds one. Use
+repo-relative source, profile, `--source-root`, and `--output build/<run>`
+arguments; keep machine-specific paths only in runtime command inputs. Do not
+weaken this rejection or replace it with a path redaction that changes source.
+
+## Solver resume reports drift or incompatibility
+
+`--resume` requires an existing `build/<run>/search-checkpoint-v1.json` and the
+same baseline source, selected catalog, objective, depth/candidate configuration,
+assumption/disabled settings, integer type, and evaluator identity. Re-run the
+original command exactly, or start a fresh `build/<new-run>` when any of those
+inputs changed. Do not edit the checkpoint digests.
+
+## Solver checkpoint or evidence is malformed
+
+Treat an unreadable, corrupt, duplicate-key, unknown-field, or incompatible
+schema artifact as invalid state. Start a fresh output; do not hand-repair it
+to continue a search. Checkpoints are atomically written canonical JSON and
+must not contain host paths.
+
+## Solver required stage is partial or missing
+
+Only a complete stage has an ordered occurrence digest. A partial/missing stage
+is unknown and cannot meet `--required-stage` or a `--stage-objective`. Remove
+the requirement only if the stage is not needed for the hypothesis; otherwise
+reduce the input or improve an already evidenced capture boundary. Do not
+interpret absence as an equal digest.
+
+## Solver capture fails while P3 verification runs
+
+Capture and P3 verification are independent. A P3 `tools/verify.py` report row
+`MATCH` remains the sole match authority, while a failed capture cannot support
+a capture claim. If capture stages are required/objectives are set, repair the
+capture or use a fresh P3-only run; do not treat a P3 non-match or
+`normalized_diff` as capture evidence.
+
+## No applicable guarded solver transforms
+
+The bounded parser found no catalog edit with proven preconditions in the named
+function. Confirm the exact function name and conservative syntax, inspect the
+selected transform IDs, and use `--include-disabled` only to investigate an
+explicit not-reachable lever. `--allow-assumptions` permits recorded
+assumption-required applications; it never makes an unsupported transformation
+safe. Create a focused reducer or manually reconstruct missing semantics rather
+than forcing a textual rewrite.
+
 ## No scheduling captures at `-O2`
 
 This is usually expected for the P3 configuration. The compiler may not invoke
