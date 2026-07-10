@@ -290,3 +290,11 @@ observable contract.
 When adding a compiler build, capture point, operand interpretation, or semantic
 name, include the evidence address and confidence boundary. Unknown fields
 should remain opaque rather than receiving a plausible but unsupported name.
+
+## License
+
+The original tooling and documentation in this repository are available under
+the [MIT License](LICENSE). The license does not grant or imply rights to
+Metrowerks compiler binaries, Persona 3 assets, retail executables, or other
+third-party material. Users must supply any required third-party software or
+game data separately and in accordance with the rights applicable to it.
