@@ -30,6 +30,12 @@ DEFAULT_POLICY = RUNNER_DIRECTORY / "profiles" / "mwccps2-version-portability-po
 DEFAULT_PROFILES_DIRECTORY = RUNNER_DIRECTORY / "profiles"
 DEFAULT_EXPERIMENTS_DIRECTORY = RUNNER_DIRECTORY / "experiments"
 DEFAULT_BUILD_DIRECTORY = RUNNER_DIRECTORY / "build"
+WORKSPACE_DIRECTORY = (
+    RUNNER_DIRECTORY.parent.parent
+    if RUNNER_DIRECTORY.parent.name.casefold() == "source"
+    else RUNNER_DIRECTORY.parent
+)
+HOME_DIRECTORY = Path.home().resolve()
 
 INDEX_SCHEMA_NAME = "mwccps2-version-portability-index"
 BUILD_PROFILE_SCHEMA_NAME = "mwccps2-portable-build-profile"
@@ -129,6 +135,23 @@ def _hex32(value: int) -> str:
 
 def _resolved_path_string(path: Path) -> str:
     return path.resolve().as_posix()
+
+
+def _public_path_string(path: Path) -> str:
+    """Normalize a host path while redacting workspace/home prefixes."""
+
+    resolved = path.resolve()
+    for label, root in (
+        ("<workspace>", WORKSPACE_DIRECTORY),
+        ("<home>", HOME_DIRECTORY),
+    ):
+        try:
+            relative = resolved.relative_to(root)
+        except ValueError:
+            continue
+        suffix = relative.as_posix()
+        return label if not suffix or suffix == "." else f"{label}/{suffix}"
+    return resolved.as_posix()
 
 
 def _is_absolute_path_string(value: str) -> bool:
@@ -286,7 +309,7 @@ def _iter_compiler_paths(roots: Sequence[Path]) -> tuple[list[Path], list[dict[s
     candidates: dict[str, Path] = {}
     evidence: list[dict[str, Any]] = []
     for root in roots:
-        root_text = _resolved_path_string(root) if root.exists() else root.as_posix()
+        root_text = _public_path_string(root)
         if not root.exists():
             evidence.append({"path": root_text, "status": "missing"})
             continue
@@ -566,7 +589,7 @@ def discover_builds(policy: Mapping[str, Any], extra_search_roots: Sequence[Path
         ]
         configured_candidates = [_policy_path(value) for value in build["candidate_paths"]]
         missing_candidates = [
-            path.as_posix() for path in configured_candidates if not path.is_file()
+            path for path in configured_candidates if not path.is_file()
         ]
         if not matching_locations:
             results.append(
@@ -575,8 +598,11 @@ def discover_builds(policy: Mapping[str, Any], extra_search_roots: Sequence[Path
                     "build": {"key": build["key"], "release": build["release"]},
                     "availability": {
                         "status": "unavailable_on_scanned_roots",
-                        "candidate_paths_checked": [path.as_posix() for path in configured_candidates],
-                        "missing_candidate_paths": sorted(missing_candidates, key=str.casefold),
+                        "candidate_paths_checked": [_public_path_string(path) for path in configured_candidates],
+                        "missing_candidate_paths": sorted(
+                            [_public_path_string(path) for path in missing_candidates],
+                            key=str.casefold,
+                        ),
                         "search_root_evidence": root_evidence,
                     },
                     "binary": build["binary"],
@@ -605,14 +631,20 @@ def discover_builds(policy: Mapping[str, Any], extra_search_roots: Sequence[Path
             {
                 "schema": {"name": BUILD_PROFILE_SCHEMA_NAME, "version": SCHEMA_VERSION},
                 "build": {"key": build["key"], "release": build["release"]},
+                "_runtime": {
+                    "selected_path": _resolved_path_string(selected),
+                },
                 "availability": {
                     "status": "available",
-                    "selected_path": _resolved_path_string(selected),
+                    "selected_path": _public_path_string(selected),
                     "matching_paths": sorted(
-                        [_resolved_path_string(path) for path in matching_locations], key=str.casefold
+                        [_public_path_string(path) for path in matching_locations], key=str.casefold
                     ),
-                    "candidate_paths_checked": [path.as_posix() for path in configured_candidates],
-                    "missing_candidate_paths": sorted(missing_candidates, key=str.casefold),
+                    "candidate_paths_checked": [_public_path_string(path) for path in configured_candidates],
+                    "missing_candidate_paths": sorted(
+                        [_public_path_string(path) for path in missing_candidates],
+                        key=str.casefold,
+                    ),
                     "search_root_evidence": root_evidence,
                 },
                 "binary": {
@@ -708,7 +740,8 @@ def _run_corpus_for_build(
     temporary_root: Path,
     timeout_seconds: int,
 ) -> dict[str, Any]:
-    compiler = Path(str(profile["availability"]["selected_path"]))
+    runtime = _require_mapping(profile.get("_runtime"), "profile._runtime")
+    compiler = Path(_require_string(runtime.get("selected_path"), "profile._runtime.selected_path"))
     build_directory = temporary_root / str(profile["build"]["key"])
     build_directory.mkdir(parents=True, exist_ok=False)
     experiments: list[dict[str, Any]] = []
@@ -926,14 +959,28 @@ def _write_atomically(path: Path, value: Any) -> None:
                 pass
 
 
+def _public_artifact(value: Any) -> Any:
+    """Remove runtime-only fields before writing a shareable artifact."""
+
+    if isinstance(value, Mapping):
+        return {
+            str(key): _public_artifact(item)
+            for key, item in value.items()
+            if not str(key).startswith("_")
+        }
+    if isinstance(value, (list, tuple)):
+        return [_public_artifact(item) for item in value]
+    return value
+
+
 def write_profiles(profiles_directory: Path, profiles: Sequence[Mapping[str, Any]], index: Mapping[str, Any]) -> list[Path]:
     written: list[Path] = []
     for profile in profiles:
         path = profiles_directory / _profile_filename(profile)
-        _write_atomically(path, profile)
+        _write_atomically(path, _public_artifact(profile))
         written.append(path)
     index_path = profiles_directory / INDEX_FILENAME
-    _write_atomically(index_path, index)
+    _write_atomically(index_path, _public_artifact(index))
     written.append(index_path)
     return written
 
