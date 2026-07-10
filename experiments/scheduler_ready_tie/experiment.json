@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "scheduler_ready_tie",
+  "question": "When equivalent independent arithmetic is spelled in opposite source order, which ready candidate does b210 select under its live deadline, successor-release, critical-path, and heuristic tie fields?",
+  "compiler_flags": ["-O3"],
+  "variants": [
+    {
+      "name": "left_then_right",
+      "source": "left_then_right.c",
+      "function": "scheduler_ready_tie",
+      "intent": "Multiplies a*b before c*d in the expression tree, then combines the independent products."
+    },
+    {
+      "name": "right_then_left",
+      "source": "right_then_left.c",
+      "function": "scheduler_ready_tie",
+      "intent": "Multiplies c*d before a*b in the expression tree, preserving the commutative product sum."
+    }
+  ]
+}

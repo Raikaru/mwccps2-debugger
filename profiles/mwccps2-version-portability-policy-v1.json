@@ -1,0 +1,114 @@
+{
+  "schema": {
+    "name": "mwccps2-version-portability-policy",
+    "version": 1
+  },
+  "capture_schema": {
+    "name": "mwccps2-portable-direct-capture",
+    "version": 1,
+    "stage_order": [
+      "codegen_entry",
+      "before_scheduling",
+      "after_scheduling",
+      "before_register_allocation",
+      "after_register_allocation"
+    ]
+  },
+  "search_roots": [
+    "C:/tmp",
+    "D:/mwcps2-3.0.1b210-060308",
+    "../../toolchains"
+  ],
+  "requested_builds": [
+    {
+      "key": "b151",
+      "release": "mwcps2-3.0.1b151-050317",
+      "candidate_paths": [
+        "C:/tmp/mwcps2-3.0.1b151-050317/mwccps2.exe"
+      ],
+      "binary": {
+        "sha256": "22b7f6271ff1fa774e77d13f2c7dcee8d02430563189b9f2c548171cf31d0b46",
+        "size": 2178560,
+        "pe_timestamp": "0x4239997e",
+        "image_base": "0x00400000"
+      }
+    },
+    {
+      "key": "b198",
+      "release": "mwcps2-3.0.1b198-051011",
+      "candidate_paths": [
+        "C:/tmp/mwcps2-3.0.1b198-051011/mwccps2.exe"
+      ],
+      "binary": {
+        "sha256": "41983e892a7b4a34b3ba96c2dd9d45f6a52d96a5ac4120dc479246786b124184",
+        "size": 2179584,
+        "pe_timestamp": "0x434bd639",
+        "image_base": "0x00400000"
+      }
+    },
+    {
+      "key": "b205",
+      "release": "mwcps2-3.0.1b205-051227",
+      "candidate_paths": [
+        "C:/tmp/mwcps2-3.0.1b205-051227/mwccps2.exe"
+      ],
+      "binary": {
+        "sha256": "e1c5d935bdbfe080e40244c078a98028a58357e9b85d93b4730dec4bc76f989d",
+        "size": 2179584,
+        "pe_timestamp": "0x43b0e54e",
+        "image_base": "0x00400000"
+      }
+    },
+    {
+      "key": "b210",
+      "release": "mwcps2-3.0.1b210-060308",
+      "candidate_paths": [
+        "D:/mwcps2-3.0.1b210-060308/mwccps2.exe",
+        "C:/tmp/mwcc301/mwccps2.exe"
+      ],
+      "binary": {
+        "sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7",
+        "size": 2180096,
+        "pe_timestamp": "0x440f429b",
+        "image_base": "0x00400000"
+      },
+      "profile": "mwcps2-3.0.1-b210.json",
+      "anchor_signature": {
+        "required": [
+          {
+            "category": "identity",
+            "text": "Metrowerks C/C++ Compiler for MIPS/PlayStation2",
+            "address": "0x005d69e0"
+          },
+          {
+            "category": "backend-source",
+            "text": "CodeGen.c",
+            "address": "0x005e1cb0"
+          },
+          {
+            "category": "backend-source",
+            "text": "Coloring.c",
+            "address": "0x005e90d8"
+          },
+          {
+            "category": "backend-source",
+            "text": "Scheduler.c",
+            "address": "0x005e90c1"
+          },
+          {
+            "category": "backend-message",
+            "text": "After peepholeoptimizepcode [POST COLORING]",
+            "address": "0x005e2493",
+            "absolute_operand_site": "0x004360c2"
+          },
+          {
+            "category": "backend-message",
+            "text": "After peepholeoptimizepcode [POST SCHEDULE]",
+            "address": "0x005e25b5",
+            "absolute_operand_site": "0x004365af"
+          }
+        ]
+      }
+    }
+  ]
+}

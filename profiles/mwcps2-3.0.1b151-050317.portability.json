@@ -1,0 +1,1378 @@
+{
+  "availability": {
+    "candidate_paths_checked": [
+      "C:/tmp/mwcps2-3.0.1b151-050317/mwccps2.exe"
+    ],
+    "matching_paths": [
+      "C:/tmp/mwcps2-3.0.1b151-050317/mwccps2.exe"
+    ],
+    "missing_candidate_paths": [],
+    "search_root_evidence": [
+      {
+        "path": "C:/tmp",
+        "status": "scanned"
+      },
+      {
+        "path": "D:/mwcps2-3.0.1b210-060308",
+        "status": "scanned"
+      },
+      {
+        "path": "<workspace>/toolchains",
+        "status": "scanned"
+      }
+    ],
+    "selected_path": "C:/tmp/mwcps2-3.0.1b151-050317/mwccps2.exe",
+    "status": "available"
+  },
+  "behavior_comparison_to_b210": {
+    "alternate_build": "b151",
+    "baseline_build": "b210",
+    "behavior_localization": {
+      "alternate_object_sha256": "24aff0c89dfa6644bed8cc8e3904bc1fd91d4c9cfc545ad642a1969870544cfa",
+      "b210_object_sha256": "db264ab1bcfab1f333adfd2843f45d5aafe1f47eb7922512335a253754bd97ae",
+      "evidence": "The same source and compiler flags produced different direct object SHA-256 values.",
+      "experiment": "boolean_block_order",
+      "kind": "direct_object_sha256_changed",
+      "variant": "inverted_condition"
+    },
+    "comparison_method": "direct_object_sha256_and_variant_to_baseline_relation",
+    "experiments": [
+      {
+        "experiment": "boolean_block_order",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "early_returns"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "inverted_condition"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "logical_and_expression"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "result_local"
+          }
+        ]
+      },
+      {
+        "experiment": "commutative_addu",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "array_base_index"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "array_index_base"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "byte_base_offset"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "byte_offset_base"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "pointer_base_index"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "pointer_index_base"
+          }
+        ]
+      },
+      {
+        "experiment": "commutative_mul_s",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "fresh_times_invariant"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "invariant_times_fresh"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "local_fresh_times_invariant"
+          }
+        ]
+      },
+      {
+        "experiment": "compare_destination",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "less_than"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "reversed_greater_than"
+          }
+        ]
+      },
+      {
+        "experiment": "invariant_mask",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "hoisted_mask"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "loop_internal_mask"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_global_base_scaled_index",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "p3_loop_shape"
+          }
+        ]
+      },
+      {
+        "experiment": "repeated_sign_extension",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "explicit_cast"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "short_parameter"
+          }
+        ]
+      },
+      {
+        "experiment": "scheduler_ready_tie",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "left_then_right"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "right_then_left"
+          }
+        ]
+      },
+      {
+        "experiment": "switch_case_order",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "ordered_if_chain"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "switch_ascending_cases"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "switch_reordered_cases"
+          }
+        ]
+      },
+      {
+        "experiment": "u16_remask",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "redundant_remask"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "single_mask"
+          }
+        ]
+      }
+    ]
+  },
+  "binary": {
+    "anchor_inventory": [
+      {
+        "category": "backend-message",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0043609e"
+            ],
+            "address": "0x005e24a1",
+            "file_offset": "0x001df2a1",
+            "rva": "0x001e24a1",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "After peepholeoptimizepcode [POST COLORING]"
+      },
+      {
+        "category": "backend-message",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0043654f"
+            ],
+            "address": "0x005e25b0",
+            "file_offset": "0x001df3b0",
+            "rva": "0x001e25b0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "After peepholeoptimizepcode [POST SCHEDULE]"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0048fb72",
+              "0x0048fbaf",
+              "0x0048fbe3",
+              "0x004900a9",
+              "0x0049048e",
+              "0x00490786",
+              "0x00490b76"
+            ],
+            "address": "0x005e8010",
+            "file_offset": "0x001e4e10",
+            "rva": "0x001e8010",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Alias.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0054b4d8",
+              "0x0054b52e",
+              "0x0054b7ba",
+              "0x0054b7d3"
+            ],
+            "address": "0x005ea16f",
+            "file_offset": "0x001e6f6f",
+            "rva": "0x001ea16f",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "AliasPropagation.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004c4246"
+            ],
+            "address": "0x005e9085",
+            "file_offset": "0x001e5e85",
+            "rva": "0x001e9085",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "BE_schedule.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00431f09",
+              "0x00432436",
+              "0x00434136",
+              "0x0043419c",
+              "0x00434466",
+              "0x004344e6",
+              "0x004348e1",
+              "0x00434cdd",
+              "0x00434e58",
+              "0x00435a16",
+              "0x00435af6",
+              "0x00435b4c",
+              "0x00435b76",
+              "0x0043670a",
+              "0x00436ac6",
+              "0x00436b69",
+              "0x00436b86",
+              "0x00436b9c",
+              "0x00436bb6",
+              "0x00436bcc",
+              "0x00436be6",
+              "0x00436bfc",
+              "0x00436c16",
+              "0x00436c2c",
+              "0x00436c46",
+              "0x00436eb1",
+              "0x00436f26",
+              "0x0043709d",
+              "0x004373c6",
+              "0x004375c6",
+              "0x004379ca",
+              "0x00438426",
+              "0x00438462",
+              "0x00438ada"
+            ],
+            "address": "0x005e1cb0",
+            "file_offset": "0x001deab0",
+            "rva": "0x001e1cb0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "CodeGen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004c1d25"
+            ],
+            "address": "0x005e9038",
+            "file_offset": "0x001e5e38",
+            "rva": "0x001e9038",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Coloring.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004c28a6"
+            ],
+            "address": "0x005e9043",
+            "file_offset": "0x001e5e43",
+            "rva": "0x001e9043",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ConditionalMoveOptimization.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00540d38",
+              "0x00540d4e"
+            ],
+            "address": "0x005ea0b8",
+            "file_offset": "0x001e6eb8",
+            "rva": "0x001ea0b8",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ELFgen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0049c0ba",
+              "0x0049cda6",
+              "0x0049e446",
+              "0x0049eba6",
+              "0x0049f46d",
+              "0x0049f496",
+              "0x004a2e19",
+              "0x004a306a",
+              "0x004a313a",
+              "0x004a322a",
+              "0x004a32db",
+              "0x004a38e6",
+              "0x004a7e26",
+              "0x004a7fc6",
+              "0x004a8536",
+              "0x004a86bc",
+              "0x004a88da",
+              "0x004a8986",
+              "0x004a8a1c",
+              "0x004a8b4d"
+            ],
+            "address": "0x005e8ae0",
+            "file_offset": "0x001e58e0",
+            "rva": "0x001e8ae0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "InstrSelection.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004beb5c",
+              "0x004beca6",
+              "0x004bed26",
+              "0x004bef36"
+            ],
+            "address": "0x005e8fbc",
+            "file_offset": "0x001e5dbc",
+            "rva": "0x001e8fbc",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "InterferenceGraph.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0055cbd7"
+            ],
+            "address": "0x005ea34e",
+            "file_offset": "0x001e714e",
+            "rva": "0x001ea34e",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "MIPS_Peephole.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0046db9b",
+              "0x0046ee76",
+              "0x0046ee89",
+              "0x0046ee9c"
+            ],
+            "address": "0x005e5b70",
+            "file_offset": "0x001e2970",
+            "rva": "0x001e5b70",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ObjGen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0047c17d",
+              "0x0047c2b6"
+            ],
+            "address": "0x005e609a",
+            "file_offset": "0x001e2e9a",
+            "rva": "0x001e609a",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCode.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0049af30",
+              "0x0049b426",
+              "0x0049b43a",
+              "0x0049b51b",
+              "0x0049b806",
+              "0x0049bc4d",
+              "0x0049bca8",
+              "0x0049bcfc",
+              "0x0049beb6",
+              "0x0049bf06",
+              "0x0049bf6e"
+            ],
+            "address": "0x005e8868",
+            "file_offset": "0x001e5668",
+            "rva": "0x001e8868",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCodeInfo.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0048eeb7",
+              "0x0048f5cf",
+              "0x0048f70f",
+              "0x0048f821",
+              "0x0048fa41"
+            ],
+            "address": "0x005e7fdd",
+            "file_offset": "0x001e4ddd",
+            "rva": "0x001e7fdd",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCodeUtilities.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004726c6",
+              "0x004726db",
+              "0x004726ee",
+              "0x004732e6",
+              "0x00473363",
+              "0x00473643"
+            ],
+            "address": "0x005e5fd9",
+            "file_offset": "0x001e2dd9",
+            "rva": "0x001e5fd9",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "RegisterInfo.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004c0fb6",
+              "0x004c106d"
+            ],
+            "address": "0x005e9021",
+            "file_offset": "0x001e5e21",
+            "rva": "0x001e9021",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Scheduler.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0055e088",
+              "0x0055e0d3",
+              "0x0055e314"
+            ],
+            "address": "0x005ea35e",
+            "file_offset": "0x001e715e",
+            "rva": "0x001ea35e",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Spill.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004d03f6",
+              "0x004d0613",
+              "0x004d079b"
+            ],
+            "address": "0x005e90f2",
+            "file_offset": "0x001e5ef2",
+            "rva": "0x001e90f2",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "VReg.c"
+      },
+      {
+        "category": "identity",
+        "locations": [
+          {
+            "absolute_operand_sites": [],
+            "address": "0x005d69e0",
+            "file_offset": "0x001d37e0",
+            "rva": "0x001d69e0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Metrowerks C/C++ Compiler for MIPS/PlayStation2"
+      }
+    ],
+    "filename": "mwccps2.exe",
+    "identity": {
+      "mwccps2_identity_present": true,
+      "source_inventory": {
+        "counts_by_suffix": {
+          ".c": 117,
+          ".cc": 1,
+          ".cpp": 4,
+          ".h": 27,
+          ".hpp": 1
+        },
+        "files": [
+          "Alias.c",
+          "AliasPropagation.c",
+          "Arguments.c",
+          "BE_binary.c",
+          "BE_macro.c",
+          "BE_schedule.c",
+          "BitVector.h",
+          "CABI.c",
+          "CBrowse.c",
+          "CClass.c",
+          "CDecl.c",
+          "CError.c",
+          "CException.c",
+          "CExpr.c",
+          "CExpr2.c",
+          "CExprConvMatch.c",
+          "CFunc.c",
+          "CIRTransform.c",
+          "CInit.c",
+          "CInline.c",
+          "CLAccessPaths.c",
+          "CLBrowser.c",
+          "CLCompilerLinkerDropin_V10.cpp",
+          "CLDependencies.c",
+          "CLDropinCallbacks_V10.cpp",
+          "CLFileOps.c",
+          "CLFiles.c",
+          "CLIO.c",
+          "CLLicenses.c",
+          "CLOverlays.c",
+          "CLPluginRequests.cpp",
+          "CLPlugins.c",
+          "CLProj.c",
+          "CLSegs.c",
+          "CLToolExec.c",
+          "CLWriteObjectFile.c",
+          "CMachine.c",
+          "CMangler.c",
+          "COptimizer.c",
+          "CParser.c",
+          "CPrec.c",
+          "CPrep.c",
+          "CPrepTokenizer.c",
+          "CPreprocess.c",
+          "CRTTI.c",
+          "CSOM.c",
+          "CScope.c",
+          "CTemplateClass.c",
+          "CTemplateFunc.c",
+          "CTemplateFuncInst.c",
+          "CTemplateNew.c",
+          "CTemplateTools.c",
+          "CodeGen.c",
+          "Coloring.c",
+          "ConditionalMoveOptimization.c",
+          "DIVbyCnst.c",
+          "DWARF.c",
+          "ELFgen.c",
+          "Exceptions.c",
+          "FEInterface.c",
+          "Files.c",
+          "FuncLevelAsm.c",
+          "FunctionCalls.c",
+          "GCCInlineAsm.c",
+          "InlineAsm.c",
+          "InlineAsmMIPS.c",
+          "InstrSelection.c",
+          "InterferenceGraph.c",
+          "Intrinsics.c",
+          "IrObitvect.c",
+          "IrOptimizer.c",
+          "IroAggregateAssignment.c",
+          "IroCounterLoop.c",
+          "IroDependenceAnalysis.c",
+          "IroDependsKills.c",
+          "IroExprRegeneration.c",
+          "IroExprs.c",
+          "IroFlowgraph.c",
+          "IroFlowgraph.h",
+          "IroLifetime.c",
+          "IroLinearForm.c",
+          "IroLoop.c",
+          "IroLoopInvariants.c",
+          "IroNonRegLoopAccesses.c",
+          "IroPointerAnalysis.c",
+          "IroPointerAnalysisADTs.c",
+          "IroPropagate.c",
+          "IroRangePropagation.c",
+          "IroScalarization.c",
+          "IroStrengthReduction.c",
+          "IroTransform.c",
+          "IroType.c",
+          "IroUnrollLoop.c",
+          "IroUtil.c",
+          "IroVars.c",
+          "LocalCSE.c",
+          "MIPSError.c",
+          "MIPSSimulation.c",
+          "MIPS_Peephole.c",
+          "MacFileTypes.c",
+          "MacSpecs.c",
+          "MsDos.c",
+          "ObjGen.c",
+          "Operands.c",
+          "Option.c",
+          "P.c",
+          "PCode.c",
+          "PCodeInfo.c",
+          "PCodeUtilities.c",
+          "Parameter.c",
+          "ParserHelpers-cc.c",
+          "RegisterInfo.c",
+          "Resources.c",
+          "Scheduler.c",
+          "Spill.c",
+          "StringUtils.c",
+          "StructMoves.c",
+          "TXET.c",
+          "TXET.cc",
+          "TXET.cpp",
+          "TXET.h",
+          "TXET.hpp",
+          "Targets.c",
+          "VReg.c",
+          "assert.h",
+          "complex.h",
+          "ctype.h",
+          "errno.h",
+          "fenv.h",
+          "float.h",
+          "inttypes.h",
+          "iso646.h",
+          "limits.h",
+          "locale.h",
+          "math.h",
+          "mips.c",
+          "pipeline1.c",
+          "setjmp.h",
+          "signal.h",
+          "stdarg.h",
+          "stdbool.h",
+          "stddef.h",
+          "stdint.h",
+          "stdio.h",
+          "stdlib.h",
+          "string.h",
+          "tgmath.h",
+          "time.h",
+          "wchar.h",
+          "wctype.h"
+        ]
+      }
+    },
+    "pe": {
+      "characteristics": "0x0000010e",
+      "entry_point_rva": "0x00001000",
+      "image_base": "0x00400000",
+      "machine": "0x0000014c",
+      "sections": [
+        {
+          "characteristics": "0xc0000040",
+          "name": ".CRT",
+          "raw_offset": "0x001f5c00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x001fa000",
+          "virtual_size": "0x00000010"
+        },
+        {
+          "characteristics": "0xc0000080",
+          "name": ".bss",
+          "raw_offset": "0x00000000",
+          "raw_size": "0x00000000",
+          "virtual_address": "0x001fc000",
+          "virtual_size": "0x0003b49d"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".data",
+          "raw_offset": "0x001c4e00",
+          "raw_size": "0x00028a00",
+          "virtual_address": "0x001c8000",
+          "virtual_size": "0x00028914"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".edata",
+          "raw_offset": "0x001f6800",
+          "raw_size": "0x00000400",
+          "virtual_address": "0x00238000",
+          "virtual_size": "0x0000021b"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".exc",
+          "raw_offset": "0x001b8600",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x001ba000",
+          "virtual_size": "0x0000010c"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".idata",
+          "raw_offset": "0x001f5e00",
+          "raw_size": "0x00000a00",
+          "virtual_address": "0x001fb000",
+          "virtual_size": "0x0000091a"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".rdata",
+          "raw_offset": "0x001b8800",
+          "raw_size": "0x0000c600",
+          "virtual_address": "0x001bb000",
+          "virtual_size": "0x0000c4e0"
+        },
+        {
+          "characteristics": "0x42000040",
+          "name": ".reloc",
+          "raw_offset": "0x001f6c00",
+          "raw_size": "0x0001d200",
+          "virtual_address": "0x00239000",
+          "virtual_size": "0x0001d1b4"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".rsrc",
+          "raw_offset": "0x001ed800",
+          "raw_size": "0x00008400",
+          "virtual_address": "0x001f1000",
+          "virtual_size": "0x00008398"
+        },
+        {
+          "characteristics": "0x60000020",
+          "name": ".text",
+          "raw_offset": "0x00000400",
+          "raw_size": "0x001b8200",
+          "virtual_address": "0x00001000",
+          "virtual_size": "0x001b817c"
+        }
+      ],
+      "timestamp": "0x4239997e"
+    },
+    "sha256": "22b7f6271ff1fa774e77d13f2c7dcee8d02430563189b9f2c548171cf31d0b46",
+    "size": 2178560
+  },
+  "build": {
+    "key": "b151",
+    "release": "mwcps2-3.0.1b151-050317"
+  },
+  "capture": {
+    "direct_object_corpus": {
+      "experiment_count": 10,
+      "experiments": [
+        {
+          "baseline_variant": "logical_and_expression",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "boolean_block_order",
+          "question": "How do direct boolean materialization, short-circuit early returns, a result local, and an inverted condition differ in PCode block order?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "logical_and_expression"
+            },
+            {
+              "equal": false,
+              "variant": "early_returns"
+            },
+            {
+              "equal": false,
+              "variant": "result_local"
+            },
+            {
+              "equal": false,
+              "variant": "inverted_condition"
+            }
+          ],
+          "variants": [
+            {
+              "function": "boolean_block_order",
+              "intent": "Baseline direct && boolean materialization.",
+              "name": "logical_and_expression",
+              "object_sha256": "7399063f409ffbc07cec7b13a9fe70cd6ed8cd7242f44be4e5b69fdafe6cd756",
+              "object_size": 656,
+              "source": "logical_and_expression.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Materialize false through short-circuit early returns.",
+              "name": "early_returns",
+              "object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
+              "object_size": 656,
+              "source": "early_returns.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Assign the materialized result through a local variable.",
+              "name": "result_local",
+              "object_sha256": "d2ab2c14647ab02af05c6b54845a1d65124650ebc73b98c8a607f9cc30ac0bda",
+              "object_size": 672,
+              "source": "result_local.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Test the inverted false condition with a final true return.",
+              "name": "inverted_condition",
+              "object_sha256": "24aff0c89dfa6644bed8cc8e3904bc1fd91d4c9cfc545ad642a1969870544cfa",
+              "object_size": 672,
+              "source": "inverted_condition.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "array_base_index",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "commutative_addu",
+          "question": "How do equivalent indexing and byte-address expressions order the base and scaled-index operands in the PCode addu sequence?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "array_base_index"
+            },
+            {
+              "equal": true,
+              "variant": "array_index_base"
+            },
+            {
+              "equal": true,
+              "variant": "pointer_base_index"
+            },
+            {
+              "equal": true,
+              "variant": "pointer_index_base"
+            },
+            {
+              "equal": true,
+              "variant": "byte_base_offset"
+            },
+            {
+              "equal": true,
+              "variant": "byte_offset_base"
+            }
+          ],
+          "variants": [
+            {
+              "function": "commutative_addu",
+              "intent": "Uses ordinary base[index] spelling so the base operand precedes the index in source.",
+              "name": "array_base_index",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "array_base_index.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses the equivalent index[base] spelling to reverse the source order of the subscript operands.",
+              "name": "array_index_base",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "array_index_base.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses typed base + index pointer arithmetic with the pointer base written first.",
+              "name": "pointer_base_index",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "pointer_base_index.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses equivalent typed index + base pointer arithmetic with the index written first.",
+              "name": "pointer_index_base",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "pointer_index_base.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Converts the base to bytes and adds an explicitly scaled byte offset with the base written first.",
+              "name": "byte_base_offset",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "byte_base_offset.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses the same raw byte offset with the scaled index written before the byte base.",
+              "name": "byte_offset_base",
+              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_size": 640,
+              "source": "byte_offset_base.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "fresh_times_invariant",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "commutative_mul_s",
+          "question": "Do commuted mul.s source operands or one explicit scalar local change the PCode operand order or virtual-register layout?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "fresh_times_invariant"
+            },
+            {
+              "equal": false,
+              "variant": "invariant_times_fresh"
+            },
+            {
+              "equal": false,
+              "variant": "local_fresh_times_invariant"
+            }
+          ],
+          "variants": [
+            {
+              "function": "commutative_mul_s",
+              "intent": "Multiplies the freshly named scalar by the invariant-named scalar in source order.",
+              "name": "fresh_times_invariant",
+              "object_sha256": "1a32a5a280538b494cffd403e79780605782d7000564833c9827b1cf62cd006e",
+              "object_size": 624,
+              "source": "fresh_times_invariant.c"
+            },
+            {
+              "function": "commutative_mul_s",
+              "intent": "Reverses the same scalar multiplication spelling so the invariant-named scalar appears first.",
+              "name": "invariant_times_fresh",
+              "object_sha256": "3891fc42c42de9efe1f7b8a01e8f611dfdae0abfbdd035fefc3ea639b7c773ea",
+              "object_size": 624,
+              "source": "invariant_times_fresh.c"
+            },
+            {
+              "function": "commutative_mul_s",
+              "intent": "Copies fresh through one volatile float local before the same multiplication, a minimal shape likely to create a distinct virtual register.",
+              "name": "local_fresh_times_invariant",
+              "object_sha256": "c20aec7d5655466caa4278a7888f356210ece3c5a4e950a8c23d1f3b1d52d2b9",
+              "object_size": 640,
+              "source": "local_fresh_times_invariant.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "less_than",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "compare_destination",
+          "question": "Do equivalent less-than and reversed greater-than spellings alter the selected destination in b210?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "less_than"
+            },
+            {
+              "equal": true,
+              "variant": "reversed_greater_than"
+            }
+          ],
+          "variants": [
+            {
+              "function": "compare_destination",
+              "intent": "Select the left operand when an explicit left-less-than-right comparison succeeds.",
+              "name": "less_than",
+              "object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+              "object_size": 656,
+              "source": "less_than.c"
+            },
+            {
+              "function": "compare_destination",
+              "intent": "Use the equivalent right-greater-than-left comparison before selecting the same destination.",
+              "name": "reversed_greater_than",
+              "object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+              "object_size": 656,
+              "source": "reversed_greater_than.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "loop_internal_mask",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "invariant_mask",
+          "question": "Does b210 preserve a loop-internal 16-bit mask or differ from an explicitly hoisted equivalent mask?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "loop_internal_mask"
+            },
+            {
+              "equal": false,
+              "variant": "hoisted_mask"
+            }
+          ],
+          "variants": [
+            {
+              "function": "invariant_mask",
+              "intent": "Apply the invariant mask inside each loop iteration.",
+              "name": "loop_internal_mask",
+              "object_sha256": "fb838e92905501703554d302c7d6c926e4b4abd06320adffa94dc1a17e39354b",
+              "object_size": 672,
+              "source": "loop_internal_mask.c"
+            },
+            {
+              "function": "invariant_mask",
+              "intent": "Precompute the same invariant mask before entering the loop.",
+              "name": "hoisted_mask",
+              "object_sha256": "c31a3963c1c501648d29543a0b5126679eeedaeb2c384bae252943c418b4ab26",
+              "object_size": 672,
+              "source": "hoisted_mask.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "p3_loop_shape",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_global_base_scaled_index",
+          "question": "For the reduced K_FldFrame_CreateCtlTask loop shape, does b210 preserve distinct global-base and scaled-index virtual-register roles through selection and scheduling, and when are their physical GPRs chosen?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "p3_loop_shape"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_global_base_scaled_index",
+              "intent": "Keeps a gFldUnitsPc global base, a separate local units base, and a 0x1c0-byte scaled loop index; the matching return separately rematerializes gFldUnitsPc plus that scaled index.",
+              "name": "p3_loop_shape",
+              "object_sha256": "cc9e5df1376627aa0938f7161dd56d5b29a8fecf823c191d8746bed9e6edd24d",
+              "object_size": 872,
+              "source": "p3_loop_shape.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "short_parameter",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "repeated_sign_extension",
+          "question": "At repeated calls, does a short-typed parameter differ from an int parameter explicitly cast to short?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "short_parameter"
+            },
+            {
+              "equal": false,
+              "variant": "explicit_cast"
+            }
+          ],
+          "variants": [
+            {
+              "function": "repeated_sign_extension",
+              "intent": "Pass a narrowed value repeatedly to a helper whose parameter is short.",
+              "name": "short_parameter",
+              "object_sha256": "1d4d62228e72d06ad1957a8d5243c33585cee80fc2dfa758559c92f66f632991",
+              "object_size": 1056,
+              "source": "short_parameter.c"
+            },
+            {
+              "function": "repeated_sign_extension",
+              "intent": "Pass the original value repeatedly to an int helper that casts to short.",
+              "name": "explicit_cast",
+              "object_sha256": "3921f724c6bceaf207f72cf12f3194c7701ceaf9d6d1d74e19998dc0bbcd762e",
+              "object_size": 1056,
+              "source": "explicit_cast.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "left_then_right",
+          "compiler_flags": [
+            "-O3"
+          ],
+          "name": "scheduler_ready_tie",
+          "question": "When equivalent independent arithmetic is spelled in opposite source order, which ready candidate does b210 select under its live deadline, successor-release, critical-path, and heuristic tie fields?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "left_then_right"
+            },
+            {
+              "equal": true,
+              "variant": "right_then_left"
+            }
+          ],
+          "variants": [
+            {
+              "function": "scheduler_ready_tie",
+              "intent": "Builds the left independent sum before the right sum, then combines them with the same observable result.",
+              "name": "left_then_right",
+              "object_sha256": "08b61751b998d9431f90ea2c3303677d5b6b1ea2ed0ea0eb470d5e01b56c8ae1",
+              "object_size": 640,
+              "source": "left_then_right.c"
+            },
+            {
+              "function": "scheduler_ready_tie",
+              "intent": "Builds the same independent sums in reverse source order while preserving the returned expression.",
+              "name": "right_then_left",
+              "object_sha256": "08b61751b998d9431f90ea2c3303677d5b6b1ea2ed0ea0eb470d5e01b56c8ae1",
+              "object_size": 640,
+              "source": "right_then_left.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "switch_ascending_cases",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "switch_case_order",
+          "question": "Does dispatch form or switch case source order survive into PCode block and comparison order?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "switch_ascending_cases"
+            },
+            {
+              "equal": false,
+              "variant": "ordered_if_chain"
+            },
+            {
+              "equal": false,
+              "variant": "switch_reordered_cases"
+            }
+          ],
+          "variants": [
+            {
+              "function": "switch_case_order",
+              "intent": "Baseline sparse switch with ascending source cases.",
+              "name": "switch_ascending_cases",
+              "object_sha256": "9e9af3f3f2d0e9dd196e576ecbe6963a912555ae0c1c843e78faab0fa68519c7",
+              "object_size": 704,
+              "source": "switch_ascending_cases.c"
+            },
+            {
+              "function": "switch_case_order",
+              "intent": "Equivalent comparisons written as an ascending ordered if chain.",
+              "name": "ordered_if_chain",
+              "object_sha256": "509bae0f80c1f6ae7623fe40201966e4969ba44fb429b17e76fe60c66a7f4555",
+              "object_size": 704,
+              "source": "ordered_if_chain.c"
+            },
+            {
+              "function": "switch_case_order",
+              "intent": "Equivalent switch whose sparse case labels appear in a different source order.",
+              "name": "switch_reordered_cases",
+              "object_sha256": "7aa571483c138cba20a8920c4f686181d3a644c4378024f13267d6e1b93dab7e",
+              "object_size": 704,
+              "source": "switch_reordered_cases.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "single_mask",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "u16_remask",
+          "question": "Does explicitly reapplying a 16-bit mask after narrowing change b210's generated code?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "single_mask"
+            },
+            {
+              "equal": true,
+              "variant": "redundant_remask"
+            }
+          ],
+          "variants": [
+            {
+              "function": "u16_remask",
+              "intent": "Mask the input to 16 bits once and reuse the narrowed value.",
+              "name": "single_mask",
+              "object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+              "object_size": 624,
+              "source": "single_mask.c"
+            },
+            {
+              "function": "u16_remask",
+              "intent": "Reapply the equivalent 16-bit mask at each use of the already narrowed value.",
+              "name": "redundant_remask",
+              "object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+              "object_size": 624,
+              "source": "redundant_remask.c"
+            }
+          ]
+        }
+      ],
+      "method": "direct_object",
+      "schema": {
+        "name": "mwccps2-portable-direct-capture",
+        "version": 1
+      },
+      "status": "completed"
+    },
+    "instrumented_object_verification": {
+      "reason": "the b210 GDB decoder is intentionally not applied to a non-b210 build",
+      "status": "not_run"
+    },
+    "schema": {
+      "name": "mwccps2-portable-direct-capture",
+      "stage_order": [
+        "codegen_entry",
+        "before_scheduling",
+        "after_scheduling",
+        "before_register_allocation",
+        "after_register_allocation"
+      ],
+      "version": 1
+    },
+    "status": "completed"
+  },
+  "profile_validation": {
+    "evidence": "exact SHA-256, size, PE timestamp, image base, MWCCPS2 identity string, and backend anchor inventory",
+    "status": "fingerprinted"
+  },
+  "schema": {
+    "name": "mwccps2-portable-build-profile",
+    "version": 1
+  }
+}

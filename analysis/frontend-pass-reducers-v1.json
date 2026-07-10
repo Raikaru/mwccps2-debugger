@@ -1,0 +1,323 @@
+{
+  "behaviors": [
+    {
+      "evidence": {
+        "after_codegen_entry": {
+          "baseline_pcode_sha256": "042a5ac2cf05ae0fb182b93a9e91597b16306769448471eba03da28ea0288810",
+          "baseline_relevant_pcode": [
+            "zext gpr:r34, gpr:r32, raw-scalar-or-pointer(0x00000010)",
+            "sll gpr:r35, gpr:r33, raw-scalar-or-pointer(0x00000001)",
+            "srl gpr:r36, gpr:r33, raw-scalar-or-pointer(0x0000000f)",
+            "or gpr:r37, gpr:r35, gpr:r36"
+          ],
+          "capture_status": "complete",
+          "stage": "codegen_entry",
+          "variant_pcode_sha256": "042a5ac2cf05ae0fb182b93a9e91597b16306769448471eba03da28ea0288810",
+          "variant_relevant_pcode": [
+            "zext gpr:r34, gpr:r32, raw-scalar-or-pointer(0x00000010)",
+            "sll gpr:r35, gpr:r33, raw-scalar-or-pointer(0x00000001)",
+            "srl gpr:r36, gpr:r33, raw-scalar-or-pointer(0x0000000f)",
+            "or gpr:r37, gpr:r35, gpr:r36"
+          ]
+        },
+        "direct_vs_instrumented_object": {
+          "baseline_direct_object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+          "baseline_snapshot_matches_direct": true,
+          "variant_direct_object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+          "variant_snapshot_matches_direct": true
+        },
+        "source_before_frontend_optimization": {
+          "baseline": "unsigned int low = value & 0xFFFFu; return (low << 1) | (low >> 15);",
+          "variant": "unsigned int low = value & 0xFFFFu; return ((low & 0xFFFFu) << 1) | ((low & 0xFFFFu) >> 15);"
+        }
+      },
+      "experiment": {
+        "baseline_source": "experiments/u16_remask/single_mask.c",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "manifest": "experiments/u16_remask/experiment.json",
+        "name": "u16_remask",
+        "variant_source": "experiments/u16_remask/redundant_remask.c"
+      },
+      "first_semantic_divergence": {
+        "classification": "none_observed_at_or_after_codegen_entry",
+        "finding": "The normalized graph differs at codegen_entry but deterministic PCode text does not; neither object output differs.",
+        "first_observed_stage": "codegen_entry",
+        "inference": "The extra masks have been made semantically irrelevant before the first available PCode snapshot. The current capture does not decode frontend IR, so it cannot identify which individual frontend rewrite removed them."
+      },
+      "id": "u16_remask",
+      "responsible_pass_behavior": {
+        "address": "0x004d13a0",
+        "attribution": "inference_bounded_by_observation",
+        "behavior": "IRO_OptimizeFunction runs the O2 IR pass sequence before CodeGen_Generator. Its observed output has one 16-bit zext and no surviving redundant-and operation.",
+        "candidate_subpasses": [
+          {
+            "address": "0x0057d900",
+            "name": "IRO_CopyAndConstantPropagation"
+          },
+          {
+            "address": "0x005a3300",
+            "name": "IRO_ConstantFolding"
+          }
+        ],
+        "name": "IRO_OptimizeFunction",
+        "not_claimed": "No individual subpass is credited with deleting the redundant masks: the GDB trace proves these candidates execute at O2, but no decoded frontend-IR before/after capture exists."
+      }
+    },
+    {
+      "evidence": {
+        "after_codegen_entry": {
+          "baseline_caller_relevant_pcode": [
+            "pcode-0003: sext gpr:r33, gpr:r32, raw-scalar-or-pointer(0x00000010)",
+            "pcode-0007: sext gpr:r35, gpr:r32, raw-scalar-or-pointer(0x00000010)",
+            "pcode-0012: sext gpr:r38, gpr:r32, raw-scalar-or-pointer(0x00000010)"
+          ],
+          "baseline_first_function_pcode_sha256": "efa892e8cfc51488566dc957f80955a887f6cf4f599598e1e54ad448d46fdd36",
+          "baseline_helper_relevant_pcode": [
+            "pcode-0003: sext gpr:r33, gpr:r32, raw-scalar-or-pointer(0x00000010)"
+          ],
+          "capture_status": "complete",
+          "stage": "codegen_entry",
+          "variant_caller_relevant_pcode": [
+            "pcode-0003: dmove gpr:r4, gpr:r32",
+            "pcode-0006: dmove gpr:r4, gpr:r32",
+            "pcode-0010: dmove gpr:r4, gpr:r32"
+          ],
+          "variant_first_function_pcode_sha256": "fd37d11d57f881d911762a2a520626d6658a82b0c29823d4eab8d54af49fb8f3",
+          "variant_helper_relevant_pcode": [
+            "pcode-0003: sext gpr:r33, gpr:r32, raw-scalar-or-pointer(0x00000010)",
+            "pcode-0004: sext gpr:r34, gpr:r33, raw-scalar-or-pointer(0x00000010)"
+          ]
+        },
+        "direct_vs_instrumented_object": {
+          "baseline_direct_object_sha256": "1d4d62228e72d06ad1957a8d5243c33585cee80fc2dfa758559c92f66f632991",
+          "baseline_snapshot_matches_direct": true,
+          "variant_direct_object_sha256": "3921f724c6bceaf207f72cf12f3194c7701ceaf9d6d1d74e19998dc0bbcd762e",
+          "variant_snapshot_matches_direct": true
+        },
+        "source_before_frontend_optimization": {
+          "baseline": "static int extend_short(short value) { return (int)value; } return extend_short((short)value) + extend_short((short)value) + extend_short((short)value);",
+          "variant": "static int extend_with_cast(int value) { return (int)(short)value; } return extend_with_cast(value) + extend_with_cast(value) + extend_with_cast(value);"
+        }
+      },
+      "experiment": {
+        "baseline_source": "experiments/repeated_sign_extension/short_parameter.c",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "manifest": "experiments/repeated_sign_extension/experiment.json",
+        "name": "repeated_sign_extension",
+        "variant_source": "experiments/repeated_sign_extension/explicit_cast.c"
+      },
+      "first_semantic_divergence": {
+        "baseline_pcode_sha256": "efa892e8cfc51488566dc957f80955a887f6cf4f599598e1e54ad448d46fdd36",
+        "classification": "deterministic_pcode_text_differs",
+        "first_observed_stage": "codegen_entry",
+        "occurrence": 1,
+        "variant_pcode_sha256": "fd37d11d57f881d911762a2a520626d6658a82b0c29823d4eab8d54af49fb8f3"
+      },
+      "id": "repeated_sign_extension",
+      "responsible_pass_behavior": {
+        "address": "0x004d13a0",
+        "attribution": "inference_bounded_by_observation",
+        "behavior": "The frontend preserves the type-conversion location into code generation: a short formal makes each caller argument a sext, whereas an int formal moves the repeated sext into the helper body.",
+        "name": "IRO_OptimizeFunction",
+        "not_claimed": "The evidence does not show that a named optimization subpass creates this difference. It is already present at the first observable PCode stage, so a claim that copy propagation or constant folding caused it would be unsupported."
+      }
+    },
+    {
+      "evidence": {
+        "after_codegen_entry": {
+          "baseline_pcode_sha256": "5675c0a39afbf62f494bfb82aaba619de058c08b68b78d20a52c7a27c3b6870c",
+          "baseline_relevant_pcode": [
+            "block-0001: beqz gpr:r32, block-0003",
+            "block-0002: bnez gpr:r33, block-0004",
+            "block-0003: dmove gpr:r2, gpr:r0",
+            "block-0004: addiu gpr:r34, gpr:r0, imm(0x00000001)"
+          ],
+          "capture_status": "complete",
+          "stage": "codegen_entry",
+          "variants": [
+            {
+              "name": "early_returns",
+              "object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
+              "pcode_sha256": "e71bfe6b995cf454804828fd39581c8223d76cd1df3394391c535d5187d733eb",
+              "relevant_pcode": [
+                "block-0001: bnez gpr:r32, block-0003",
+                "block-0002: dmove gpr:r2, gpr:r0",
+                "block-0003: sne gpr:r34, gpr:r33, gpr:r0",
+                "block-0003: xori gpr:r35, gpr:r34, imm(0x00000001)",
+                "block-0003: xori gpr:r36, gpr:r35, imm(0x00000001)"
+              ]
+            },
+            {
+              "name": "result_local",
+              "object_sha256": "24aff0c89dfa6644bed8cc8e3904bc1fd91d4c9cfc545ad642a1969870544cfa",
+              "pcode_sha256": "a8f53f749f9ef078e88624370682b3e4724734dde42c5c3a220cf03a5a28977c",
+              "relevant_pcode": [
+                "block-0001: sne gpr:r34, gpr:r32, gpr:r0",
+                "block-0001: beqz gpr:r34, block-0003",
+                "block-0002: sne gpr:r35, gpr:r33, gpr:r0",
+                "block-0003: dmove gpr:r2, gpr:r34"
+              ]
+            },
+            {
+              "name": "inverted_condition",
+              "object_sha256": "db264ab1bcfab1f333adfd2843f45d5aafe1f47eb7922512335a253754bd97ae",
+              "pcode_sha256": "ff69c67824918789716ffb2f4d6793aa360747957272f8b12114128bbde70345",
+              "relevant_pcode": [
+                "block-0001: beqz gpr:r32, block-0004",
+                "block-0002: beqz gpr:r33, block-0004",
+                "block-0003: addiu gpr:r35, gpr:r0, imm(0x00000001)",
+                "block-0004: dmove gpr:r34, gpr:r0"
+              ]
+            }
+          ]
+        },
+        "direct_vs_instrumented_object": {
+          "baseline_direct_object_sha256": "7399063f409ffbc07cec7b13a9fe70cd6ed8cd7242f44be4e5b69fdafe6cd756",
+          "baseline_snapshot_matches_direct": true,
+          "every_variant_snapshot_matches_direct": true
+        },
+        "source_before_frontend_optimization": {
+          "baseline": "return left && right;",
+          "early_returns": "if (!left) return 0; if (!right) return 0; return 1;",
+          "inverted_condition": "if (!(left && right)) return 0; return 1;",
+          "result_local": "int result; if (left && right) result = 1; else result = 0; return result;"
+        }
+      },
+      "experiment": {
+        "baseline_source": "experiments/boolean_block_order/logical_and_expression.c",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "manifest": "experiments/boolean_block_order/experiment.json",
+        "name": "boolean_block_order",
+        "variant_sources": [
+          "experiments/boolean_block_order/early_returns.c",
+          "experiments/boolean_block_order/result_local.c",
+          "experiments/boolean_block_order/inverted_condition.c"
+        ]
+      },
+      "first_semantic_divergence": {
+        "classification": "deterministic_pcode_text_differs",
+        "first_observed_stage": "codegen_entry",
+        "occurrence": 1,
+        "variants": [
+          "early_returns",
+          "result_local",
+          "inverted_condition"
+        ]
+      },
+      "id": "boolean_block_order",
+      "responsible_pass_behavior": {
+        "address": "0x004d13a0",
+        "attribution": "inference_bounded_by_observation",
+        "behavior": "The frontend optimizer's conditional-flow canonicalization does not merge these source CFG shapes before code generation. Their branch direction, temporary boolean materialization, and result-block layout remain distinct at codegen entry.",
+        "name": "IRO_OptimizeFunction",
+        "not_claimed": "The codegen-entry divergence proves that the forms are not merged by the completed frontend pipeline; it does not isolate a particular subpass as the first non-change without a decoded frontend-IR capture.",
+        "relevant_subpasses": [
+          {
+            "address": "0x005a28d0",
+            "name": "IRO_SimplifyConditionals",
+            "observed_behavior": "Iterates flow blocks and rebuilds the flow graph only after a conditional simplification reports a change."
+          },
+          {
+            "address": "0x005a2580",
+            "name": "IRO_SimplifyIfThenElse",
+            "observed_behavior": "Recognizes a two-successor conditional shape and can nop an if when successor forms qualify."
+          }
+        ]
+      }
+    }
+  ],
+  "compiler": {
+    "binary_sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7",
+    "name": "mwcps2-3.0.1b210-060308",
+    "path": "D:/mwcps2-3.0.1b210-060308/mwccps2.exe"
+  },
+  "evidence_method": {
+    "frontend_pass_trace": {
+      "input": "experiments/u16_remask/redundant_remask.c",
+      "observed_hit_order": [
+        "IRO_OptimizeFunction",
+        "IRO_EvaluateConditionals",
+        "IRO_CopyAndConstantPropagation",
+        "IRO_ConstantFolding",
+        "IRO_EvaluateConditionals",
+        "IRO_SimplifyConditionals",
+        "IRO_SimplifyIfThenElse",
+        "IRO_CopyAndConstantPropagation",
+        "IRO_ConstantFolding",
+        "IRO_EvaluateConditionals",
+        "IRO_ConstantFolding",
+        "IRO_CopyAndConstantPropagation",
+        "IRO_ConstantFolding",
+        "IRO_EvaluateConditionals",
+        "IRO_RegenerateExpressions"
+      ],
+      "unhit_armed_breakpoints": [
+        "IRO_RepositionCode at 0x005972f0",
+        "IRO_UnpromoteTypesLinear at 0x0056d750"
+      ]
+    },
+    "ghidra": {
+      "program": "mwccps2.exe",
+      "verification": "Each named pass address is tied to a literal IRO_* trace string immediately after its call in the decompilation of FUN_004d13a0."
+    },
+    "pcode": {
+      "capture_module": "gdb/mwccps2_b210_snapshot.py",
+      "first_available_stage": "codegen_entry",
+      "normalization": "The snapshot model replaces heap addresses with snapshot-local IDs; comparisons use deterministic PCode text in addition to normalized graph data."
+    },
+    "runner": "mwccps2_experiment.py"
+  },
+  "ghidra_functions": [
+    {
+      "address": "0x004d13a0",
+      "evidence": "IrOptimizer.c assertion and orchestration of IRO_* trace-labeled calls in its decompilation.",
+      "name": "IRO_OptimizeFunction",
+      "status": "renamed_in_ghidra"
+    },
+    {
+      "address": "0x0057d900",
+      "evidence": "FUN_004d13a0 calls it then emits the literal IRO_CopyAndConstantPropagation trace label; its decompilation discovers propagatable assignments.",
+      "name": "IRO_CopyAndConstantPropagation",
+      "status": "renamed_in_ghidra"
+    },
+    {
+      "address": "0x005a2580",
+      "evidence": "FUN_004d13a0 calls it then emits the literal IRO_SimplifyIfThenElse trace label; its decompilation recognizes two-successor conditional flow shapes.",
+      "name": "IRO_SimplifyIfThenElse",
+      "status": "renamed_in_ghidra"
+    },
+    {
+      "address": "0x005a28d0",
+      "evidence": "FUN_004d13a0 calls it then emits the literal IRO_SimplifyConditionals trace label; its decompilation iterates flow blocks and rebuilds flow after a reported change.",
+      "name": "IRO_SimplifyConditionals",
+      "status": "renamed_in_ghidra"
+    },
+    {
+      "address": "0x005a3300",
+      "evidence": "FUN_004d13a0 calls it then emits the literal IRO_ConstantFolding trace label; its decompilation visits every IR node in DAT_00635a5c.",
+      "name": "IRO_ConstantFolding",
+      "status": "renamed_in_ghidra"
+    },
+    {
+      "address": "0x005ae640",
+      "evidence": "FUN_004d13a0 calls it then emits the literal IRO_RegenerateExpressions trace label; its decompilation calls logical, conditional, and conditional-assignment rebuild helpers when their flags are enabled.",
+      "name": "IRO_RegenerateExpressions",
+      "status": "renamed_in_ghidra"
+    }
+  ],
+  "normalization": {
+    "addresses": "Static addresses are lowercase 0x-prefixed eight-digit hexadecimal strings.",
+    "ordering": "Object keys are lexicographically ordered and arrays are in manifest, pass-execution, or source-variant order.",
+    "volatile_fields": "No timestamps, host paths, runtime heap addresses, or raw capture paths are recorded."
+  },
+  "schema": {
+    "name": "mwccps2-frontend-pass-reducers",
+    "version": 1
+  }
+}

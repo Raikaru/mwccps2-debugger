@@ -1,0 +1,132 @@
+{
+  "schema": {
+    "name": "mwccps2-p3-mismatch-classification",
+    "version": 1
+  },
+  "schema_version": 1,
+  "subject": {
+    "address": "0x0010a860",
+    "function": "H_SfdPlay_UpdateTask",
+    "source": "source/Persona3-FES-Decompilation/src/h_sfdply.c"
+  },
+  "observed_mismatch": {
+    "first_differing_offsets": [
+      "0x0",
+      "0x4",
+      "0x8",
+      "0xa",
+      "0xc",
+      "0xe",
+      "0xf",
+      "0x10",
+      "0x12",
+      "0x13",
+      "0x14",
+      "0x16",
+      "0x17",
+      "0x18",
+      "0x19",
+      "0x1a"
+    ],
+    "normalized_diff_byte_count": 311,
+    "object_size": "0x1c4",
+    "retail_window": "0x12a0",
+    "status": "MISMATCH",
+    "verifier_report": {
+      "filename": "h_sfdply_verify.json",
+      "path": "source/Persona3-FES-Decompilation/build/h_sfdply_verify.json",
+      "sha256": "12562498b4f493f0f95426b2cd57517cc06dcb10ff327cf8e87c6c19458cfc82"
+    }
+  },
+  "class_order": [
+    "reproducible_by_b210",
+    "requires_frontend_or_source_reshaping",
+    "not_reachable_under_b210"
+  ],
+  "classes": [
+    {
+      "id": "reproducible_by_b210",
+      "observed": {
+        "comparison": {
+          "baseline_variant": "fresh_times_invariant",
+          "earliest_semantic_pcode_divergence": "codegen_entry",
+          "final_object_equal": false,
+          "variant": "invariant_times_fresh"
+        },
+        "experiment": "commutative_mul_s",
+        "experiment_summary": {
+          "path": "build/lab-v2-commutative-mul-s/experiment-summary-v1.json",
+          "sha256": "ffbce2695712cd60c0928fab1ba178a4c436a5d4850621901c5e5899222637fd",
+          "verification": "Every summary variant records matches_direct_object: true and equal direct/snapshot object SHA-256."
+        }
+      },
+      "inference": {
+        "classification": "The exact b210 -O2 source-level operand-order form is a reachable lowering lever.",
+        "scope": "This is experiment evidence, not a claim that the selected H_SfdPlay_UpdateTask mismatch has this cause."
+      }
+    },
+    {
+      "id": "requires_frontend_or_source_reshaping",
+      "observed": {
+        "comparison": {
+          "baseline_variant": "logical_and_expression",
+          "earliest_semantic_pcode_divergence": "codegen_entry",
+          "final_object_equal": false,
+          "variant": "early_returns"
+        },
+        "experiment": "boolean_block_order",
+        "experiment_summary": {
+          "path": "build/lab-v2-boolean-order/experiment-summary-v1.json",
+          "sha256": "5dfac5f2b986ed5c04592d0e6c1937428f6255a49fc572eb5fd7e7246de08e88",
+          "verification": "Every summary variant records matches_direct_object: true and equal direct/snapshot object SHA-256."
+        }
+      },
+      "inference": {
+        "classification": "The measured control-flow change is present at codegen entry, so a scheduler or register-allocation-only intervention cannot create it.",
+        "scope": "This is experiment evidence, not a claim that the selected H_SfdPlay_UpdateTask mismatch has this cause."
+      }
+    },
+    {
+      "id": "not_reachable_under_b210",
+      "observed": {
+        "comparison": {
+          "baseline_variant": "array_base_index",
+          "earliest_raw_graph_difference": "codegen_entry",
+          "earliest_semantic_pcode_divergence": null,
+          "final_object_equal": true,
+          "variant": "array_index_base"
+        },
+        "experiment": "commutative_addu",
+        "experiment_summary": {
+          "path": "build/lab-v2-commutative-addu/experiment-summary-v1.json",
+          "sha256": "986af3f40b8203cc62210da9a34a37467e757bc0e53f281f670a2eaa5b9c2666",
+          "verification": "Every summary variant records matches_direct_object: true and equal direct/snapshot object SHA-256."
+        }
+      },
+      "inference": {
+        "classification": "Within the measured exact b210 -O2 source spellings, commutative array operand order is not a usable object-byte reachability lever.",
+        "scope": "This is limited to the listed variants and compiler profile; it is not a claim about all source transformations."
+      }
+    }
+  ],
+  "integration_evidence": {
+    "retail_reachability": {
+      "path": "analysis/p3-retail-reachability-v1.json",
+      "sha256": "dffcc46612d3f489bbe931d1d27c44256f9464845cba0324a9e3763adab7c298"
+    },
+    "allocation_explanation": {
+      "path": "reports/p3-allocation-explanation-v1.json",
+      "sha256": "d5d8b8e4347aeac51cb55d6b50ebb9d681786e759c410eb00bfd632f1f58cc78"
+    }
+  },
+  "reduction_contract": {
+    "required_snapshot_stages": [
+      "codegen_entry",
+      "before_scheduling",
+      "after_scheduling",
+      "before_register_allocation",
+      "after_register_allocation"
+    ],
+    "object_verification": "A reduction experiment is admissible only when its direct object SHA-256 equals its GDB-instrumented snapshot object SHA-256."
+  }
+}

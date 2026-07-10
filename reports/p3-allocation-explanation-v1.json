@@ -1,0 +1,234 @@
+{
+  "classification": {
+    "conclusion": {
+      "confidence": "high",
+      "kind": "inference",
+      "value": "physical_coloring",
+      "why": [
+        "Each of the eight non-relocation byte differences preserves the MIPS opcode, control-flow position, and effective-address expression while exchanging only the physical GPR that carries the global base with the GPR that carries the scaled index.",
+        "The reduced b210 snapshot keeps distinct virtual global-base and scaled-index registers before allocation, leaves that PCode unchanged at post-colorgraph capture, and substitutes physical GPRs only after register allocation.",
+        "Retail PCode snapshots do not exist, so the exact allocator decision that produced retail cannot be observed directly."
+      ]
+    },
+    "physical_coloring": {
+      "evidence": [
+        "build/p3-fldframe-allocation-v1/variants/p3_loop_shape/snapshots/000002-before_register_allocation.pcode.txt",
+        "build/p3-fldframe-allocation-v1/variants/p3_loop_shape/snapshots/000003-after_colorgraph_assignment.regalloc.txt",
+        "build/p3-fldframe-allocation-v1/variants/p3_loop_shape/snapshots/000004-after_register_allocation.pcode.txt"
+      ],
+      "kind": "observed",
+      "result": "The reducer has virtual global-base r36 and scaled-index r39 before allocation; post-colorgraph records r36 -> r6 and r39 -> r5, and post-allocation PCode uses r6 and r5."
+    },
+    "scheduling": {
+      "evidence": "The snapshot manifest planned before_scheduling and after_scheduling but the b210 compile did not hit either breakpoint; no scheduling capture was emitted.",
+      "kind": "not_directly_observed",
+      "result": "The classification does not claim a direct retail scheduler comparison. The identical retail/object loop opcode and branch ordering is consistent with no scheduler divergence."
+    },
+    "selection": {
+      "evidence": [
+        "source/Persona3-FES-Decompilation/src/Kosaka/Field/k_fldFrame.c:381-405",
+        "build/p3-fldframe-allocation-v1/p3-k_fldFrame-verify.json",
+        "command: cd source/Persona3-FES-Decompilation && python tools/fndiff.py src/Kosaka/Field/k_fldFrame.c K_FldFrame_CreateCtlTask --addr 001ad660"
+      ],
+      "kind": "observed",
+      "result": "The retail and object loop sequences retain the same sll/subu/sll scale construction, addu join, loads, branches, and loop increments; the non-relocation deltas only select the opposite GPR for the two live roles."
+    }
+  },
+  "evidence": [
+    {
+      "kind": "focused_retail_object_verification",
+      "path": "build/p3-fldframe-allocation-v1/p3-k_fldFrame-verify.json",
+      "producer": "cd source/Persona3-FES-Decompilation && python tools/verify.py src/Kosaka/Field/k_fldFrame.c --json ../mwccps2-debugger/build/p3-fldframe-allocation-v1/p3-k_fldFrame-verify.json"
+    },
+    {
+      "kind": "instruction_level_reproduction",
+      "path": "not_persisted; deterministic command below",
+      "producer": "cd source/Persona3-FES-Decompilation && python tools/fndiff.py src/Kosaka/Field/k_fldFrame.c K_FldFrame_CreateCtlTask --addr 001ad660"
+    },
+    {
+      "kind": "reducer_summary",
+      "path": "build/p3-fldframe-allocation-v1/experiment-summary-v1.json",
+      "producer": "cd source/mwccps2-debugger && python mwccps2_experiment.py experiments/p3_global_base_scaled_index --output build/p3-fldframe-allocation-v1"
+    }
+  ],
+  "observed": {
+    "fndiff_accounting": {
+      "fndiff_reported_differing_words": 9,
+      "instruction_pair_count": 8,
+      "object_size": "0x20c",
+      "retail_window": "0x210",
+      "tail_accounting": {
+        "object_offset": "0x20c",
+        "retail_bytes_le": "00000000",
+        "result": "fndiff counts the absent object word against the retail zero-padding word; it is not a loop instruction."
+      },
+      "verifier": {
+        "first_differing_bytes": [
+          "0xd6",
+          "0xda",
+          "0xed",
+          "0x11a",
+          "0x146",
+          "0x14a",
+          "0x15d",
+          "0x18a"
+        ],
+        "normalized_diff_byte_count": 8,
+        "result": "Each listed byte is a register-number field in one of the eight instruction pairs below."
+      }
+    },
+    "instruction_pairs": [
+      {
+        "address": "0x001ad734",
+        "object_bytes_le": "0000073c",
+        "object_instruction": "lui $a3, 0",
+        "offset": "0xd4",
+        "relocation": "R_MIPS_HI16:gFldUnitsPc",
+        "retail_bytes_le": "8700063c",
+        "retail_instruction": "lui $a2, 0x87",
+        "role": "PC-loop global-base materialization"
+      },
+      {
+        "address": "0x001ad738",
+        "object_bytes_le": "0000e724",
+        "object_instruction": "addiu $a3, $a3, 0",
+        "offset": "0xd8",
+        "relocation": "R_MIPS_LO16:gFldUnitsPc",
+        "retail_bytes_le": "a017c624",
+        "retail_instruction": "addiu $a2, $a2, 0x17a0",
+        "role": "PC-loop global-base materialization"
+      },
+      {
+        "address": "0x001ad74c",
+        "object_bytes_le": "80310300",
+        "object_instruction": "sll $a2, $v1, 6",
+        "offset": "0xec",
+        "retail_bytes_le": "80390300",
+        "retail_instruction": "sll $a3, $v1, 6",
+        "role": "PC-loop scaled-index construction"
+      },
+      {
+        "address": "0x001ad778",
+        "object_bytes_le": "21186600",
+        "object_instruction": "addu $v1, $v1, $a2",
+        "offset": "0x118",
+        "retail_bytes_le": "21186700",
+        "retail_instruction": "addu $v1, $v1, $a3",
+        "role": "PC-loop scaled-index use for gFldUnitsPc[i].charId"
+      },
+      {
+        "address": "0x001ad7a4",
+        "object_bytes_le": "0000073c",
+        "object_instruction": "lui $a3, 0",
+        "offset": "0x144",
+        "relocation": "R_MIPS_HI16:gFldUnitsEc",
+        "retail_bytes_le": "8700063c",
+        "retail_instruction": "lui $a2, 0x87",
+        "role": "EC-loop global-base materialization"
+      },
+      {
+        "address": "0x001ad7a8",
+        "object_bytes_le": "0000e724",
+        "object_instruction": "addiu $a3, $a3, 0",
+        "offset": "0x148",
+        "relocation": "R_MIPS_LO16:gFldUnitsEc",
+        "retail_bytes_le": "a0edc624",
+        "retail_instruction": "addiu $a2, $a2, -0x1260",
+        "role": "EC-loop global-base materialization"
+      },
+      {
+        "address": "0x001ad7bc",
+        "object_bytes_le": "80310300",
+        "object_instruction": "sll $a2, $v1, 6",
+        "offset": "0x15c",
+        "retail_bytes_le": "80390300",
+        "retail_instruction": "sll $a3, $v1, 6",
+        "role": "EC-loop scaled-index construction"
+      },
+      {
+        "address": "0x001ad7e8",
+        "object_bytes_le": "21104600",
+        "object_instruction": "addu $v0, $v0, $a2",
+        "offset": "0x188",
+        "retail_bytes_le": "21104700",
+        "retail_instruction": "addu $v0, $v0, $a3",
+        "role": "EC-loop scaled-index use for gFldUnitsEc[i].charId"
+      }
+    ],
+    "reducer_snapshot": {
+      "after_colorgraph_assignment": {
+        "global_base_virtual_to_physical": "r36 -> r6",
+        "scaled_index_virtual_to_physical": "r39 -> r5",
+        "stage": "after_colorgraph_assignment"
+      },
+      "before_register_allocation": {
+        "global_base": "pcode-0002: la gpr:r36, mem[gpr:r0+0x00000000]",
+        "scaled_index": "pcode-0007: sll gpr:r39, gpr:r38, raw-scalar-or-pointer(0x00000006)",
+        "stage": "before_register_allocation"
+      },
+      "direct_and_instrumented_object_sha256": "2d611a5683de86009fc6041a77af0cbabbac5027cdeeab4b6d562636c8338e54",
+      "post_register_allocation": {
+        "global_base": "pcode-0002: la gpr:r6, mem[gpr:r0+0x00000000]",
+        "scaled_index": "pcode-0007: sll gpr:r5, gpr:r2, raw-scalar-or-pointer(0x00000006)",
+        "stage": "after_register_allocation"
+      }
+    },
+    "role_join_context": [
+      {
+        "address": "0x001ad750",
+        "instruction": "addu $a1, $a2, $a3",
+        "offset": "0xf0",
+        "role_assignment": {
+          "object": {
+            "$a2": "scaled index",
+            "$a3": "global base"
+          },
+          "retail": {
+            "$a2": "global base",
+            "$a3": "scaled index"
+          }
+        },
+        "shared_bytes_le": "2128c700"
+      },
+      {
+        "address": "0x001ad7c0",
+        "instruction": "addu $a1, $a2, $a3",
+        "offset": "0x160",
+        "role_assignment": {
+          "object": {
+            "$a2": "scaled index",
+            "$a3": "global base"
+          },
+          "retail": {
+            "$a2": "global base",
+            "$a3": "scaled index"
+          }
+        },
+        "shared_bytes_le": "2128c700"
+      }
+    ]
+  },
+  "schema": {
+    "name": "mwccps2-p3-allocation-explanation",
+    "version": 1
+  },
+  "schema_version": 1,
+  "subject": {
+    "address": "0x001ad660",
+    "function": "K_FldFrame_CreateCtlTask",
+    "source": "source/Persona3-FES-Decompilation/src/Kosaka/Field/k_fldFrame.c"
+  },
+  "virtual_to_physical_role_swap": {
+    "confidence": "high",
+    "kind": "inference",
+    "object": {
+      "global_base": "$a3",
+      "scaled_index": "$a2"
+    },
+    "retail": {
+      "global_base": "$a2",
+      "scaled_index": "$a3"
+    },
+    "scope": "The roles are inferred from the materialization, scale, unchanged commutative join, and later charId address uses in both PC and EC loops. P3 virtual-register identifiers are not recoverable from object or retail machine code."
+  }
+}

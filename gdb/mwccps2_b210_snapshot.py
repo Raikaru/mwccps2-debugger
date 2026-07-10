@@ -44,6 +44,13 @@ from b210_snapshot_model import (  # noqa: E402 - GDB sources this module by pat
     profile_manifest,
 )
 
+from b210_regalloc_model import (  # noqa: E402 - GDB sources this module by path.
+    REGALLOC_LAYOUT_EVIDENCE,
+    collect_runtime_register_allocation,
+    correlate_register_allocation_pcode,
+    format_register_allocation_text,
+)
+
 
 DEFAULT_PROFILE_PATH = _SCRIPT_DIRECTORY.parent / "profiles" / "mwcps2-3.0.1-b210.json"
 MANIFEST_FILENAME = "snapshot-manifest.json"
@@ -72,6 +79,19 @@ class _InferiorMemory:
 
 def _utc_now() -> str:
     return _datetime.datetime.now(_datetime.timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _colorgraph_result_i32(inferior: gdb.Inferior) -> int | None:
+    """Read colorgraph's return slot before 0x004c1d74 copies it into EAX."""
+
+    try:
+        stack_pointer = int(gdb.parse_and_eval("$esp")) & 0xFFFFFFFF
+        data = bytes(inferior.read_memory(stack_pointer, 4))
+        if len(data) != 4:
+            return None
+        return int.from_bytes(data, byteorder="little", signed=True)
+    except Exception:
+        return None
 
 
 def _atomic_json_write(path: Path, payload: dict[str, Any]) -> None:
@@ -145,11 +165,22 @@ def _parse_start_options(argument: str) -> dict[str, Any]:
         "max_blocks": 4096,
         "max_nodes": 65536,
         "max_operands": 65536,
+        "max_regalloc_nodes": 32767,
+        "max_regalloc_edges": 262144,
+    }
+    option_keys = {
+        "--profile",
+        "--output",
+        "--max-blocks",
+        "--max-nodes",
+        "--max-operands",
+        "--max-regalloc-nodes",
+        "--max-regalloc-edges",
     }
     index = 1
     while index < len(tokens):
         option = tokens[index]
-        if option not in {"--profile", "--output", "--max-blocks", "--max-nodes", "--max-operands"}:
+        if option not in option_keys:
             raise gdb.GdbError(f"unknown b210-snapshot option: {option}")
         if index + 1 == len(tokens):
             raise gdb.GdbError(f"{option} requires a value")
@@ -162,8 +193,12 @@ def _parse_start_options(argument: str) -> dict[str, Any]:
             options["max_blocks"] = _parse_positive_limit(value, option)
         elif option == "--max-nodes":
             options["max_nodes"] = _parse_positive_limit(value, option)
-        else:
+        elif option == "--max-operands":
             options["max_operands"] = _parse_positive_limit(value, option)
+        elif option == "--max-regalloc-nodes":
+            options["max_regalloc_nodes"] = _parse_positive_limit(value, option)
+        else:
+            options["max_regalloc_edges"] = _parse_positive_limit(value, option)
         index += 2
     if options["output"] is None:
         raise gdb.GdbError("b210-snapshot start requires --output DIRECTORY")
@@ -228,6 +263,8 @@ class _SnapshotRecorder:
         self.max_blocks = options["max_blocks"]
         self.max_nodes = options["max_nodes"]
         self.max_operands = options["max_operands"]
+        self.max_regalloc_nodes = options["max_regalloc_nodes"]
+        self.max_regalloc_edges = options["max_regalloc_edges"]
         self.breakpoints: list[_SnapshotBreakpoint] = []
         self.sequence = 0
         self.manifest: dict[str, Any] = {
@@ -242,11 +279,16 @@ class _SnapshotRecorder:
                 "max_blocks": self.max_blocks,
                 "max_nodes": self.max_nodes,
                 "max_operands": self.max_operands,
+                "max_regalloc_nodes": self.max_regalloc_nodes,
+                "max_regalloc_edges": self.max_regalloc_edges,
                 "auto_continue": True,
                 "runtime_heap_addresses_serialized": True,
                 "structural_heap_addresses_serialized": False,
             },
-            "layout_evidence": B210_LAYOUT_EVIDENCE,
+            "layout_evidence": {
+                "pcode": B210_LAYOUT_EVIDENCE,
+                "register_allocation": REGALLOC_LAYOUT_EVIDENCE,
+            },
             "stage_plan": [
                 {
                     "stage": stage,
@@ -309,6 +351,18 @@ class _SnapshotRecorder:
         )
         graph = normalize_runtime_graph(raw)
         status = capture_status(graph)
+        register_allocation: dict[str, Any] | None = None
+        regalloc_text_filename: str | None = None
+        if stage == "after_colorgraph_assignment":
+            register_allocation = collect_runtime_register_allocation(
+                _InferiorMemory(inferior),
+                self.profile["register_allocation"],
+                self.max_regalloc_nodes,
+                self.max_regalloc_edges,
+                _colorgraph_result_i32(inferior),
+            )
+            correlate_register_allocation_pcode(register_allocation, graph)
+            regalloc_text_filename = f"{filename[:-5]}.regalloc.txt"
         snapshot = {
             "schema": {
                 "name": SNAPSHOT_SCHEMA_NAME,
@@ -324,18 +378,33 @@ class _SnapshotRecorder:
             "pcode_text_file": text_filename,
             "graph": graph,
         }
+        if register_allocation is not None and regalloc_text_filename is not None:
+            snapshot["register_allocation_capture_status"] = register_allocation[
+                "capture_status"
+            ]
+            snapshot["register_allocation"] = register_allocation
+            snapshot["regalloc_text_file"] = regalloc_text_filename
         _atomic_text_write(self.output_directory / text_filename, format_pcode_text(graph))
+        if register_allocation is not None and regalloc_text_filename is not None:
+            _atomic_text_write(
+                self.output_directory / regalloc_text_filename,
+                format_register_allocation_text(register_allocation),
+            )
         _atomic_json_write(self.output_directory / filename, snapshot)
-        self._append_stage(
-            {
-                "sequence": self.sequence,
-                "stage": stage,
-                "profile_address": format_address(profile_address),
-                "file": filename,
-                "pcode_text_file": text_filename,
-                "capture_status": status,
-            }
-        )
+        stage_entry: dict[str, Any] = {
+            "sequence": self.sequence,
+            "stage": stage,
+            "profile_address": format_address(profile_address),
+            "file": filename,
+            "pcode_text_file": text_filename,
+            "capture_status": status,
+        }
+        if register_allocation is not None and regalloc_text_filename is not None:
+            stage_entry["regalloc_text_file"] = regalloc_text_filename
+            stage_entry["register_allocation_capture_status"] = register_allocation[
+                "capture_status"
+            ]
+        self._append_stage(stage_entry)
 
     def record_handler_failure(self, stage: str, profile_address: int) -> None:
         """Persist a generic, address-free error record if a GDB callback faults."""

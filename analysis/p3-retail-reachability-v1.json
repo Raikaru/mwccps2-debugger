@@ -1,0 +1,719 @@
+{
+  "schema": {
+    "name": "mwccps2-p3-retail-reachability",
+    "version": 1
+  },
+  "schema_version": 1,
+  "scope": {
+    "observed": {
+      "compiler_flags": [
+        "-O2"
+      ],
+      "compiler_profile": "mwcps2-3.0.1b210-060308",
+      "pcode_capture_entrypoint": "0x00435d90",
+      "reducer_count": 8,
+      "snapshot_stages": [
+        "codegen_entry",
+        "before_scheduling",
+        "after_scheduling",
+        "before_register_allocation",
+        "after_register_allocation"
+      ]
+    },
+    "inferred": {
+      "not_reachable_scope": "A not_reachable_under_b210 classification is limited to the checked-in semantics-preserving variants, exact compiler profile, and -O2 evidence in this report; it is not a claim about untested source transformations or compiler versions.",
+      "retail_mismatch_scope": "This report classifies reducer levers, not any individual Persona 3 function or a retail-object match. A function still requires its own direct object-byte verification."
+    }
+  },
+  "compiler": {
+    "observed": {
+      "debugger_profile_file": "profiles/mwcps2-3.0.1-b210.json",
+      "executable": {
+        "filename": "mwccps2.exe",
+        "image_base": "0x00400000",
+        "pe_timestamp": "0x440f429b",
+        "sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7",
+        "size": 2180096
+      },
+      "p3_project_facts": {
+        "compiler_path": "D:/mwcps2-3.0.1b210-060308/mwccps2.exe",
+        "declared_flags": [
+          "-O2"
+        ],
+        "evidence_file": "../Persona3-FES-Decompilation/README.md",
+        "evidence_lines": [
+          37,
+          42,
+          47,
+          60
+        ],
+        "toolchain": "mwcps2-3.0.1b210-060308"
+      }
+    },
+    "inferred": {
+      "p3_and_reducer_compiler_match": true,
+      "reason": "The Persona 3 README declares mwcps2-3.0.1b210-060308 at -O2, and every reducer summary fingerprints the same named b210 executable and SHA-256."
+    }
+  },
+  "class_order": [
+    "reproducible_by_b210",
+    "requires_frontend_or_source_reshaping",
+    "not_reachable_under_b210"
+  ],
+  "classes": [
+    {
+      "id": "reproducible_by_b210",
+      "observed": {
+        "evidence_ids": [
+          "commutative_mul_s:invariant_times_fresh",
+          "commutative_mul_s:local_fresh_times_invariant",
+          "invariant_mask:hoisted_mask",
+          "repeated_sign_extension:explicit_cast"
+        ],
+        "evidence_links": [
+          {
+            "checked_in_experiment": "experiments/commutative_mul_s/experiment.json",
+            "checked_in_summary": "build/lab-v2-commutative-mul-s/experiment-summary-v1.json",
+            "comparison_ids": [
+              "commutative_mul_s:invariant_times_fresh",
+              "commutative_mul_s:local_fresh_times_invariant"
+            ]
+          },
+          {
+            "checked_in_experiment": "experiments/invariant_mask/experiment.json",
+            "checked_in_summary": "build/lab-v2-invariant-mask/experiment-summary-v1.json",
+            "comparison_ids": [
+              "invariant_mask:hoisted_mask"
+            ]
+          },
+          {
+            "checked_in_experiment": "experiments/repeated_sign_extension/experiment.json",
+            "checked_in_summary": "build/lab-v2-sign-extension/experiment-summary-v1.json",
+            "comparison_ids": [
+              "repeated_sign_extension:explicit_cast"
+            ]
+          }
+        ],
+        "experiment_ids": [
+          "commutative_mul_s",
+          "invariant_mask",
+          "repeated_sign_extension"
+        ]
+      },
+      "inferred": {
+        "classification": "Local operand order, type/sign-extension placement, and loop-invariant mask placement are reproducible with exact b210 -O2 source-level lowering levers: each cited comparison first changes semantic PCode at codegen_entry and finishes with a different verified object SHA-256.",
+        "next_action": "Use the named source form, then verify the candidate's direct object bytes against retail; do not infer equality from PCode similarity alone."
+      }
+    },
+    {
+      "id": "requires_frontend_or_source_reshaping",
+      "observed": {
+        "evidence_ids": [
+          "boolean_block_order:early_returns",
+          "boolean_block_order:inverted_condition",
+          "boolean_block_order:result_local",
+          "switch_case_order:ordered_if_chain",
+          "switch_case_order:switch_reordered_cases"
+        ],
+        "evidence_links": [
+          {
+            "checked_in_experiment": "experiments/boolean_block_order/experiment.json",
+            "checked_in_summary": "build/lab-v2-boolean-order/experiment-summary-v1.json",
+            "comparison_ids": [
+              "boolean_block_order:early_returns",
+              "boolean_block_order:inverted_condition",
+              "boolean_block_order:result_local"
+            ]
+          },
+          {
+            "checked_in_experiment": "experiments/switch_case_order/experiment.json",
+            "checked_in_summary": "build/lab-v2-switch-order/experiment-summary-v1.json",
+            "comparison_ids": [
+              "switch_case_order:ordered_if_chain",
+              "switch_case_order:switch_reordered_cases"
+            ]
+          }
+        ],
+        "experiment_ids": [
+          "boolean_block_order",
+          "switch_case_order"
+        ]
+      },
+      "inferred": {
+        "classification": "Boolean and switch layout differences are reached only by changing the frontend/source control-flow form. The recorded semantic PCode divergence is already at codegen_entry, before scheduling and register allocation, and every cited rewrite changes final object bytes.",
+        "next_action": "Reshape the C control flow or case order first; scheduler and register-allocation work cannot recover a missing codegen-entry control-flow graph."
+      }
+    },
+    {
+      "id": "not_reachable_under_b210",
+      "observed": {
+        "evidence_ids": [
+          "commutative_addu:array_index_base",
+          "commutative_addu:pointer_base_index",
+          "commutative_addu:pointer_index_base",
+          "commutative_addu:byte_base_offset",
+          "commutative_addu:byte_offset_base",
+          "compare_destination:reversed_greater_than",
+          "u16_remask:redundant_remask"
+        ],
+        "evidence_links": [
+          {
+            "checked_in_experiment": "experiments/commutative_addu/experiment.json",
+            "checked_in_summary": "build/lab-v2-commutative-addu/experiment-summary-v1.json",
+            "comparison_ids": [
+              "commutative_addu:array_index_base",
+              "commutative_addu:pointer_base_index",
+              "commutative_addu:pointer_index_base",
+              "commutative_addu:byte_base_offset",
+              "commutative_addu:byte_offset_base"
+            ]
+          },
+          {
+            "checked_in_experiment": "experiments/compare_destination/experiment.json",
+            "checked_in_summary": "build/lab-v2-compare-destination/experiment-summary-v1.json",
+            "comparison_ids": [
+              "compare_destination:reversed_greater_than"
+            ]
+          },
+          {
+            "checked_in_experiment": "experiments/u16_remask/experiment.json",
+            "checked_in_summary": "build/lab-v2-u16-remask/experiment-summary-v1.json",
+            "comparison_ids": [
+              "u16_remask:redundant_remask"
+            ]
+          }
+        ],
+        "experiment_ids": [
+          "commutative_addu",
+          "compare_destination",
+          "u16_remask"
+        ]
+      },
+      "inferred": {
+        "classification": "For the checked-in equivalent source spellings, b210 -O2 canonicalizes commutative addu, compare destination, and redundant 16-bit masking to equal final objects. They are therefore not usable b210 reachability levers in this measured scope, even where raw graph identity or codegen-entry semantic PCode differs.",
+        "next_action": "Do not spend matching iterations on these exact rewrites. Escalate to a different semantic/source shape only when independently justified by the target object."
+      }
+    }
+  ],
+  "experiments": [
+    {
+      "id": "boolean_block_order",
+      "checked_in_experiment": "experiments/boolean_block_order/experiment.json",
+      "checked_in_summary": "build/lab-v2-boolean-order/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "logical_and_expression",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "early_returns": {
+            "direct_object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
+            "direct_object_size": 656,
+            "snapshot_matches_direct_object": true
+          },
+          "inverted_condition": {
+            "direct_object_sha256": "db264ab1bcfab1f333adfd2843f45d5aafe1f47eb7922512335a253754bd97ae",
+            "direct_object_size": 672,
+            "snapshot_matches_direct_object": true
+          },
+          "logical_and_expression": {
+            "direct_object_sha256": "7399063f409ffbc07cec7b13a9fe70cd6ed8cd7242f44be4e5b69fdafe6cd756",
+            "direct_object_size": 656,
+            "snapshot_matches_direct_object": true
+          },
+          "result_local": {
+            "direct_object_sha256": "24aff0c89dfa6644bed8cc8e3904bc1fd91d4c9cfc545ad642a1969870544cfa",
+            "direct_object_size": 672,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "boolean_block_order:early_returns",
+          "baseline_variant": "logical_and_expression",
+          "variant": "early_returns",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-boolean-order/variants/logical_and_expression/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-boolean-order/variants/early_returns/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "5675c0a39afbf62f494bfb82aaba619de058c08b68b78d20a52c7a27c3b6870c",
+              "variant": "e71bfe6b995cf454804828fd39581c8223d76cd1df3394391c535d5187d733eb"
+            }
+          }
+        },
+        {
+          "id": "boolean_block_order:inverted_condition",
+          "baseline_variant": "logical_and_expression",
+          "variant": "inverted_condition",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-boolean-order/variants/logical_and_expression/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-boolean-order/variants/inverted_condition/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "5675c0a39afbf62f494bfb82aaba619de058c08b68b78d20a52c7a27c3b6870c",
+              "variant": "ff69c67824918789716ffb2f4d6793aa360747957272f8b12114128bbde70345"
+            }
+          }
+        },
+        {
+          "id": "boolean_block_order:result_local",
+          "baseline_variant": "logical_and_expression",
+          "variant": "result_local",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-boolean-order/variants/logical_and_expression/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-boolean-order/variants/result_local/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "5675c0a39afbf62f494bfb82aaba619de058c08b68b78d20a52c7a27c3b6870c",
+              "variant": "a8f53f749f9ef078e88624370682b3e4724734dde42c5c3a220cf03a5a28977c"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "commutative_addu",
+      "checked_in_experiment": "experiments/commutative_addu/experiment.json",
+      "checked_in_summary": "build/lab-v2-commutative-addu/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "array_base_index",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "array_base_index": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          },
+          "array_index_base": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          },
+          "byte_base_offset": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          },
+          "byte_offset_base": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          },
+          "pointer_base_index": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          },
+          "pointer_index_base": {
+            "direct_object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "commutative_addu:array_index_base",
+          "baseline_variant": "array_base_index",
+          "variant": "array_index_base",
+          "observed": {
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c",
+              "variant": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        },
+        {
+          "id": "commutative_addu:byte_base_offset",
+          "baseline_variant": "array_base_index",
+          "variant": "byte_base_offset",
+          "observed": {
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c",
+              "variant": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        },
+        {
+          "id": "commutative_addu:byte_offset_base",
+          "baseline_variant": "array_base_index",
+          "variant": "byte_offset_base",
+          "observed": {
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c",
+              "variant": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        },
+        {
+          "id": "commutative_addu:pointer_base_index",
+          "baseline_variant": "array_base_index",
+          "variant": "pointer_base_index",
+          "observed": {
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c",
+              "variant": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        },
+        {
+          "id": "commutative_addu:pointer_index_base",
+          "baseline_variant": "array_base_index",
+          "variant": "pointer_index_base",
+          "observed": {
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c",
+              "variant": "8990e068e0dc5367ff1cc5ac89f7acdeb34adb24bf5c5340a9c675649cb7024c"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "commutative_mul_s",
+      "checked_in_experiment": "experiments/commutative_mul_s/experiment.json",
+      "checked_in_summary": "build/lab-v2-commutative-mul-s/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "fresh_times_invariant",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "fresh_times_invariant": {
+            "direct_object_sha256": "1a32a5a280538b494cffd403e79780605782d7000564833c9827b1cf62cd006e",
+            "direct_object_size": 624,
+            "snapshot_matches_direct_object": true
+          },
+          "invariant_times_fresh": {
+            "direct_object_sha256": "3891fc42c42de9efe1f7b8a01e8f611dfdae0abfbdd035fefc3ea639b7c773ea",
+            "direct_object_size": 624,
+            "snapshot_matches_direct_object": true
+          },
+          "local_fresh_times_invariant": {
+            "direct_object_sha256": "c20aec7d5655466caa4278a7888f356210ece3c5a4e950a8c23d1f3b1d52d2b9",
+            "direct_object_size": 640,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "commutative_mul_s:invariant_times_fresh",
+          "baseline_variant": "fresh_times_invariant",
+          "variant": "invariant_times_fresh",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-commutative-mul-s/variants/fresh_times_invariant/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-commutative-mul-s/variants/invariant_times_fresh/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "745c2d0f37661735e3d08d4e0a45749b598dc27f86b31ea8ded91ee5efd2aecf",
+              "variant": "ffb2c5180755d99c716e8c2ee9531ebe2c81e2843276d42d5d1661f90bf8a977"
+            }
+          }
+        },
+        {
+          "id": "commutative_mul_s:local_fresh_times_invariant",
+          "baseline_variant": "fresh_times_invariant",
+          "variant": "local_fresh_times_invariant",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-commutative-mul-s/variants/fresh_times_invariant/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-commutative-mul-s/variants/local_fresh_times_invariant/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "745c2d0f37661735e3d08d4e0a45749b598dc27f86b31ea8ded91ee5efd2aecf",
+              "variant": "f6892459a30adfc44a5f35f25bf5f7dc582bb5cb9f646bd2fb08a1cd09237da8"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "compare_destination",
+      "checked_in_experiment": "experiments/compare_destination/experiment.json",
+      "checked_in_summary": "build/lab-v2-compare-destination/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "less_than",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "less_than": {
+            "direct_object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+            "direct_object_size": 656,
+            "snapshot_matches_direct_object": true
+          },
+          "reversed_greater_than": {
+            "direct_object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+            "direct_object_size": 656,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "compare_destination:reversed_greater_than",
+          "baseline_variant": "less_than",
+          "variant": "reversed_greater_than",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-compare-destination/variants/less_than/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-compare-destination/variants/reversed_greater_than/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "8fc61e9c01f6d377371aebab8eaf9fc5ef6df504b3edf41947f5d2ea0d04e220",
+              "variant": "21baffb0f2c29dc0dd6d48cedd747a44e0e15965616cab0a365436f7a8e6a0e2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "invariant_mask",
+      "checked_in_experiment": "experiments/invariant_mask/experiment.json",
+      "checked_in_summary": "build/lab-v2-invariant-mask/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "loop_internal_mask",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "hoisted_mask": {
+            "direct_object_sha256": "c31a3963c1c501648d29543a0b5126679eeedaeb2c384bae252943c418b4ab26",
+            "direct_object_size": 672,
+            "snapshot_matches_direct_object": true
+          },
+          "loop_internal_mask": {
+            "direct_object_sha256": "fb838e92905501703554d302c7d6c926e4b4abd06320adffa94dc1a17e39354b",
+            "direct_object_size": 672,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "invariant_mask:hoisted_mask",
+          "baseline_variant": "loop_internal_mask",
+          "variant": "hoisted_mask",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-invariant-mask/variants/loop_internal_mask/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-invariant-mask/variants/hoisted_mask/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "bc6da2364d5dbc260f5099b685746bddc065979a555386d96475279dd076c91f",
+              "variant": "a91057de293a6fd81a81e2e6a01c44a55bc5680fd52cbc7bdb94aab149bf5fda"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "repeated_sign_extension",
+      "checked_in_experiment": "experiments/repeated_sign_extension/experiment.json",
+      "checked_in_summary": "build/lab-v2-sign-extension/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "short_parameter",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "explicit_cast": {
+            "direct_object_sha256": "3921f724c6bceaf207f72cf12f3194c7701ceaf9d6d1d74e19998dc0bbcd762e",
+            "direct_object_size": 1056,
+            "snapshot_matches_direct_object": true
+          },
+          "short_parameter": {
+            "direct_object_sha256": "1d4d62228e72d06ad1957a8d5243c33585cee80fc2dfa758559c92f66f632991",
+            "direct_object_size": 1056,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "repeated_sign_extension:explicit_cast",
+          "baseline_variant": "short_parameter",
+          "variant": "explicit_cast",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-sign-extension/variants/short_parameter/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-sign-extension/variants/explicit_cast/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "efa892e8cfc51488566dc957f80955a887f6cf4f599598e1e54ad448d46fdd36",
+              "variant": "fd37d11d57f881d911762a2a520626d6658a82b0c29823d4eab8d54af49fb8f3"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "switch_case_order",
+      "checked_in_experiment": "experiments/switch_case_order/experiment.json",
+      "checked_in_summary": "build/lab-v2-switch-order/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "switch_ascending_cases",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "switch_ascending_cases_codegen_entry_compare_immediates": [
+          "0x0000000b",
+          "0x00000004",
+          "-0x00000003"
+        ],
+        "variants": {
+          "ordered_if_chain": {
+            "direct_object_sha256": "a5c251349c6d911d64244eef4274a4b3d067fd1a0d8939f450206a0120da3801",
+            "direct_object_size": 704,
+            "snapshot_matches_direct_object": true
+          },
+          "switch_ascending_cases": {
+            "direct_object_sha256": "9e9af3f3f2d0e9dd196e576ecbe6963a912555ae0c1c843e78faab0fa68519c7",
+            "direct_object_size": 704,
+            "snapshot_matches_direct_object": true
+          },
+          "switch_reordered_cases": {
+            "direct_object_sha256": "7aa571483c138cba20a8920c4f686181d3a644c4378024f13267d6e1b93dab7e",
+            "direct_object_size": 704,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "switch_case_order:ordered_if_chain",
+          "baseline_variant": "switch_ascending_cases",
+          "variant": "ordered_if_chain",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-switch-order/variants/switch_ascending_cases/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-switch-order/variants/ordered_if_chain/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "b615c9af2b1174f16b54302eafee8fdc8f6541366a4b26153d7b4b23e43d2791",
+              "variant": "ac82efb55183d9f7ea87a835a82274219aa4f03589a090fe1851a6fecff6aebd"
+            }
+          }
+        },
+        {
+          "id": "switch_case_order:switch_reordered_cases",
+          "baseline_variant": "switch_ascending_cases",
+          "variant": "switch_reordered_cases",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-switch-order/variants/switch_ascending_cases/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-switch-order/variants/switch_reordered_cases/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": "codegen_entry",
+            "final_object_equal": false,
+            "pcode_text_sha256": {
+              "baseline": "b615c9af2b1174f16b54302eafee8fdc8f6541366a4b26153d7b4b23e43d2791",
+              "variant": "6be78852d65f6cea470df809acda0c5d77b9854fc3ef3b6c85779eb0a96a747c"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "u16_remask",
+      "checked_in_experiment": "experiments/u16_remask/experiment.json",
+      "checked_in_summary": "build/lab-v2-u16-remask/experiment-summary-v1.json",
+      "observed": {
+        "baseline_variant": "single_mask",
+        "compiler_flags": [
+          "-O2"
+        ],
+        "variants": {
+          "redundant_remask": {
+            "direct_object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+            "direct_object_size": 624,
+            "snapshot_matches_direct_object": true
+          },
+          "single_mask": {
+            "direct_object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+            "direct_object_size": 624,
+            "snapshot_matches_direct_object": true
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "id": "u16_remask:redundant_remask",
+          "baseline_variant": "single_mask",
+          "variant": "redundant_remask",
+          "observed": {
+            "codegen_entry_snapshots": {
+              "baseline": "build/lab-v2-u16-remask/variants/single_mask/snapshots/000001-codegen_entry.json",
+              "variant": "build/lab-v2-u16-remask/variants/redundant_remask/snapshots/000001-codegen_entry.json"
+            },
+            "earliest_raw_graph_difference": "codegen_entry",
+            "earliest_semantic_pcode_divergence": null,
+            "final_object_equal": true,
+            "pcode_text_sha256": {
+              "baseline": "042a5ac2cf05ae0fb182b93a9e91597b16306769448471eba03da28ea0288810",
+              "variant": "042a5ac2cf05ae0fb182b93a9e91597b16306769448471eba03da28ea0288810"
+            },
+            "semantic_pcode_text_equal_at_raw_difference": true
+          }
+        }
+      ]
+    }
+  ]
+}

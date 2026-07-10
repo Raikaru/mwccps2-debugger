@@ -1,0 +1,69 @@
+{
+  "builds": [
+    {
+      "availability": "available",
+      "key": "b151",
+      "pe_timestamp": "0x4239997e",
+      "profile_file": "mwcps2-3.0.1b151-050317.portability.json",
+      "release": "mwcps2-3.0.1b151-050317",
+      "sha256": "22b7f6271ff1fa774e77d13f2c7dcee8d02430563189b9f2c548171cf31d0b46"
+    },
+    {
+      "availability": "available",
+      "key": "b198",
+      "pe_timestamp": "0x434bd639",
+      "profile_file": "mwcps2-3.0.1b198-051011.portability.json",
+      "release": "mwcps2-3.0.1b198-051011",
+      "sha256": "41983e892a7b4a34b3ba96c2dd9d45f6a52d96a5ac4120dc479246786b124184"
+    },
+    {
+      "availability": "available",
+      "key": "b205",
+      "pe_timestamp": "0x43b0e54e",
+      "profile_file": "mwcps2-3.0.1b205-051227.portability.json",
+      "release": "mwcps2-3.0.1b205-051227",
+      "sha256": "e1c5d935bdbfe080e40244c078a98028a58357e9b85d93b4730dec4bc76f989d"
+    },
+    {
+      "availability": "available",
+      "key": "b210",
+      "pe_timestamp": "0x440f429b",
+      "profile_file": "mwcps2-3.0.1b210-060308.portability.json",
+      "release": "mwcps2-3.0.1b210-060308",
+      "sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7"
+    }
+  ],
+  "capture_schema": {
+    "name": "mwccps2-portable-direct-capture",
+    "stage_order": [
+      "codegen_entry",
+      "before_scheduling",
+      "after_scheduling",
+      "before_register_allocation",
+      "after_register_allocation"
+    ],
+    "version": 1
+  },
+  "policy_schema": {
+    "name": "mwccps2-version-portability-policy",
+    "version": 1
+  },
+  "schema": {
+    "name": "mwccps2-version-portability-index",
+    "version": 1
+  },
+  "search_root_evidence": [
+    {
+      "path": "C:/tmp",
+      "status": "scanned"
+    },
+    {
+      "path": "D:/mwcps2-3.0.1b210-060308",
+      "status": "scanned"
+    },
+    {
+      "path": "<workspace>/toolchains",
+      "status": "scanned"
+    }
+  ]
+}
