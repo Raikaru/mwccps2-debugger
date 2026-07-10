@@ -1229,24 +1229,24 @@
               "variant": "left_then_right"
             },
             {
-              "equal": true,
+              "equal": false,
               "variant": "right_then_left"
             }
           ],
           "variants": [
             {
               "function": "scheduler_ready_tie",
-              "intent": "Builds the left independent sum before the right sum, then combines them with the same observable result.",
+              "intent": "Multiplies a*b before c*d in the expression tree, then combines the independent products.",
               "name": "left_then_right",
-              "object_sha256": "08b61751b998d9431f90ea2c3303677d5b6b1ea2ed0ea0eb470d5e01b56c8ae1",
+              "object_sha256": "112efa06692614e4167811d7cead4360977281ab416ac6bce70d397cb3214bdb",
               "object_size": 640,
               "source": "left_then_right.c"
             },
             {
               "function": "scheduler_ready_tie",
-              "intent": "Builds the same independent sums in reverse source order while preserving the returned expression.",
+              "intent": "Multiplies c*d before a*b in the expression tree, preserving the commutative product sum.",
               "name": "right_then_left",
-              "object_sha256": "08b61751b998d9431f90ea2c3303677d5b6b1ea2ed0ea0eb470d5e01b56c8ae1",
+              "object_sha256": "760f65d90fa672c5bef629683a04122bbe8782bd8485df096f3503ac71d6b12c",
               "object_size": 640,
               "source": "right_then_left.c"
             }

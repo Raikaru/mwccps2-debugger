@@ -5,8 +5,11 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 from typing import Any
+
+import mwccps2_portability as portability
 
 from mwccps2_portability import (
     PortabilityError,
@@ -255,6 +258,156 @@ class DigestJsonTests(unittest.TestCase):
         )
 
 
+
+class PublicPathSanitizationTests(unittest.TestCase):
+    """Public portability artifacts must not reveal host-specific path prefixes."""
+
+    def test_public_path_string_redacts_workspace_and_home_prefixes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "private-user-987"
+            workspace = root / "workspace"
+            home = root / "home"
+            workspace_path = workspace / "toolchains" / "mwccps2.exe"
+            home_path = home / ".local" / "mwccps2.exe"
+            outside_path = root / "outside" / "mwccps2.exe"
+            for path in (workspace_path, home_path, outside_path):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.touch()
+
+            with (
+                mock.patch.object(portability, "WORKSPACE_DIRECTORY", workspace.resolve()),
+                mock.patch.object(portability, "HOME_DIRECTORY", home.resolve()),
+            ):
+                self.assertEqual(
+                    portability._public_path_string(workspace_path),
+                    "<workspace>/toolchains/mwccps2.exe",
+                )
+                self.assertEqual(
+                    portability._public_path_string(home_path),
+                    "<home>/.local/mwccps2.exe",
+                )
+                self.assertEqual(
+                    portability._public_path_string(outside_path),
+                    outside_path.resolve().as_posix(),
+                )
+
+    def test_public_artifact_removes_runtime_fields_recursively(self) -> None:
+        artifact = {
+            "public": "kept",
+            "_runtime": {"selected_path": "C:/private-user-987/mwccps2.exe"},
+            "nested": {
+                "public": "still kept",
+                "_private": "removed",
+                "items": [{"name": "kept"}, {"_cache": "removed", "value": 2}],
+            },
+        }
+
+        self.assertEqual(
+            portability._public_artifact(artifact),
+            {
+                "public": "kept",
+                "nested": {
+                    "public": "still kept",
+                    "items": [{"name": "kept"}, {"value": 2}],
+                },
+            },
+        )
+
+    def test_discovery_and_write_redact_private_paths_but_preserve_runtime(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "private-user-987"
+            workspace = root / "workspace"
+            compiler = workspace / "toolchains" / "mwccps2.exe"
+            compiler.parent.mkdir(parents=True)
+            compiler.touch()
+            binary = {
+                "sha256": "a" * 64,
+                "size": 1,
+                "pe_timestamp": "0x00000001",
+                "image_base": "0x00400000",
+            }
+            fingerprint = {
+                "sha256": "a" * 64,
+                "size": 1,
+                "pe": {"timestamp": "0x00000001", "image_base": "0x00400000"},
+            }
+            policy = {
+                "capture_schema": {"name": DIRECT_CAPTURE_SCHEMA_NAME, "version": SCHEMA_VERSION},
+                "search_roots": [],
+                "requested_builds": [
+                    {
+                        "key": "test",
+                        "release": "mwcps2-test",
+                        "candidate_paths": [str(compiler)],
+                        "binary": binary,
+                    }
+                ],
+            }
+
+            with (
+                mock.patch.object(portability, "WORKSPACE_DIRECTORY", workspace.resolve()),
+                mock.patch.object(portability, "_iter_compiler_paths", return_value=([compiler], [])),
+                mock.patch.object(portability, "_normalized_probe", return_value=fingerprint),
+            ):
+                profiles, evidence = portability.discover_builds(policy, [], workspace)
+
+            self.assertEqual(evidence, [])
+            profile = profiles[0]
+            self.assertEqual(
+                profile["availability"]["selected_path"],
+                "<workspace>/toolchains/mwccps2.exe",
+            )
+            self.assertEqual(profile["_runtime"]["selected_path"], compiler.resolve().as_posix())
+
+            output = root / "public-profiles"
+            written = portability.write_profiles(output, profiles, {"_runtime": {"private": "removed"}})
+            serialized = "\n".join(path.read_text(encoding="utf-8") for path in written)
+            self.assertNotIn("private-user-987", serialized)
+            self.assertNotIn(compiler.resolve().as_posix(), serialized)
+            self.assertIn("<workspace>/toolchains/mwccps2.exe", serialized)
+            self.assertNotIn('"_runtime"', serialized)
+
+    def test_corpus_uses_runtime_selected_path_not_public_label(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            compiler = root / "private-user-987" / "mwccps2.exe"
+            source = root / "case.c"
+            compiler.parent.mkdir(parents=True)
+            compiler.touch()
+            source.touch()
+            profile = {
+                "build": {"key": "test"},
+                "_runtime": {"selected_path": compiler.resolve().as_posix()},
+            }
+            manifest = {
+                "name": "case",
+                "question": "does runtime survive serialization boundary?",
+                "compiler_flags": ["-proc", "gekko"],
+                "variants": [
+                    {
+                        "name": "baseline",
+                        "source": "case.c",
+                        "source_path": source,
+                        "function": "case",
+                        "intent": "test",
+                    }
+                ],
+            }
+
+            with (
+                mock.patch.object(portability, "_load_experiment_manifest", return_value=manifest),
+                mock.patch.object(
+                    portability,
+                    "_run_direct_compile",
+                    return_value={"object_sha256": "b" * 64, "object_size": 1},
+                ) as run_compile,
+            ):
+                result = portability._run_corpus_for_build(
+                    profile, [root / "experiment"], root / "work", 5
+                )
+
+            self.assertEqual(result["status"], "completed")
+            self.assertEqual(run_compile.call_args.args[0], compiler.resolve())
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

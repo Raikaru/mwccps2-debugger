@@ -223,6 +223,13 @@ required static/string anchors
 
 The filename and directory are convenience metadata. They are not identity.
 
+Portability discovery keeps the actual selected compiler path only in an
+in-memory `_runtime` field needed by the direct corpus. Serialization removes
+runtime-only fields. Paths beneath the checkout workspace or user home are
+written as `<workspace>/...` or `<home>/...`, so checked profiles retain useful
+provenance without publishing a contributor's username or absolute checkout
+path.
+
 Every address in `mwcps2-3.0.1-b210.json` is a virtual address for the exact
 profile executable. Even a nearby Metrowerks build may move functions, globals,
 heap layouts, or callback conventions.
