@@ -31,6 +31,12 @@ from gdb.b210_snapshot_model import (
     format_pcode_text,
     load_b210_profile,
 )
+from transports import GdbSnapshotRequest, TransportError, WindowsGdbTransport
+from transports.gdb import (
+    gdb_path as _transport_gdb_path,
+    gdb_quote as _transport_gdb_quote,
+    write_gdb_command_file,
+)
 
 
 RUNNER_DIRECTORY = Path(__file__).resolve().parent
@@ -475,16 +481,16 @@ def _compile_direct(
 
 
 def _gdb_quote(value: str) -> str:
-    """Quote exactly one GDB command argument using its shell-like lexer rules."""
+    """Quote exactly one GDB command argument using the shared transport."""
 
-    if "\0" in value or "\n" in value or "\r" in value:
-        raise ExperimentError("GDB command arguments must not contain NUL or newline characters")
-    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+    try:
+        return _transport_gdb_quote(value)
+    except TransportError as exc:
+        raise ExperimentError(str(exc)) from exc
 
 
 def _gdb_path(path: Path) -> str:
-    # Forward slashes avoid treating Windows separators as GDB escape characters.
-    return path.resolve().as_posix()
+    return _transport_gdb_path(path)
 
 
 def _write_gdb_command(
@@ -494,43 +500,22 @@ def _write_gdb_command(
     profile_path: Path,
     snapshot_directory: Path,
 ) -> Path:
-    lines = [
-        "set pagination off",
-        "set confirm off",
-        "set breakpoint pending on",
-        f"file {_gdb_quote(_gdb_path(compiler))}",
-        "set args " + " ".join(_gdb_quote(argument) for argument in compiler_args),
-        # The snapshot command requires an attached/running inferior so that it can check
-        # the loaded image mapping.  starti stops before compiler initialization, leaving
-        # every backend breakpoint armed before any source compilation occurs.
-        "starti",
-        f"source {_gdb_path(SNAPSHOT_COMMAND)}",
-        "b210-snapshot start"
-        f" --profile {_gdb_quote(_gdb_path(profile_path))}"
-        f" --output {_gdb_quote(_gdb_path(snapshot_directory))}",
-        "continue",
-        "if $_exitcode != 0",
-        "  echo MWCCPS2 compiler exited with non-zero status\\n",
-        "  quit 1",
-        "end",
-        "b210-snapshot stop",
-        "quit",
-        "",
-    ]
+    """Compatibility helper backed by the transport-neutral command builder."""
+
+    request = GdbSnapshotRequest(
+        gdb_executable=Path("gdb"),
+        compiler=compiler,
+        compiler_args=compiler_args,
+        profile_path=profile_path,
+        snapshot_directory=snapshot_directory,
+        command_directory=command_directory,
+        working_directory=command_directory,
+        snapshot_script=SNAPSHOT_COMMAND,
+    )
     try:
-        with tempfile.NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
-            newline="\n",
-            prefix=".mwccps2-gdb-",
-            suffix=".gdb",
-            dir=command_directory,
-            delete=False,
-        ) as command_file:
-            command_file.write("\n".join(lines))
-            return Path(command_file.name)
-    except OSError as exc:
-        raise ExperimentError(f"cannot create temporary GDB command file in {command_directory}: {exc}") from exc
+        return write_gdb_command_file(request)
+    except TransportError as exc:
+        raise ExperimentError(str(exc)) from exc
 
 
 def _relative_snapshot_file(snapshot_directory: Path, filename: str, location: str) -> Path:
@@ -694,23 +679,24 @@ def _compile_with_snapshots(
     snapshot_directory = variant_directory / "snapshots"
     snapshot_directory.mkdir(parents=True, exist_ok=False)
     compiler_args = _compile_command(compiler, compiler_flags, source, object_path)[1:]
-    command_path = _write_gdb_command(
-        variant_directory, compiler, compiler_args, profile_path, snapshot_directory
+    request = GdbSnapshotRequest(
+        gdb_executable=gdb,
+        compiler=compiler,
+        compiler_args=compiler_args,
+        profile_path=profile_path,
+        snapshot_directory=snapshot_directory,
+        command_directory=variant_directory,
+        working_directory=variant_directory,
+        snapshot_script=SNAPSHOT_COMMAND,
     )
     try:
-        _run_process(
-            [str(gdb), "--batch", "--nx", "--quiet", "--command", str(command_path)],
-            variant_directory,
+        WindowsGdbTransport().execute(
+            request,
             timeout_seconds,
             f"GDB snapshot compilation of {source.name}",
         )
-    finally:
-        try:
-            command_path.unlink()
-        except FileNotFoundError:
-            pass
-        except OSError as exc:
-            raise ExperimentError(f"cannot remove temporary GDB command file {command_path}: {exc}") from exc
+    except TransportError as exc:
+        raise ExperimentError(str(exc)) from exc
     if not object_path.is_file():
         raise ExperimentError(
             f"GDB snapshot compilation of {source.name} completed without creating expected object {object_path}"

@@ -15,11 +15,23 @@ import struct
 from pathlib import Path
 from typing import Any, Mapping
 
+try:
+    from .b210_regalloc_model import (
+        RegisterAllocationProfileError,
+        validate_register_allocation_profile,
+    )
+except ImportError:
+    # GDB sources this file as a top-level module after adding this directory to sys.path.
+    from b210_regalloc_model import (
+        RegisterAllocationProfileError,
+        validate_register_allocation_profile,
+    )
+
 
 SNAPSHOT_SCHEMA_NAME = "mwccps2-b210-stage-snapshot"
-SNAPSHOT_SCHEMA_VERSION = 2
+SNAPSHOT_SCHEMA_VERSION = 3
 MANIFEST_SCHEMA_NAME = "mwccps2-b210-snapshot-manifest"
-MANIFEST_SCHEMA_VERSION = 1
+MANIFEST_SCHEMA_VERSION = 2
 EXPECTED_PROFILE_NAME = "mwcps2-3.0.1b210-060308"
 
 _BLOCK_SIZE = 0x30
@@ -98,6 +110,13 @@ B210_LAYOUT_EVIDENCE: dict[str, Any] = {
             "encoding": "base +0x40, stride 0x18; tag u8 +0x00, class u8 +0x01, attrs u16 +0x02, payload +0x04",
             "decompiled_behavior": "PCodeInfo builder emits descriptors and the binary encoder consumes them.",
             "evidence_address": "0x0048f321, 0x0048f349, 0x0049bd50, 0x004c2f30",
+            "confidence": "high",
+        },
+        {
+            "subject": "PCode tag-3 inline immediates",
+            "encoding": "For operand-format i/j: words +0x04/+0x08/+0x0c are sign extension and +0x10 is the canonical signed scalar. For I: caller words occupy +0x04..+0x10; the encoder-consumed word is +0x10.",
+            "decompiled_behavior": "PCodeInfo calls 0x004595f0 for i/j, which sign-extends the supplied scalar into the first three words and retains it at +0x10. The encoder consumes +0x10 for i, j, and I forms.",
+            "evidence_address": "0x0049bd50, 0x004595f0, 0x004c2f30",
             "confidence": "high",
         },
         {
@@ -241,6 +260,10 @@ def load_b210_profile(path: str | Path) -> dict[str, Any]:
     ):
         parse_address(breakpoints.get(stage), f"pcode_breakpoints.{stage}")
     _validate_opcode_table(parsed)
+    try:
+        validate_register_allocation_profile(parsed)
+    except RegisterAllocationProfileError as exc:
+        raise SnapshotModelError(f"invalid register-allocation profile: {exc}") from exc
     return parsed
 
 
@@ -815,8 +838,27 @@ def _register_class_name(code: int) -> str:
     # retained without guessing names such as FP or control.
     return "gpr" if code == 0 else f"class-{code}"
 
+def _tag3_format_symbol(
+    entry: Mapping[str, Any] | None, runtime_operand_count: int, operand_index: int
+) -> str | None:
+    """Return i/j/I only when a simple static format maps exactly to runtime slots."""
 
-def _decode_operand(operand: Mapping[str, Any], block_ids: Mapping[int, str]) -> dict[str, Any]:
+    if entry is None or entry.get("state") != "captured":
+        return None
+    text = _complete_string(entry["operand_format"])
+    if text is None:
+        return None
+    slots = text.split(",")
+    if len(slots) != runtime_operand_count or not 0 <= operand_index < len(slots):
+        return None
+    symbol = slots[operand_index].lstrip("=+2# ")
+    return symbol if symbol in {"i", "j", "I"} else None
+
+
+
+def _decode_operand(
+    operand: Mapping[str, Any], block_ids: Mapping[int, str], format_symbol: str | None
+) -> dict[str, Any]:
     words = operand["raw_words"]
     tag = operand["tag"]
     decoded: dict[str, Any] = {
@@ -840,11 +882,29 @@ def _decode_operand(operand: Mapping[str, Any], block_ids: Mapping[int, str]) ->
         decoded.update(
             {
                 "kind": "inline_immediate_or_blob",
-                "immediate_u32": format_address(words[1]),
-                "immediate_i32": struct.unpack("<i", struct.pack("<I", words[1]))[0],
                 "payload_words": [format_address(word) for word in words[1:]],
+                "tail_word_14": format_address(words[5]),
             }
         )
+        if format_symbol in {"i", "j"}:
+            scalar = words[4]
+            decoded.update(
+                {
+                    "format_symbol": format_symbol,
+                    "immediate_u32": format_address(scalar),
+                    "immediate_i32": struct.unpack("<i", struct.pack("<I", scalar))[0],
+                    "scalar_offset": "0x10",
+                    "sign_extension_words": [format_address(word) for word in words[1:4]],
+                }
+            )
+        elif format_symbol == "I":
+            decoded.update(
+                {
+                    "format_symbol": "I",
+                    "caller_words": [format_address(word) for word in words[1:5]],
+                    "encoder_consumed_word_10": format_address(words[4]),
+                }
+            )
     elif tag == 4:
         decoded.update(
             {
@@ -936,7 +996,16 @@ def normalize_runtime_graph(raw: Mapping[str, Any]) -> dict[str, Any]:
             "property_flags": format_address(node["property_flags"]),
             "encoded_word": format_address(node["encoded_word"]),
             "operands": [
-                _decode_operand(operand, block_ids) for operand in node["operands"]
+                _decode_operand(
+                    operand,
+                    block_ids,
+                    _tag3_format_symbol(
+                        entries_by_opcode.get(node["opcode_u16"]),
+                        node["operand_count_i16"],
+                        operand["index"],
+                    ),
+                )
+                for operand in node["operands"]
             ],
         }
         for node in nodes
@@ -991,7 +1060,11 @@ def _operand_text(operand: Mapping[str, Any]) -> str:
         register_class = operand["register_class"]
         return f"{register_class['name']}:r{operand['register_number_i16']}"
     if kind == "inline_immediate_or_blob":
-        return f"imm({operand['immediate_u32']})"
+        if "immediate_u32" in operand:
+            return f"imm({operand['immediate_u32']})"
+        if operand.get("format_symbol") == "I":
+            return "I(" + ", ".join(operand["caller_words"]) + ")"
+        return "inline(" + ", ".join(operand["payload_words"][:4]) + ")"
     if kind == "compound_memory_or_object":
         return f"mem[object+{operand['offset_or_value_u32']}]"
     if kind == "label_target":
@@ -1077,6 +1150,7 @@ def profile_manifest(profile: Mapping[str, Any]) -> dict[str, Any]:
 
     binary = _required_mapping(profile, "binary", "profile")
     table = _required_mapping(profile, "pcode_opcode_table", "profile")
+    register_allocation = _required_mapping(profile, "register_allocation", "profile")
     return {
         "name": profile["name"],
         "schema_version": profile["schema_version"],
@@ -1091,5 +1165,12 @@ def profile_manifest(profile: Mapping[str, Any]) -> dict[str, Any]:
             "address": table["address"],
             "entry_count": table["entry_count"],
             "entry_stride": table["entry_stride"],
+        },
+        "register_allocation": {
+            "capture_breakpoint": register_allocation["capture_breakpoint"],
+            "max_nodes": register_allocation["max_nodes"],
+            "node_stride": register_allocation["node_stride"],
+            "edge_stride": register_allocation["edge_stride"],
+            "physical_slots": list(register_allocation["physical_slots"]),
         },
     }

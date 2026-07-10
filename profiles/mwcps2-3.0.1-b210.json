@@ -47,6 +47,161 @@
       "evidence": "Register-class selector set by the allocation driver and consumed by colorgraph."
     }
   },
+  "frontend_ir": {
+    "max_nodes": 4096,
+    "max_name_bytes": 128,
+    "breakpoints": {
+      "gFunction_assigned": "0x004d13cc",
+      "after_flow_graph": "0x004d1512"
+    },
+    "globals": {
+      "gFunction": "0x00636144",
+      "name_table_head": "0x00636424",
+      "ast_traversal_root": "0x0061b9f0",
+      "ast_null_sentinel": "0x0061b9f4",
+      "iro_root": "0x00635a5c"
+    },
+    "function_record": {
+      "minimum_bytes": 12,
+      "symbol_name_offset": 10,
+      "fields": {
+        "kind_u8": {"offset": 0, "kind": "u8"},
+        "kind_flags_u8": {"offset": 1, "kind": "u8"},
+        "ordinal_u16": {"offset": 2, "kind": "u16"},
+        "opaque_04": {"offset": 4, "kind": "pointer"},
+        "symbol": {"offset": 8, "kind": "pointer"}
+      },
+      "evidence": "IrOptimizer_driver at 0x004d13c6 stores its first argument in gFunction. The following diagnostic and optimizer helpers read *(gFunction+0x08)+0x0a as the C string name; live GDB decoded load_indexed from the smoke fixture."
+    },
+    "name_table_entry": {
+      "byte_size": 8,
+      "fields": {
+        "next": {"offset": 0, "kind": "pointer"},
+        "record": {"offset": 4, "kind": "pointer"}
+      },
+      "evidence": "FUN_004e4140 walks the pointer at 0x00636424 through entry+0 and reads entry+4 as a shared frontend name record before applying record+0x08/+0x0a. Live smoke capture traversed the local names base and index."
+    },
+    "ast_traversal": {
+      "active_root_global": "0x0061b9f0",
+      "null_sentinel_address": "0x0061b9f4",
+      "evidence": "FUN_004dc900 sets DAT_0061b9f0 to its function argument before calling FUN_004e3df0 and clears it after FUN_004dcd60; AST traversal helpers compare the root against the sentinel at 0x0061b9f4."
+    },
+    "iro_node": {
+      "byte_size": 68,
+      "fields": {
+        "kind_u8": {"offset": 0, "kind": "u8"},
+        "opaque_01": {"offset": 1, "kind": "u8"},
+        "opaque_02": {"offset": 2, "kind": "u16"},
+        "flags_u32": {"offset": 4, "kind": "u32"},
+        "operand_root": {"offset": 16, "kind": "pointer"},
+        "operation": {"offset": 44, "kind": "pointer"},
+        "next": {"offset": 64, "kind": "pointer"}
+      },
+      "evidence": "FUN_00579d90 allocates and zeroes 0x44 bytes. FUN_00564c70 and FUN_0058c840 traverse node+0x40; the latter reads node+0x2c as the operation descriptor. Operand-root is the pointer at node+0x10 observed in the live record."
+    },
+    "operation_record": {
+      "minimum_bytes": 1,
+      "fields": {
+        "opcode_u8": {"offset": 0, "kind": "u8"}
+      },
+      "evidence": "IRO consumers dispatch on the byte at the descriptor addressed by node+0x2c. No semantics are assigned here to descriptor bytes beyond the proven leading opcode."
+    },
+    "optimization_boundaries": {
+      "driver": {
+        "address": "0x004d13a0",
+        "source_anchor": "IrOptimizer.c",
+        "evidence": "The string IrOptimizer.c at 0x005e91b0 is referenced by this driver; it sets gFunction, builds the flow graph, and runs the frontend pass loop."
+      },
+      "build_flow_graph": {
+        "call_address": "0x004d150d",
+        "after_call": "0x004d1512",
+        "target": "0x0058c840",
+        "evidence": "The driver pushes the IRO root at 0x00635a5c then calls FUN_0058c840; the call returns at 0x004d1512 before the IRO_BuildflowGraph diagnostic."
+      },
+      "passes": [
+        {"name": "CopyAndConstantPropagation", "address": "0x0057d900"},
+        {"name": "SimplifyIfThenElse", "address": "0x005a2580"},
+        {"name": "SimplifyConditionals", "address": "0x005a28d0"},
+        {"name": "ConstantFolding", "address": "0x005a3300"},
+        {"name": "RepositionCode", "address": "0x005972f0"}
+      ],
+      "evidence": "Each pass call is directly visible in the IrOptimizer_driver decompile and immediately followed by its embedded IRO_* diagnostic string. RepositionCode is gated after a flow-graph rebuild near the driver tail."
+    },
+    "live_capture": {
+      "fixture": "fixtures/codegen_smoke.c",
+      "function_breakpoint": "0x004d13cc",
+      "iro_breakpoint": "0x004d1512",
+      "function_name": "load_indexed",
+      "iro_node": {
+        "kind_u8": 1,
+        "flags_u32": "0x00001022",
+        "operation_opcode_u8": 58
+      },
+      "evidence": "A GDB batch run of the exact b210 compiler with the fixture stopped after gFunction assignment and after BuildflowGraph. It decoded load_indexed through record+0x08/+0x0a and an IRO node with a descriptor whose first byte is 0x3a (decimal 58); heap addresses were intentionally omitted because they are process-specific."
+    },
+    "evidence": "All addresses are image-base virtual addresses for the profile binary. The pure model validates this exact layout before reading live memory and terminates bounded linked-list walks on null, limit, unreadable memory, or cycle."
+  },
+  "scheduler": {
+    "driver": "0x004c0790",
+    "ready_selector": "0x004c0a00",
+    "resource_pressure_score": "0x004c14b0",
+    "node_stride": 28,
+    "edge_stride": 12,
+    "globals": {
+      "ready_head": "0x0061b8c4",
+      "pressure_mode": "0x00635c24",
+      "callback_table": "0x0061b85c"
+    },
+    "node_fields": {
+      "next": 0,
+      "previous": 4,
+      "outgoing_edges": 8,
+      "pcode": 12,
+      "actual_latency": 16,
+      "heuristic_latency": 18,
+      "earliest_issue_cycle": 20,
+      "critical_deadline_cycle": 22,
+      "critical_path_length": 24,
+      "pending_predecessors": 26
+    },
+    "edge_fields": {
+      "next": 0,
+      "target": 4,
+      "latency": 8
+    },
+    "evidence": "FUN_004c0790 invokes the per-block scheduler at 0x004c07e0. That routine allocates 0x1c-byte SchedulerNode records and 0x0c-byte source-to-target edges. FUN_004c0a00 selects a node only when pending_predecessors is zero, earliest_issue_cycle is no later than the current cycle, and callback_table[+0x10] accepts its PCode. Its ladder prefers a crossed critical deadline, then more targets waiting on their final predecessor, then longer critical path, then lower heuristic latency when pressure_mode is set; its optional pressure probe is FUN_004c14b0. Globals and offsets were confirmed in the exact b210 decompilation."
+  },
+  "register_allocation": {
+    "capture_breakpoint": "0x004c1d74",
+    "max_nodes": 32767,
+    "node_stride": 32,
+    "edge_stride": 16,
+    "physical_slots": [32, 32, 32, 16, 32, 32, 32],
+    "class_labels": [
+      "GPR",
+      "FPR",
+      "SPECIAL",
+      "COPROC2_i",
+      "COPROC2_ii",
+      "COPROC2_f",
+      "COPROC2_special"
+    ],
+    "globals": {
+      "coloring_class": "0x006373ac",
+      "interferencegraph": "0x00636634",
+      "physical_slots": "0x00635b34",
+      "total_nodes": "0x00636f98",
+      "allocatable_phys": "0x00624e80",
+      "allocatable_count": "0x006355d0",
+      "physical_state": "0x006257f8",
+      "fallback_phys": "0x00625338",
+      "fallback_count": "0x00635a60",
+      "fallback_cursor": "0x00636930",
+      "saved_fallback_cursor": "0x0061b8c8",
+      "coalesce_parent": "0x0060b708"
+    },
+    "evidence": "At 0x004c1d74 colorgraph has returned for the current class while the contiguous 0x20-byte IGNode array, 0x10-byte incidence records, and uint16 coalesce-parent map remain live. Physical nodes are [0,P); virtual nodes are [P,N)."
+  },
   "pcode_opcode_table": {
     "address": "0x00626638",
     "entry_count": 1199,

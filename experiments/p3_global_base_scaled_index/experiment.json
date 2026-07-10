@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "name": "p3_global_base_scaled_index",
+  "question": "For the reduced K_FldFrame_CreateCtlTask loop shape, does b210 preserve distinct global-base and scaled-index virtual-register roles through selection and scheduling, and when are their physical GPRs chosen?",
+  "compiler_flags": ["-O2"],
+  "variants": [
+    {
+      "name": "p3_loop_shape",
+      "source": "p3_loop_shape.c",
+      "function": "p3_global_base_scaled_index",
+      "intent": "Keeps a gFldUnitsPc global base, a separate local units base, and a 0x1c0-byte scaled loop index; the matching return separately rematerializes gFldUnitsPc plus that scaled index."
+    }
+  ]
+}
