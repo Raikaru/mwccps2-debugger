@@ -1,3 +1,35 @@
 /build/
 __pycache__/
 *.py[cod]
+
+# Python environments and tool caches
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+
+# Local configuration and logs
+.env
+.env.*
+!.env.example
+*.log
+
+# Compiler, game, and native build artifacts
+*.exe
+*.dll
+*.o
+*.obj
+*.a
+*.lib
+*.elf
+*.bin
+*.pdb
+
+# Host metadata
+.DS_Store
+Thumbs.db
