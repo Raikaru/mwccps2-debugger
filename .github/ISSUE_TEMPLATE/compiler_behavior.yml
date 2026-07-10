@@ -1,0 +1,107 @@
+name: Compiler behavior research
+description: Propose or report a bounded MWCCPS2 behavior, reducer, profile, or semantic-model finding.
+title: "[Behavior]: "
+labels:
+  - research
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A final object difference alone does not identify a compiler phase. Include the exact compiler fingerprint, controlled reducer, stage evidence, and direct/instrumented object invariant. Do not upload proprietary binaries or retail bytes.
+
+  - type: input
+    id: compiler
+    attributes:
+      label: Exact compiler build and SHA-256
+      placeholder: mwcps2-3.0.1b210-060308 / 286548490e2e...
+    validations:
+      required: true
+
+  - type: input
+    id: flags
+    attributes:
+      label: Compiler flags
+      placeholder: -O2
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Single compiler question
+      description: State one behavior the baseline and variants isolate.
+    validations:
+      required: true
+
+  - type: textarea
+    id: variants
+    attributes:
+      label: Baseline and controlled variants
+      description: Explain the one source property changed by each variant. Link a minimal reducer when possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: object_invariant
+    attributes:
+      label: Direct/instrumented object evidence
+      description: Provide SHA-256 values or explain why live capture is not part of the proposal.
+      placeholder: |
+        baseline direct: ...
+        baseline snapshot: ...
+        variant direct: ...
+        variant snapshot: ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: divergence
+    attributes:
+      label: Earliest semantic divergence
+      options:
+        - codegen_entry
+        - before_scheduling
+        - after_scheduling
+        - before_register_allocation
+        - after_colorgraph_assignment
+        - after_register_allocation
+        - No semantic PCode divergence
+        - Not yet captured
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Directly observed evidence
+      description: Exact operations, operands, addresses, control conditions, captures, or object relationships.
+    validations:
+      required: true
+
+  - type: textarea
+    id: inference
+    attributes:
+      label: Inference and scope
+      description: Explain the proposed interpretation and what is explicitly not established.
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification commands
+      render: shell
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Evidence checks
+      options:
+        - label: The reducer changes one relevant property at a time.
+          required: true
+        - label: I did not infer retail transient AST, PCode, scheduler, or allocation state as observed.
+          required: true
+        - label: I removed private paths and proprietary binaries/data.
+          required: true

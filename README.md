@@ -1,5 +1,8 @@
 # MWCCPS2 Debugger
 
+[![Tests](https://github.com/Raikaru/mwccps2-debugger/actions/workflows/tests.yml/badge.svg)](https://github.com/Raikaru/mwccps2-debugger/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A dynamic-analysis and behavioral-reduction toolkit for the Metrowerks
 CodeWarrior PlayStation 2 C/C++ compiler. It exposes selected internal compiler
 stages so matching-decompilation projects can determine *why* equivalent C
@@ -281,6 +284,9 @@ These rules apply to both humans and coding agents:
 - This is a diagnostic and experiment tool, not an automatic matching engine.
 
 ## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for reducer, evidence, testing, privacy,
+and pull-request requirements.
 
 Start with a small reducer or a bounded compiler behavior. Preserve exact
 compiler fingerprints, deterministic JSON ordering, strict bounds/cycle

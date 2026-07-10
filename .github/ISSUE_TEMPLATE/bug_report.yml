@@ -1,0 +1,102 @@
+name: Bug report
+description: Report a reproducible defect in the open-source tooling or documentation.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not upload compiler binaries, game executables, extracted retail bytes, credentials, or private paths. Use fingerprints, sanitized logs, and minimal original reducers.
+
+  - type: input
+    id: revision
+    attributes:
+      label: Repository revision
+      description: Commit SHA or release tag where the problem occurs.
+      placeholder: 368c3f6
+    validations:
+      required: true
+
+  - type: dropdown
+    id: subsystem
+    attributes:
+      label: Subsystem
+      options:
+        - Compiler probe or profile validation
+        - Normal experiment runner
+        - PCode or frontend decoder
+        - Scheduler capture or model
+        - Register-allocation capture or replay
+        - Portability tooling
+        - P3 adapter
+        - Host transport
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, GDB version when relevant, and transport. Do not include a private checkout path.
+      placeholder: |
+        OS: Windows 11 x64
+        Python: 3.12.x
+        GDB: 16.3
+        Transport: windows-gdb
+    validations:
+      required: true
+
+  - type: input
+    id: compiler
+    attributes:
+      label: Compiler fingerprint
+      description: Release and SHA-256 when the issue uses a compiler. Write "not applicable" for host-independent tooling.
+      placeholder: mwcps2-3.0.1b210-060308 / 28654849...
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command or API call
+      description: Sanitize local paths while retaining flags and arguments needed to reproduce.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and sanitized diagnostics
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: Minimal reproducer
+      description: Link a branch or paste minimal original source/JSON. Do not attach proprietary inputs.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing issues and documentation.
+          required: true
+        - label: I removed credentials, private paths, compiler/game binaries, and extracted retail data.
+          required: true
+        - label: I can distinguish directly observed evidence from inference in this report.
+          required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation and troubleshooting
+    url: https://github.com/Raikaru/mwccps2-debugger/blob/main/docs/troubleshooting.md
+    about: Check setup, capture, profile, transport, and interpretation failures before opening an issue.
+  - name: P3 matching workflow
+    url: https://github.com/Raikaru/mwccps2-debugger/blob/main/docs/p3-workflow.md
+    about: Read the evidence and verifier rules for Persona 3 FES investigations.
