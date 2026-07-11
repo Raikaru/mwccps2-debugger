@@ -171,7 +171,7 @@ class ResidualFamilyTests(unittest.TestCase):
     def test_selection_bounds_and_clusters_are_deterministic(self) -> None:
         report = {
             "results": [
-                {"status": "NONMATCHING", "file": "b.c", "name": "b", "addr": "00000020", "window": 64, "normalized_diff": 2},
+                {"status": "NONMATCHING", "file": "src\\b.c", "name": "b", "addr": "00000020", "window": 64, "normalized_diff": 2},
                 {"status": "MISMATCH", "file": "a.c", "name": "a", "addr": "00000010", "window": 32, "normalized_diff": 1},
                 {"status": "MATCH", "file": "c.c", "name": "c", "addr": "00000030", "window": 16, "normalized_diff": 0},
                 {"status": "NONMATCHING", "file": "d.c", "name": "d", "addr": "00000040", "window": 1024, "normalized_diff": 1},
@@ -179,6 +179,7 @@ class ResidualFamilyTests(unittest.TestCase):
         }
         selected = _selected_rows(report, max_window=128, max_diff=4, limit=0)
         self.assertEqual([row["name"] for row in selected], ["a", "b"])
+        self.assertEqual(selected[1]["file"], "src/b.c")
         functions = [
             {"source": "a.c", "name": "a", "address": "00000010",
              "finding_ids": ["integer-signedness"], "mnemonic_pairs": ["lb/lbu"]},

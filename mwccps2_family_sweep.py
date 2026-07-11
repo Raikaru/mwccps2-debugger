@@ -89,7 +89,7 @@ def _selected_rows(report: dict[str, Any], max_window: int, max_diff: int, limit
             continue
         if not all(isinstance(row.get(key), str) for key in ("file", "name", "addr")):
             continue
-        rows.append(row)
+        rows.append({**row, "file": row["file"].replace("\\", "/")})
     rows.sort(key=lambda row: (row["normalized_diff"], row["window"], row["file"], row["addr"], row["name"]))
     return rows[:limit] if limit else rows
 
