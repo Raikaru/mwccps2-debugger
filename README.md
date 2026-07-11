@@ -87,6 +87,7 @@ mwccps2_scheduler_experiment.py   live scheduler differential runner
 mwccps2_portability.py            compiler discovery and cross-version corpus
 mwccps2_p3_reduce.py              optional P3 verifier-report bundle adapter
 mwccps2_solve.py                  bounded evidence-guided mismatch search
+mwccps2_explain.py                retail-aware function dossier CLI
 
 
 gdb/
@@ -112,6 +113,8 @@ reports/                         concrete mismatch explanations
 tests/                           deterministic regression suite
 build/                           ignored local snapshots and summaries
 solver/                           deterministic search, capture, P3, and evidence adapters
+explain/                          game-agnostic MIPS CFG, alignment, findings, and reports
+adapters/                         optional retail-project evidence adapters
 
 ```
 
@@ -132,7 +135,7 @@ python -m unittest discover -s tests -p "test_*.py"
 Expected repository baseline:
 
 ```text
-Ran 390 tests
+Ran 395 tests
 OK
 ```
 
@@ -229,6 +232,32 @@ The initial combined invocation is identical without `--resume`; `--resume`
 requires its existing `search-checkpoint-v1.json`. See [Getting
 started](docs/getting-started.md#bounded-solver) for selection, objectives, and
 artifacts.
+
+## Function explainer
+
+`mwccps2_explain.py` combines authoritative P3 verification with observed
+candidate bytes, retail bytes, relocations, direct calls, control-flow graphs,
+and CFG-aware instruction alignment. It emits deterministic JSON plus a text
+report; findings remain bounded hypotheses and never claim unavailable retail
+compiler state.
+
+Run it from this repository with a fresh output directory under `build/`:
+
+```powershell
+python mwccps2_explain.py src/Battle/btlMain.c FUN_0029ec50 --p3-root ../Persona3-FES-Decompilation --output build/explain-0029ec50
+```
+
+The output contains:
+
+```text
+build/explain-0029ec50/function-dossier-v1.json
+build/explain-0029ec50/function-dossier.txt
+```
+
+The dossier classifies observed residuals into bounded families such as integer
+signedness, integer-versus-float storage/ABI, control-flow shape, instruction
+selection, operand/allocation differences, and unmatched operations. Only the
+embedded P3 verifier row may certify `MATCH`.
 
 
 ## Common commands
