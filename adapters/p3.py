@@ -6,6 +6,7 @@ import importlib.util
 import json
 import re
 import sys
+import struct
 import tempfile
 from pathlib import Path
 from types import ModuleType
@@ -106,12 +107,91 @@ def _symbols(root: Path) -> dict[int, str]:
     return result
 
 
+def _gp_value(root: Path) -> int | None:
+    path = root / "config" / "symbols_recovered.txt"
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError):
+        return None
+    for line in lines:
+        match = _SYMBOL_RE.match(line.strip())
+        if match and match.group(1) == "_gp":
+            return int(match.group(2), 16)
+    return None
+
+
+def _callers(
+    retail: Any,
+    boundaries: list[int],
+    target: int,
+    symbols: dict[int, str],
+) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    for index, address in enumerate(boundaries[:-1]):
+        if address not in symbols:
+            continue
+        window = boundaries[index + 1] - address
+        if window < 4 or window > 0x10000:
+            continue
+        try:
+            data = retail.bytes_at(address, window)
+        except ValueError:
+            continue
+        for offset in range(0, len(data) - 3, 4):
+            word = struct.unpack_from("<I", data, offset)[0]
+            if word >> 26 != 3:
+                continue
+            called = ((address + offset + 4) & 0xF0000000) | ((word & 0x03FFFFFF) << 2)
+            if called == target:
+                result.append({
+                    "address": f"{address:08x}",
+                    "symbol": symbols[address],
+                    "call_offset": offset,
+                })
+                break
+    return result
+
+
+def _cross_game(root: Path | str | None, p3_address: int) -> list[dict[str, Any]]:
+    if root is None:
+        return []
+    p4_root = Path(root).resolve()
+    report_path = p4_root / "build" / "shared_p3.json"
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise P3AdapterError("P4 root does not contain a readable build/shared_p3.json") from exc
+    matches = report.get("matches") if isinstance(report, dict) else None
+    if not isinstance(matches, list):
+        raise P3AdapterError("P4 shared mapping report has an invalid schema")
+    p4_symbols = _symbols(p4_root)
+    address_text = f"{p3_address:08x}"
+    result: list[dict[str, Any]] = []
+    for entry in matches:
+        if not isinstance(entry, dict) or address_text not in entry.get("p3_addresses", []):
+            continue
+        p4_address = entry.get("p4_address")
+        if not isinstance(p4_address, str) or not _ADDRESS_RE.fullmatch(p4_address):
+            continue
+        result.append({
+            "program": report.get("inputs", {}).get("p4", {}).get("program", "SLUS_217.82"),
+            "address": p4_address,
+            "symbol": p4_symbols.get(int(p4_address, 16)),
+            "size": entry.get("size"),
+            "match_type": entry.get("match_type"),
+            "unique": entry.get("unique"),
+            "references": entry.get("references", []),
+        })
+    return result
+
+
 def collect_p3_evidence(
     *,
     p3_root: Path | str,
     source: Path | str,
     function_name: str,
     address: str | None = None,
+    p4_root: Path | str | None = None,
     python_executable: Path | str = sys.executable,
     timeout_seconds: float = 120.0,
 ) -> dict[str, Any]:
@@ -126,7 +206,8 @@ def collect_p3_evidence(
     function_map = _load_map(root)
     marker = _select_marker(verifier, cpath, function_name, address)
     address_value = marker["addr"]
-    window = verifier.window_for(address_value, _boundaries(verifier, root, function_map))
+    boundaries = _boundaries(verifier, root, function_map)
+    window = verifier.window_for(address_value, boundaries)
     if not isinstance(window, int) or window <= 0 or window > 0x10000:
         raise P3AdapterError("function does not have a plausible canonical retail window")
 
@@ -165,6 +246,7 @@ def collect_p3_evidence(
     except P3VerifierConfigurationError as exc:
         raise P3AdapterError(str(exc)) from exc
 
+    symbols = _symbols(root)
     return {
         "project": {
             "adapter": "persona3-fes",
@@ -185,5 +267,10 @@ def collect_p3_evidence(
         "candidate_bytes": candidate_bytes,
         "retail_bytes": retail_bytes,
         "relocations": tuple(relocations),
-        "symbols": _symbols(root),
+        "symbols": symbols,
+        "gp": _gp_value(root),
+        "read_memory": retail.bytes_at,
+        "source_text": source_text,
+        "callers": _callers(retail, boundaries, address_value, symbols),
+        "cross_game": _cross_game(p4_root, address_value),
     }
