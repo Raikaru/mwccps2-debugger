@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
 from .mips import decode_instructions, direct_calls
@@ -240,6 +240,173 @@ def _trim_post_terminal_padding(instructions: Sequence[Instruction]) -> tuple[In
     return tuple(instructions)
 
 
+_REGISTER_NAMES = (
+    "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3",
+    "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
+    "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7",
+    "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra",
+)
+_MEMORY_ACCESS = {
+    0x20: ("read", 1, "signed"), 0x24: ("read", 1, "unsigned"),
+    0x21: ("read", 2, "signed"), 0x25: ("read", 2, "unsigned"),
+    0x23: ("read", 4, "integer"), 0x31: ("read", 4, "float"),
+    0x37: ("read", 8, "integer"), 0x28: ("write", 1, "integer"),
+    0x29: ("write", 2, "integer"), 0x2B: ("write", 4, "integer"),
+    0x39: ("write", 4, "float"), 0x3F: ("write", 8, "integer"),
+}
+
+
+def _signed16(value: int) -> int:
+    return value - 0x10000 if value & 0x8000 else value
+
+
+def _printable_string(
+    address: int,
+    read_memory: Callable[[int, int], bytes] | None,
+) -> str | None:
+    if read_memory is None:
+        return None
+    try:
+        data = read_memory(address, 256)
+    except (OSError, ValueError):
+        return None
+    terminator = data.find(b"\0")
+    if terminator < 4:
+        return None
+    raw = data[:terminator]
+    if any(byte not in b"\t\n\r" and not 0x20 <= byte <= 0x7E for byte in raw):
+        return None
+    return raw.decode("ascii")
+
+
+def _retail_references(
+    instructions: Sequence[Instruction],
+    *,
+    gp: int | None,
+    symbols: Mapping[int, str],
+    read_memory: Callable[[int, int], bytes] | None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    registers: dict[int, tuple[int, str]] = {0: (0, "constant")}
+    if gp is not None:
+        registers[28] = (gp, "gp")
+    globals_found: list[dict[str, Any]] = []
+    fields_found: list[dict[str, Any]] = []
+    strings: dict[int, dict[str, Any]] = {}
+    seen_addresses: set[tuple[int, int]] = set()
+
+    def record_address(instruction: Instruction, address: int, provenance: str) -> None:
+        key = (instruction.offset, address)
+        if key in seen_addresses:
+            return
+        seen_addresses.add(key)
+        text = _printable_string(address, read_memory)
+        if text is not None:
+            strings.setdefault(address, {
+                "address": f"{address:08x}",
+                "text": text,
+                "first_reference_offset": instruction.offset,
+                "provenance": provenance,
+            })
+
+    for instruction in instructions:
+        word = instruction.word
+        opcode = word >> 26
+        rs = (word >> 21) & 31
+        rt = (word >> 16) & 31
+        rd = (word >> 11) & 31
+        immediate = word & 0xFFFF
+
+        access = _MEMORY_ACCESS.get(opcode)
+        if access is not None:
+            operation, width, interpretation = access
+            displacement = _signed16(immediate)
+            resolved = registers.get(rs)
+            record: dict[str, Any] = {
+                "instruction_offset": instruction.offset,
+                "operation": operation,
+                "width": width,
+                "interpretation": interpretation,
+                "base_register": _REGISTER_NAMES[rs],
+                "displacement": displacement,
+            }
+            if resolved is not None:
+                address = (resolved[0] + displacement) & 0xFFFFFFFF
+                record.update({
+                    "address": f"{address:08x}",
+                    "symbol": symbols.get(address),
+                    "provenance": resolved[1],
+                })
+                globals_found.append(record)
+                record_address(instruction, address, resolved[1])
+            elif rs not in {0, 28, 29}:
+                fields_found.append(record)
+
+        if opcode == 0x0F:
+            registers[rt] = ((immediate << 16) & 0xFFFFFFFF, "lui")
+            continue
+        if opcode in {0x08, 0x09, 0x0D}:
+            source = registers.get(rs)
+            if source is not None:
+                value = ((source[0] | immediate) if opcode == 0x0D
+                         else (source[0] + _signed16(immediate))) & 0xFFFFFFFF
+                provenance = "gp" if source[1] == "gp" else (
+                    "lui-low" if source[1] == "lui" else source[1])
+                registers[rt] = (value, provenance)
+                if source[1] == "lui":
+                    record_address(instruction, value, provenance)
+            else:
+                registers.pop(rt, None)
+            continue
+        if opcode == 0 and (word & 63) in {0x20, 0x21}:
+            left, right = registers.get(rs), registers.get(rt)
+            if left is not None and right is not None:
+                registers[rd] = ((left[0] + right[0]) & 0xFFFFFFFF, "register-add")
+            else:
+                registers.pop(rd, None)
+            continue
+        if access is not None and access[0] == "read":
+            registers.pop(rt, None)
+
+    globals_found.sort(key=lambda item: (item["instruction_offset"], item["address"]))
+    fields_found.sort(key=lambda item: (item["base_register"], item["displacement"], item["instruction_offset"]))
+    return globals_found, fields_found, [strings[address] for address in sorted(strings)]
+
+
+def _final_lowering(
+    instructions: Sequence[Instruction],
+    relocations: Sequence[Mapping[str, object]],
+) -> dict[str, Any]:
+    frame_size: int | None = None
+    stack_slots: list[dict[str, Any]] = []
+    for instruction in instructions:
+        word = instruction.word
+        opcode = word >> 26
+        rs = (word >> 21) & 31
+        rt = (word >> 16) & 31
+        immediate = _signed16(word & 0xFFFF)
+        if opcode == 0x09 and rs == 29 and rt == 29 and immediate < 0 and frame_size is None:
+            frame_size = -immediate
+        access = _MEMORY_ACCESS.get(opcode)
+        if access is not None and rs == 29:
+            stack_slots.append({
+                "instruction_offset": instruction.offset,
+                "operation": access[0],
+                "width": access[1],
+                "register": _REGISTER_NAMES[rt],
+                "stack_offset": immediate,
+            })
+    return_index = next((i for i, item in enumerate(instructions) if item.kind == "return"), None)
+    delay = instructions[return_index + 1].evidence() if return_index is not None and return_index + 1 < len(instructions) else None
+    return {
+        "evidence": "observed-final-object",
+        "frame_size": frame_size,
+        "stack_slots": stack_slots,
+        "return_delay_slot": delay,
+        "relocation_count": len(relocations),
+        "internal_final_lowering_capture": "not-claimed",
+    }
+
+
 def build_analysis(
     *,
     project: Mapping[str, Any],
@@ -249,6 +416,11 @@ def build_analysis(
     retail_bytes: bytes,
     relocations: Sequence[Mapping[str, object]],
     symbols: Mapping[int, str],
+    gp: int | None = None,
+    read_memory: Callable[[int, int], bytes] | None = None,
+    callers: Sequence[Mapping[str, Any]] = (),
+    cross_game: Sequence[Mapping[str, Any]] = (),
+    compiler_capture: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     address_text = function.get("address")
     if not isinstance(address_text, str):
@@ -264,6 +436,8 @@ def build_analysis(
     calls = []
     for target in direct_calls(retail):
         calls.append({"address": f"{target:08x}", "symbol": symbols.get(target)})
+    globals_found, fields_found, strings = _retail_references(
+        retail, gp=gp, symbols=symbols, read_memory=read_memory)
     relocation_evidence = []
     for record in relocations:
         relocation_evidence.append({
@@ -289,6 +463,13 @@ def build_analysis(
             "retail_window": len(retail_bytes),
         },
         "calls": calls,
+        "callers": [dict(item) for item in callers],
+        "cross_game": [dict(item) for item in cross_game],
+        "retail_globals": globals_found,
+        "structure_fields": fields_found,
+        "strings": strings,
+        "final_lowering": _final_lowering(candidate, relocations),
+        "compiler_capture": dict(compiler_capture) if compiler_capture is not None else None,
         "candidate_relocations": relocation_evidence,
         "candidate": {
             "instructions": [item.evidence() for item in candidate],

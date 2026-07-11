@@ -88,6 +88,7 @@ mwccps2_portability.py            compiler discovery and cross-version corpus
 mwccps2_p3_reduce.py              optional P3 verifier-report bundle adapter
 mwccps2_solve.py                  bounded evidence-guided mismatch search
 mwccps2_explain.py                retail-aware function dossier CLI
+mwccps2_family_sweep.py           whole-decomp residual-family clustering
 
 
 gdb/
@@ -135,7 +136,7 @@ python -m unittest discover -s tests -p "test_*.py"
 Expected repository baseline:
 
 ```text
-Ran 395 tests
+Ran 398 tests
 OK
 ```
 
@@ -258,6 +259,49 @@ The dossier classifies observed residuals into bounded families such as integer
 signedness, integer-versus-float storage/ABI, control-flow shape, instruction
 selection, operand/allocation differences, and unmatched operations. Only the
 embedded P3 verifier row may certify `MATCH`.
+
+When available, the dossier also records:
+
+- GP-relative and LUI/low-half resolved retail addresses;
+- unresolved base-plus-offset structure-field accesses with width and signedness;
+- printable strings reached by reconstructed addresses;
+- direct retail callers and callees resolved through project symbols;
+- unique and ambiguous P3/P4 counterparts from `build/shared_p3.json`;
+- observed final-object frame, stack-slot, delay-slot, and relocation evidence;
+- optional exact-b210 stage captures with an instrumentation-neutrality gate.
+
+Attach the current P4 mapping report:
+
+```powershell
+python mwccps2_explain.py src/Kosaka/k_clump.c K_Clump_MatUsrDataGetInt --p3-root ../Persona3-FES-Decompilation --p4-root ../Persona4-Decompilation --output build/explain-k-clump
+```
+
+Attach live compiler stages from the exact supported b210 executable:
+
+```powershell
+python mwccps2_explain.py src/h_cursor.c H_Cursor_GetShouldDraw --p3-root ../Persona3-FES-Decompilation --compiler D:/mwcps2-3.0.1b210-060308/mwccps2.exe --gdb C:/msys64/mingw64/bin/gdb.exe --profile profiles/mwcps2-3.0.1-b210.json --output build/explain-cursor-capture
+```
+
+The compiler attachment records portable stage digests and direct/instrumented
+object equality. The final-lowering section describes facts observable in the
+emitted candidate object; it deliberately does not claim an unprofiled internal
+compiler pass.
+
+## Whole-decomp residual families
+
+`mwccps2_family_sweep.py` starts from a fresh authoritative P3 verifier report,
+selects aligned bounded residuals, compiles every selected source file once, and
+clusters functions by bounded finding and candidate/retail mnemonic pair:
+
+```powershell
+python mwccps2_family_sweep.py --p3-root ../Persona3-FES-Decompilation --output build/p3-residual-families --max-window 512 --max-diff 40
+```
+
+Use `--baseline <report.json>` only to reproduce a pinned prior baseline.
+`--limit` provides a deterministic smoke subset. Outputs are
+`residual-families-v1.json` and `residual-families.txt`; the JSON binds the
+selection to the verifier report SHA-256 and lists extraction failures rather
+than silently dropping them.
 
 
 ## Common commands
