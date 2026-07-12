@@ -1,0 +1,1642 @@
+{
+  "availability": {
+    "candidate_paths_checked": [
+      "D:/mwcps2-2.4-001213/debug/mwccps2.exe"
+    ],
+    "matching_paths": [
+      "D:/mwcps2-2.4-001213/debug/mwccps2.exe"
+    ],
+    "missing_candidate_paths": [],
+    "search_root_evidence": [
+      {
+        "path": "C:/tmp",
+        "status": "scanned"
+      },
+      {
+        "path": "D:/mwcps2-3.0.1b210-060308",
+        "status": "scanned"
+      },
+      {
+        "path": "D:/mwcps2-2.4-001213",
+        "status": "scanned"
+      },
+      {
+        "path": "<workspace>/toolchains",
+        "status": "scanned"
+      }
+    ],
+    "selected_path": "D:/mwcps2-2.4-001213/debug/mwccps2.exe",
+    "status": "available"
+  },
+  "behavior_comparison_to_b210": {
+    "alternate_build": "v24",
+    "baseline_build": "b210",
+    "behavior_localization": {
+      "alternate_object_sha256": "01f25cedeb5e890d8178cf4ce0a46626fc5ef36c72819a75c014f90c71359f5e",
+      "b210_object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
+      "evidence": "The same source and compiler flags produced different direct object SHA-256 values.",
+      "experiment": "boolean_block_order",
+      "kind": "direct_object_sha256_changed",
+      "variant": "early_returns"
+    },
+    "comparison_method": "direct_object_sha256_and_variant_to_baseline_relation",
+    "experiments": [
+      {
+        "experiment": "boolean_block_order",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "early_returns"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "inverted_condition"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "logical_and_expression"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "result_local"
+          }
+        ]
+      },
+      {
+        "experiment": "commutative_addu",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "array_base_index"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "array_index_base"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "byte_base_offset"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "byte_offset_base"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "pointer_base_index"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "pointer_index_base"
+          }
+        ]
+      },
+      {
+        "experiment": "commutative_mul_s",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "fresh_times_invariant"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "invariant_times_fresh"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "local_fresh_times_invariant"
+          }
+        ]
+      },
+      {
+        "experiment": "compare_destination",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "less_than"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "reversed_greater_than"
+          }
+        ]
+      },
+      {
+        "experiment": "global_field_interior_alias",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "interior_alias"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "member_base"
+          }
+        ]
+      },
+      {
+        "experiment": "invariant_mask",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "hoisted_mask"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "loop_internal_mask"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_cursor_vertex_loop",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "cached_outer_scope"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "iteration_scope_reload"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_global_base_scaled_index",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "p3_loop_shape"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_kwln_raster_regs",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "baseline"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "lifetime_split"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_panel_dispatch_slots",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "extern_object"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "literal_dereference"
+          },
+          {
+            "baseline_relation_equal": false,
+            "object_sha256_equal": false,
+            "variant": "per_case_scope"
+          },
+          {
+            "baseline_relation_equal": false,
+            "object_sha256_equal": false,
+            "variant": "pointer_to_function_pointer_local"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_scrcomu_empty_blocks",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "empty_labels"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "explicit_zero_selection"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "self_assignment_selection"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_tutorial_switch_regs",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "global_outer_selector"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "local_outer_selector"
+          }
+        ]
+      },
+      {
+        "experiment": "repeated_sign_extension",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "explicit_cast"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "short_parameter"
+          }
+        ]
+      },
+      {
+        "experiment": "scheduler_ready_tie",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "left_then_right"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "right_then_left"
+          }
+        ]
+      },
+      {
+        "experiment": "signed_byte_return",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "signed_return"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "unsigned_return"
+          }
+        ]
+      },
+      {
+        "experiment": "switch_case_order",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "ordered_if_chain"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "switch_ascending_cases"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "switch_reordered_cases"
+          }
+        ]
+      },
+      {
+        "experiment": "u16_remask",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "redundant_remask"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": false,
+            "variant": "single_mask"
+          }
+        ]
+      }
+    ]
+  },
+  "binary": {
+    "anchor_inventory": [
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0040f2bf",
+              "0x004ade36"
+            ],
+            "address": "0x00535ce8",
+            "file_offset": "0x00132ae8",
+            "rva": "0x00135ce8",
+            "rva_operand_sites": [
+              "0x0040e011"
+            ]
+          }
+        ],
+        "text": "BE_schedule.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00433995",
+              "0x004339e6",
+              "0x004343b6",
+              "0x004345fc",
+              "0x00434b46",
+              "0x00434fac",
+              "0x0043511b",
+              "0x0043517c",
+              "0x004354a6",
+              "0x00435d4b",
+              "0x00435e76",
+              "0x004363f8",
+              "0x00436b74",
+              "0x00436bf6",
+              "0x00436c89",
+              "0x00436d9a",
+              "0x00437026",
+              "0x00439826"
+            ],
+            "address": "0x0052b418",
+            "file_offset": "0x00128218",
+            "rva": "0x0012b418",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "CodeGen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004ab4af"
+            ],
+            "address": "0x00535a78",
+            "file_offset": "0x00132878",
+            "rva": "0x00135a78",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Coloring.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004abb06"
+            ],
+            "address": "0x00535a88",
+            "file_offset": "0x00132888",
+            "rva": "0x00135a88",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ConditionalMoveOptimization.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004f9c41",
+              "0x004f9c59"
+            ],
+            "address": "0x0053e260",
+            "file_offset": "0x0013b060",
+            "rva": "0x0013e260",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ELFgen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004990ae",
+              "0x004991dd",
+              "0x00499259",
+              "0x00499306",
+              "0x0049941c",
+              "0x00499479",
+              "0x004996fc",
+              "0x00499c36",
+              "0x0049c9d0",
+              "0x0049ce06",
+              "0x0049ce1e",
+              "0x0049efd6",
+              "0x0049f0f6",
+              "0x0049f726",
+              "0x0049febe"
+            ],
+            "address": "0x005353ac",
+            "file_offset": "0x001321ac",
+            "rva": "0x001353ac",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "InstrSelection.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004a3702"
+            ],
+            "address": "0x00535700",
+            "file_offset": "0x00132500",
+            "rva": "0x00135700",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "InterferenceGraph.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004ffb3a",
+              "0x00501e96"
+            ],
+            "address": "0x0053e6f0",
+            "file_offset": "0x0013b4f0",
+            "rva": "0x0013e6f0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "MIPS_Peephole.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00488756",
+              "0x00488b56"
+            ],
+            "address": "0x00532364",
+            "file_offset": "0x0012f164",
+            "rva": "0x00132364",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "ObjGen.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [],
+            "address": "0x00534ec8",
+            "file_offset": "0x00131cc8",
+            "rva": "0x00134ec8",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCode.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x0049897c",
+              "0x004989d9",
+              "0x00498b36",
+              "0x00498cbb"
+            ],
+            "address": "0x00535031",
+            "file_offset": "0x00131e31",
+            "rva": "0x00135031",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCodeInfo.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [],
+            "address": "0x00534e88",
+            "file_offset": "0x00131c88",
+            "rva": "0x00134e88",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "PCodeUtilities.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [],
+            "address": "0x00535e7c",
+            "file_offset": "0x00132c7c",
+            "rva": "0x00135e7c",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "RegisterInfo.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x004aa986"
+            ],
+            "address": "0x00535a48",
+            "file_offset": "0x00132848",
+            "rva": "0x00135a48",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Scheduler.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00503ea5"
+            ],
+            "address": "0x0053e700",
+            "file_offset": "0x0013b500",
+            "rva": "0x0013e700",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Spill.c"
+      },
+      {
+        "category": "backend-source",
+        "locations": [
+          {
+            "absolute_operand_sites": [
+              "0x00496613",
+              "0x00496734",
+              "0x00496848"
+            ],
+            "address": "0x00534ea0",
+            "file_offset": "0x00131ca0",
+            "rva": "0x00134ea0",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "VReg.c"
+      },
+      {
+        "category": "identity",
+        "locations": [
+          {
+            "absolute_operand_sites": [],
+            "address": "0x00515f94",
+            "file_offset": "0x00112d94",
+            "rva": "0x00115f94",
+            "rva_operand_sites": []
+          }
+        ],
+        "text": "Metrowerks C/C++ Compiler for MIPS/PlayStation2"
+      }
+    ],
+    "filename": "mwccps2.exe",
+    "identity": {
+      "mwccps2_identity_present": true,
+      "source_inventory": {
+        "counts_by_suffix": {
+          ".c": 103,
+          ".cc": 1,
+          ".cpp": 4,
+          ".h": 2,
+          ".hpp": 1
+        },
+        "files": [
+          "Arguments.c",
+          "BE_binary.c",
+          "BE_macro.c",
+          "BE_schedule.c",
+          "BitVector.h",
+          "CABI.c",
+          "CBrowse.c",
+          "CClass.c",
+          "CDecl.c",
+          "CError.c",
+          "CException.c",
+          "CExpr.c",
+          "CExpr2.c",
+          "CExprConvMatch.c",
+          "CFunc.c",
+          "CIRTransform.c",
+          "CInit.c",
+          "CInline.c",
+          "CLAccessPaths.c",
+          "CLBrowser.c",
+          "CLCompilerLinkerDropin_V10.cpp",
+          "CLDependencies.c",
+          "CLDropinCallbacks_V10.cpp",
+          "CLFileOps.c",
+          "CLFiles.c",
+          "CLIO.c",
+          "CLLicenses.c",
+          "CLOverlays.c",
+          "CLPluginRequests.cpp",
+          "CLPlugins.c",
+          "CLPrefs.c",
+          "CLProj.c",
+          "CLSegs.c",
+          "CLTarg.c",
+          "CLToolExec.c",
+          "CLWriteObjectFile.c",
+          "CMachine.c",
+          "CMangler.c",
+          "COptimizer.c",
+          "CParser.c",
+          "CPrec.c",
+          "CPrep.c",
+          "CPrepTokenizer.c",
+          "CPreprocess.c",
+          "CRTTI.c",
+          "CSOM.c",
+          "CScope.c",
+          "CTemplateClass.c",
+          "CTemplateFunc.c",
+          "CTemplateNew.c",
+          "CTemplateTools.c",
+          "CodeGen.c",
+          "Coloring.c",
+          "ConditionalMoveOptimization.c",
+          "DIVbyCnst.c",
+          "DWARF.c",
+          "ELFgen.c",
+          "Exceptions.c",
+          "Files.c",
+          "FuncLevelAsm.c",
+          "FunctionCalls.c",
+          "IROUseDef.c",
+          "InlineAsm.c",
+          "InlineAsmMIPS.c",
+          "InlineAsmMnemonics.c",
+          "InstrSelection.c",
+          "InterferenceGraph.c",
+          "Intrinsics.c",
+          "IrOptimizer.c",
+          "IroBitVect.c",
+          "IroCSE.c",
+          "IroEmptyLoop.c",
+          "IroFlowgraph.c",
+          "IroLinearForm.c",
+          "IroLoop.c",
+          "IroPointerAnalysis.c",
+          "IroPointerAnalysisADTs.c",
+          "IroRangePropagation.c",
+          "IroTransform.c",
+          "IroUnrollLoop.c",
+          "IroUtil.c",
+          "IroVars.c",
+          "LocalCSE.c",
+          "MIPSError.c",
+          "MIPS_Peephole.c",
+          "MacFileTypes.c",
+          "MacSpecs.c",
+          "MsDos.c",
+          "ObjGen.c",
+          "Operands.c",
+          "Option.c",
+          "PCode.c",
+          "PCodeInfo.c",
+          "PCodeUtilities.c",
+          "Parameter.c",
+          "ParserHelpers-cc.c",
+          "RegisterInfo.c",
+          "Resources.c",
+          "Scheduler.c",
+          "Spill.c",
+          "StringUtils.c",
+          "StructMoves.c",
+          "TXET.c",
+          "TXET.cc",
+          "TXET.cpp",
+          "TXET.h",
+          "TXET.hpp",
+          "Targets.c",
+          "VReg.c",
+          "mips.c",
+          "pipeline1.c"
+        ]
+      }
+    },
+    "pe": {
+      "characteristics": "0x0000010e",
+      "entry_point_rva": "0x00001000",
+      "image_base": "0x00400000",
+      "machine": "0x0000014c",
+      "sections": [
+        {
+          "characteristics": "0xc0000040",
+          "name": ".CRT",
+          "raw_offset": "0x0013c800",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00141000",
+          "virtual_size": "0x00000008"
+        },
+        {
+          "characteristics": "0xc0000080",
+          "name": ".bss",
+          "raw_offset": "0x00000000",
+          "raw_size": "0x00000000",
+          "virtual_address": "0x00143000",
+          "virtual_size": "0x0003017d"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".data",
+          "raw_offset": "0x00104e00",
+          "raw_size": "0x00036800",
+          "virtual_address": "0x00108000",
+          "virtual_size": "0x00036758"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".edata",
+          "raw_offset": "0x0013cc00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00174000",
+          "virtual_size": "0x00000137"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".exc",
+          "raw_offset": "0x00104c00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00107000",
+          "virtual_size": "0x000001bc"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".idata",
+          "raw_offset": "0x0013c000",
+          "raw_size": "0x00000800",
+          "virtual_address": "0x00140000",
+          "virtual_size": "0x000006f6"
+        },
+        {
+          "characteristics": "0x40000040",
+          "name": ".rdata",
+          "raw_offset": "0x00104800",
+          "raw_size": "0x00000400",
+          "virtual_address": "0x00106000",
+          "virtual_size": "0x0000022d"
+        },
+        {
+          "characteristics": "0x42000040",
+          "name": ".reloc",
+          "raw_offset": "0x0013ce00",
+          "raw_size": "0x00013e00",
+          "virtual_address": "0x00175000",
+          "virtual_size": "0x00013c88"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".rsrc",
+          "raw_offset": "0x0013b600",
+          "raw_size": "0x00000a00",
+          "virtual_address": "0x0013f000",
+          "virtual_size": "0x0000083c"
+        },
+        {
+          "characteristics": "0x60000020",
+          "name": ".text",
+          "raw_offset": "0x00000400",
+          "raw_size": "0x00104400",
+          "virtual_address": "0x00001000",
+          "virtual_size": "0x0010432a"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".tls",
+          "raw_offset": "0x0013ca00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00142000",
+          "virtual_size": "0x00000200"
+        }
+      ],
+      "timestamp": "0x3a375fef"
+    },
+    "sha256": "1233acf014b53ae39669da4cc050062f316d73dd63257150024ad25ad33dbb30",
+    "size": 1379328
+  },
+  "build": {
+    "key": "v24",
+    "release": "mwcps2-2.4-0017-001213"
+  },
+  "capture": {
+    "direct_object_corpus": {
+      "experiment_count": 17,
+      "experiments": [
+        {
+          "baseline_variant": "logical_and_expression",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "boolean_block_order",
+          "question": "How do direct boolean materialization, short-circuit early returns, a result local, and an inverted condition differ in PCode block order?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "logical_and_expression"
+            },
+            {
+              "equal": false,
+              "variant": "early_returns"
+            },
+            {
+              "equal": false,
+              "variant": "result_local"
+            },
+            {
+              "equal": false,
+              "variant": "inverted_condition"
+            }
+          ],
+          "variants": [
+            {
+              "function": "boolean_block_order",
+              "intent": "Baseline direct && boolean materialization.",
+              "name": "logical_and_expression",
+              "object_sha256": "08fd7f124b5c00f7a9c8bfebd8d099c823f5041eb12ac98eacee0b70c938209d",
+              "object_size": 656,
+              "source": "logical_and_expression.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Materialize false through short-circuit early returns.",
+              "name": "early_returns",
+              "object_sha256": "01f25cedeb5e890d8178cf4ce0a46626fc5ef36c72819a75c014f90c71359f5e",
+              "object_size": 640,
+              "source": "early_returns.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Assign the materialized result through a local variable.",
+              "name": "result_local",
+              "object_sha256": "9a8c078ae08e02ec6970cc537c1940afbbb6cc694a0d1aacbc0a3bff7d38d340",
+              "object_size": 672,
+              "source": "result_local.c"
+            },
+            {
+              "function": "boolean_block_order",
+              "intent": "Test the inverted false condition with a final true return.",
+              "name": "inverted_condition",
+              "object_sha256": "754ec19e4cbfdfd7d304350cfccbd9a4674b2d0a347f5c076ff018981f39ebd5",
+              "object_size": 672,
+              "source": "inverted_condition.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "array_base_index",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "commutative_addu",
+          "question": "How do equivalent indexing and byte-address expressions order the base and scaled-index operands in the PCode addu sequence?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "array_base_index"
+            },
+            {
+              "equal": true,
+              "variant": "array_index_base"
+            },
+            {
+              "equal": true,
+              "variant": "pointer_base_index"
+            },
+            {
+              "equal": true,
+              "variant": "pointer_index_base"
+            },
+            {
+              "equal": true,
+              "variant": "byte_base_offset"
+            },
+            {
+              "equal": true,
+              "variant": "byte_offset_base"
+            }
+          ],
+          "variants": [
+            {
+              "function": "commutative_addu",
+              "intent": "Uses ordinary base[index] spelling so the base operand precedes the index in source.",
+              "name": "array_base_index",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "array_base_index.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses the equivalent index[base] spelling to reverse the source order of the subscript operands.",
+              "name": "array_index_base",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "array_index_base.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses typed base + index pointer arithmetic with the pointer base written first.",
+              "name": "pointer_base_index",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "pointer_base_index.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses equivalent typed index + base pointer arithmetic with the index written first.",
+              "name": "pointer_index_base",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "pointer_index_base.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Converts the base to bytes and adds an explicitly scaled byte offset with the base written first.",
+              "name": "byte_base_offset",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "byte_base_offset.c"
+            },
+            {
+              "function": "commutative_addu",
+              "intent": "Uses the same raw byte offset with the scaled index written before the byte base.",
+              "name": "byte_offset_base",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
+              "object_size": 640,
+              "source": "byte_offset_base.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "fresh_times_invariant",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "commutative_mul_s",
+          "question": "Do commuted mul.s source operands or one explicit scalar local change the PCode operand order or virtual-register layout?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "fresh_times_invariant"
+            },
+            {
+              "equal": false,
+              "variant": "invariant_times_fresh"
+            },
+            {
+              "equal": false,
+              "variant": "local_fresh_times_invariant"
+            }
+          ],
+          "variants": [
+            {
+              "function": "commutative_mul_s",
+              "intent": "Multiplies the freshly named scalar by the invariant-named scalar in source order.",
+              "name": "fresh_times_invariant",
+              "object_sha256": "4f7983d50f25739298da8acab589a76312d9a8578fa912cbddc7832ef7d8e784",
+              "object_size": 624,
+              "source": "fresh_times_invariant.c"
+            },
+            {
+              "function": "commutative_mul_s",
+              "intent": "Reverses the same scalar multiplication spelling so the invariant-named scalar appears first.",
+              "name": "invariant_times_fresh",
+              "object_sha256": "b4bae28a294c1360bcd55e322644cf8401536c30fca72a436b53d784b0de096a",
+              "object_size": 624,
+              "source": "invariant_times_fresh.c"
+            },
+            {
+              "function": "commutative_mul_s",
+              "intent": "Copies fresh through one volatile float local before the same multiplication, a minimal shape likely to create a distinct virtual register.",
+              "name": "local_fresh_times_invariant",
+              "object_sha256": "7ac957c16c0ad7d50eaafe960e86da1b63837131a85697b9937664635237919f",
+              "object_size": 640,
+              "source": "local_fresh_times_invariant.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "less_than",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "compare_destination",
+          "question": "Do equivalent less-than and reversed greater-than spellings alter the selected destination in b210?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "less_than"
+            },
+            {
+              "equal": true,
+              "variant": "reversed_greater_than"
+            }
+          ],
+          "variants": [
+            {
+              "function": "compare_destination",
+              "intent": "Select the left operand when an explicit left-less-than-right comparison succeeds.",
+              "name": "less_than",
+              "object_sha256": "68ac9bf00f766c39a2a16efa3b0b82fa002c874c3d9bbe65bf1f143d25017cb6",
+              "object_size": 656,
+              "source": "less_than.c"
+            },
+            {
+              "function": "compare_destination",
+              "intent": "Use the equivalent right-greater-than-left comparison before selecting the same destination.",
+              "name": "reversed_greater_than",
+              "object_sha256": "68ac9bf00f766c39a2a16efa3b0b82fa002c874c3d9bbe65bf1f143d25017cb6",
+              "object_size": 656,
+              "source": "reversed_greater_than.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "member_base",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "global_field_interior_alias",
+          "question": "Does b210 fold a global record-data interior alias differently from member-based access when selecting the first unsigned halfword of a four-byte entry?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "member_base"
+            },
+            {
+              "equal": false,
+              "variant": "interior_alias"
+            }
+          ],
+          "variants": [
+            {
+              "function": "global_field_interior_alias",
+              "intent": "Addresses the selected entry through records[record].data, whose byte-array field starts at offset 0xac in a 0x364-byte record.",
+              "name": "member_base",
+              "object_sha256": "604ab858c5f94b474b58a97267301db6394092c5bddf6229fc1943ca1d13c40f",
+              "object_size": 808,
+              "source": "member_base.c"
+            },
+            {
+              "function": "global_field_interior_alias",
+              "intent": "Assumes records_data aliases the first record's data field at records + 0xac; it adds record * sizeof(struct record) and index * 4 before loading the first unsigned halfword.",
+              "name": "interior_alias",
+              "object_sha256": "5e6587be8658fd221d11ef0fd9949c0b9eba563551ee611abdf22895b331fdd4",
+              "object_size": 808,
+              "source": "interior_alias.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "loop_internal_mask",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "invariant_mask",
+          "question": "Does b210 preserve a loop-internal 16-bit mask or differ from an explicitly hoisted equivalent mask?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "loop_internal_mask"
+            },
+            {
+              "equal": false,
+              "variant": "hoisted_mask"
+            }
+          ],
+          "variants": [
+            {
+              "function": "invariant_mask",
+              "intent": "Apply the invariant mask inside each loop iteration.",
+              "name": "loop_internal_mask",
+              "object_sha256": "aeda98af3355cf683a1f5ed95d1986b2c63fef0c98a1f8083a5facddac6f78c8",
+              "object_size": 672,
+              "source": "loop_internal_mask.c"
+            },
+            {
+              "function": "invariant_mask",
+              "intent": "Precompute the same invariant mask before entering the loop.",
+              "name": "hoisted_mask",
+              "object_sha256": "e888f1b876a7d71b1a62a00b20765e57f45a46e584ded6a8e4ba0cf18d701925",
+              "object_size": 672,
+              "source": "hoisted_mask.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "cached_outer_scope",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_cursor_vertex_loop",
+          "question": "In a four-vertex P3-style loop, does narrowing the zBufferNear global-load lifetime from the whole loop to each iteration change b210 semantic PCode or GPR/FPR allocation?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "cached_outer_scope"
+            },
+            {
+              "equal": false,
+              "variant": "iteration_scope_reload"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_cursor_vertex_loop",
+              "intent": "Caches rwGlobals.device.zBufferNear in an outer local before the four-vertex loop, matching the current H_Cursor_UpdateTask source shape.",
+              "name": "cached_outer_scope",
+              "object_sha256": "5e011bc6893461c420ae292f2ff67123106628f168f9cbde516d6fcd5a4ccba9",
+              "object_size": 1064,
+              "source": "baseline.c"
+            },
+            {
+              "function": "p3_cursor_vertex_loop",
+              "intent": "Changes only zBufferNear lifetime: initializes the same local from rwGlobals.device.zBufferNear inside each loop iteration.",
+              "name": "iteration_scope_reload",
+              "object_sha256": "99dd29620d820db4d656422cc6036637812f00c9de0a2431133828361a10b71e",
+              "object_size": 1064,
+              "source": "variant.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "p3_loop_shape",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_global_base_scaled_index",
+          "question": "For the reduced K_FldFrame_CreateCtlTask loop shape, does b210 preserve distinct global-base and scaled-index virtual-register roles through selection and scheduling, and when are their physical GPRs chosen?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "p3_loop_shape"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_global_base_scaled_index",
+              "intent": "Keeps a gFldUnitsPc global base, a separate local units base, and a 0x1c0-byte scaled loop index; the matching return separately rematerializes gFldUnitsPc plus that scaled index.",
+              "name": "p3_loop_shape",
+              "object_sha256": "7e726597d7b5d84eb24db88b5dc3d1ca5a5c36839bc0977ed00017144712e055",
+              "object_size": 856,
+              "source": "p3_loop_shape.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "baseline",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_kwln_raster_regs",
+          "question": "Does ending the signed-delta temporary lifetime before the global store cause MWCCPS2 b210 to reload the stored delta for percent division?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "baseline"
+            },
+            {
+              "equal": false,
+              "variant": "lifetime_split"
+            }
+          ],
+          "variants": [
+            {
+              "function": "raster_delta_percent",
+              "intent": "Keeps the signed-to-float delta temporary in an inner block and reads the global directly for percent.",
+              "name": "baseline",
+              "object_sha256": "fc522a09d8548394a57bb154fb5084cac67138b47723970b671abc883719cd34",
+              "object_size": 968,
+              "source": "baseline.c"
+            },
+            {
+              "function": "raster_delta_percent",
+              "intent": "Eliminates the post-branch delta temporary lifetime by assigning the global in each conversion branch, without volatile access or changing percent arithmetic.",
+              "name": "lifetime_split",
+              "object_sha256": "be56d7c312f3b8b3fc1595004e6e55d87733364b213df150f28464ce71cdc163",
+              "object_size": 984,
+              "source": "lifetime_split.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "literal_dereference",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_panel_dispatch_slots",
+          "question": "For a switch-dispatch loop with two absolute callback slots, which b210 source address form preserves callback-slot bases across calls and loops?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "literal_dereference"
+            },
+            {
+              "equal": false,
+              "variant": "extern_object"
+            },
+            {
+              "equal": false,
+              "variant": "pointer_to_function_pointer_local"
+            },
+            {
+              "equal": false,
+              "variant": "per_case_scope"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Direct typed absolute-slot dereferences, matching the current P3 macros.",
+              "name": "literal_dereference",
+              "object_sha256": "b0017275f6b2588e1f57fcb949c69e8a16a844d90bc0a11d7726565e5ba9787a",
+              "object_size": 1008,
+              "source": "literal_dereference.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Uses externally declared callback objects instead of absolute typed-slot dereferences.",
+              "name": "extern_object",
+              "object_sha256": "15c445933267c4ec9159ae005ef43877f24ac0ceaa1e6ea0d724eb4fcc71bc27",
+              "object_size": 1160,
+              "source": "extern_object.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Binds each absolute callback-slot address to one function-pointer-object local before dispatch.",
+              "name": "pointer_to_function_pointer_local",
+              "object_sha256": "ed6777dbb0ee533ed12bf96537b224ce5b0c4e92059a1c1f5822ef8b4f355b69",
+              "object_size": 1008,
+              "source": "pointer_to_function_pointer_local.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Binds absolute callback-slot addresses in each switch-case scope.",
+              "name": "per_case_scope",
+              "object_sha256": "1948df27df6a558dcdf0c1d785c4ed68c0e1bda3cb68f1f827e00e736369f5d9",
+              "object_size": 1008,
+              "source": "per_case_scope.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "empty_labels",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_scrcomu_empty_blocks",
+          "question": "Does MWCC b210 preserve equivalent default/zero/one/two flag-selection labels and a shared return, and can explicit zero assignments retain the semantically redundant default/zero blocks?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "empty_labels"
+            },
+            {
+              "equal": false,
+              "variant": "explicit_zero_selection"
+            },
+            {
+              "equal": true,
+              "variant": "self_assignment_selection"
+            }
+          ],
+          "variants": [
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Equivalent default and zero labels are empty jumps to a shared flag-value and return path.",
+              "name": "empty_labels",
+              "object_sha256": "82b8c8bff0f688e5d93e5f84398bac932d4a944a366f123a899127e059579d00",
+              "object_size": 736,
+              "source": "empty_labels.c"
+            },
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Makes default and zero perform source-level assignments to the later-consumed flag while preserving the same result for every selector.",
+              "name": "explicit_zero_selection",
+              "object_sha256": "0ca88a6e7774e7f0617eeb98e61325b0cd51b60d485b15a2db15364a0c818a8f",
+              "object_size": 736,
+              "source": "explicit_zero_selection.c"
+            },
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Adds source-level self-assignments of the later-consumed flag in the equivalent default and zero labels without changing any returned value.",
+              "name": "self_assignment_selection",
+              "object_sha256": "82b8c8bff0f688e5d93e5f84398bac932d4a944a366f123a899127e059579d00",
+              "object_size": 736,
+              "source": "self_assignment_selection.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "global_outer_selector",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_tutorial_switch_regs",
+          "question": "Does selecting the outer state through a live local base rather than the global base first diverge in semantic PCode or only during register allocation for nested switches with repeated calls?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "global_outer_selector"
+            },
+            {
+              "equal": true,
+              "variant": "local_outer_selector"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_tutorial_switch_regs",
+              "intent": "Baseline: the outer switch reads global_work[1] while the local work base remains live through the nested switch.",
+              "name": "global_outer_selector",
+              "object_sha256": "657fd3cea0c2e21d72b21408c9f03fde8c38d01c1e99ffaf4182b72b05418b2b",
+              "object_size": 1672,
+              "source": "baseline.c"
+            },
+            {
+              "function": "p3_tutorial_switch_regs",
+              "intent": "Changes only the outer selector address form to work[1], retaining the same global initialization, nested dispatches, calls, and local lifetimes.",
+              "name": "local_outer_selector",
+              "object_sha256": "657fd3cea0c2e21d72b21408c9f03fde8c38d01c1e99ffaf4182b72b05418b2b",
+              "object_size": 1672,
+              "source": "variant.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "short_parameter",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "repeated_sign_extension",
+          "question": "At repeated calls, does a short-typed parameter differ from an int parameter explicitly cast to short?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "short_parameter"
+            },
+            {
+              "equal": false,
+              "variant": "explicit_cast"
+            }
+          ],
+          "variants": [
+            {
+              "function": "repeated_sign_extension",
+              "intent": "Pass a narrowed value repeatedly to a helper whose parameter is short.",
+              "name": "short_parameter",
+              "object_sha256": "53a1ee4a2a9428c885fdc6b81362c6dfcca81babad5480d56246765756d6d79c",
+              "object_size": 1056,
+              "source": "short_parameter.c"
+            },
+            {
+              "function": "repeated_sign_extension",
+              "intent": "Pass the original value repeatedly to an int helper that casts to short.",
+              "name": "explicit_cast",
+              "object_sha256": "1c50f89ed011432273750d782d440d12adc254c93e00921ad780766360501cd3",
+              "object_size": 1056,
+              "source": "explicit_cast.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "left_then_right",
+          "compiler_flags": [
+            "-O3"
+          ],
+          "name": "scheduler_ready_tie",
+          "question": "When equivalent independent arithmetic is spelled in opposite source order, which ready candidate does b210 select under its live deadline, successor-release, critical-path, and heuristic tie fields?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "left_then_right"
+            },
+            {
+              "equal": false,
+              "variant": "right_then_left"
+            }
+          ],
+          "variants": [
+            {
+              "function": "scheduler_ready_tie",
+              "intent": "Multiplies a*b before c*d in the expression tree, then combines the independent products.",
+              "name": "left_then_right",
+              "object_sha256": "6482e2ffd51dd0a1eca13e74632606eb983cbc1593b11efe4ed8276d8120eeab",
+              "object_size": 640,
+              "source": "left_then_right.c"
+            },
+            {
+              "function": "scheduler_ready_tie",
+              "intent": "Multiplies c*d before a*b in the expression tree, preserving the commutative product sum.",
+              "name": "right_then_left",
+              "object_sha256": "2174baafe47a8b5c527c8154f5740c97a6ed11443ff186d990f400e7fbf25f76",
+              "object_size": 640,
+              "source": "right_then_left.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "unsigned_return",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "signed_byte_return",
+          "question": "Does a function's declared byte return signedness affect b210 code generation when it returns an indexed element from an unsigned-byte buffer?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "unsigned_return"
+            },
+            {
+              "equal": false,
+              "variant": "signed_return"
+            }
+          ],
+          "variants": [
+            {
+              "function": "signed_byte_return",
+              "intent": "Return the indexed unsigned-byte buffer element with an unsigned-byte return type.",
+              "name": "unsigned_return",
+              "object_sha256": "efcc7674668251ca8b885a7cb9c5353f65faaf1720b2802afd55f73c3e9e3516",
+              "object_size": 760,
+              "source": "unsigned_return.c"
+            },
+            {
+              "function": "signed_byte_return",
+              "intent": "Return the same indexed unsigned-byte buffer element with a signed-byte return type.",
+              "name": "signed_return",
+              "object_sha256": "9b52e0754f9bd2de5e2258ba2856e262d1a57e0fdd0ffc4841b838326d17f748",
+              "object_size": 760,
+              "source": "signed_return.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "switch_ascending_cases",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "switch_case_order",
+          "question": "Does dispatch form or switch case source order survive into PCode block and comparison order?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "switch_ascending_cases"
+            },
+            {
+              "equal": false,
+              "variant": "ordered_if_chain"
+            },
+            {
+              "equal": false,
+              "variant": "switch_reordered_cases"
+            }
+          ],
+          "variants": [
+            {
+              "function": "switch_case_order",
+              "intent": "Baseline sparse switch with ascending source cases.",
+              "name": "switch_ascending_cases",
+              "object_sha256": "4b27f25646abd9e2c8846bc1c293aa1ac928e99b6372b4a42786b9eb3bf9b857",
+              "object_size": 704,
+              "source": "switch_ascending_cases.c"
+            },
+            {
+              "function": "switch_case_order",
+              "intent": "Equivalent comparisons written as an ascending ordered if chain.",
+              "name": "ordered_if_chain",
+              "object_sha256": "40138aad51cc7859e8ac9e24a9da92e894df28b803ac132514c05870ae568958",
+              "object_size": 704,
+              "source": "ordered_if_chain.c"
+            },
+            {
+              "function": "switch_case_order",
+              "intent": "Equivalent switch whose sparse case labels appear in a different source order.",
+              "name": "switch_reordered_cases",
+              "object_sha256": "a82c1ad47be10df6f2ab65a8bf081e080661d0672a36a4cf73f844772ef1f817",
+              "object_size": 704,
+              "source": "switch_reordered_cases.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "single_mask",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "u16_remask",
+          "question": "Does explicitly reapplying a 16-bit mask after narrowing change b210's generated code?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "single_mask"
+            },
+            {
+              "equal": true,
+              "variant": "redundant_remask"
+            }
+          ],
+          "variants": [
+            {
+              "function": "u16_remask",
+              "intent": "Mask the input to 16 bits once and reuse the narrowed value.",
+              "name": "single_mask",
+              "object_sha256": "c88cb927f1f34b0a682a3986376b14f9590358c6d6598a79c6b35337904ce510",
+              "object_size": 624,
+              "source": "single_mask.c"
+            },
+            {
+              "function": "u16_remask",
+              "intent": "Reapply the equivalent 16-bit mask at each use of the already narrowed value.",
+              "name": "redundant_remask",
+              "object_sha256": "c88cb927f1f34b0a682a3986376b14f9590358c6d6598a79c6b35337904ce510",
+              "object_size": 624,
+              "source": "redundant_remask.c"
+            }
+          ]
+        }
+      ],
+      "method": "direct_object",
+      "schema": {
+        "name": "mwccps2-portable-direct-capture",
+        "version": 1
+      },
+      "status": "completed"
+    },
+    "instrumented_object_verification": {
+      "reason": "the b210 GDB decoder is intentionally not applied to a non-b210 build",
+      "status": "not_run"
+    },
+    "schema": {
+      "name": "mwccps2-portable-direct-capture",
+      "stage_order": [
+        "codegen_entry",
+        "before_scheduling",
+        "after_scheduling",
+        "before_register_allocation",
+        "after_register_allocation"
+      ],
+      "version": 1
+    },
+    "status": "completed"
+  },
+  "profile_validation": {
+    "evidence": "exact SHA-256, size, PE timestamp, image base, MWCCPS2 identity string, and backend anchor inventory",
+    "status": "fingerprinted"
+  },
+  "schema": {
+    "name": "mwccps2-portable-build-profile",
+    "version": 1
+  }
+}

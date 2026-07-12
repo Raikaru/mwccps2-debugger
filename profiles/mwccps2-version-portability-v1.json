@@ -31,6 +31,14 @@
       "profile_file": "mwcps2-3.0.1b210-060308.portability.json",
       "release": "mwcps2-3.0.1b210-060308",
       "sha256": "286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7"
+    },
+    {
+      "availability": "available",
+      "key": "v24",
+      "pe_timestamp": "0x3a375fef",
+      "profile_file": "mwcps2-2.4-0017-001213.portability.json",
+      "release": "mwcps2-2.4-0017-001213",
+      "sha256": "1233acf014b53ae39669da4cc050062f316d73dd63257150024ad25ad33dbb30"
     }
   ],
   "capture_schema": {
@@ -59,6 +67,10 @@
     },
     {
       "path": "D:/mwcps2-3.0.1b210-060308",
+      "status": "scanned"
+    },
+    {
+      "path": "D:/mwcps2-2.4-001213",
       "status": "scanned"
     },
     {
