@@ -690,7 +690,16 @@ def _experiment_directories(experiments_directory: Path) -> list[Path]:
         raise PortabilityError(f"cannot enumerate experiment corpus {experiments_directory}: {exc}") from exc
     result: list[Path] = []
     for directory in sorted(directories, key=lambda path: path.name.casefold()):
-        if not (directory / "experiment.json").is_file():
+        manifest = directory / "experiment.json"
+        if not manifest.is_file():
+            try:
+                next(directory.iterdir())
+            except StopIteration:
+                continue
+            except OSError as exc:
+                raise PortabilityError(
+                    f"cannot inspect experiment corpus directory {directory}: {exc}"
+                ) from exc
             raise PortabilityError(f"experiment corpus directory lacks experiment.json: {directory}")
         result.append(directory)
     if not result:

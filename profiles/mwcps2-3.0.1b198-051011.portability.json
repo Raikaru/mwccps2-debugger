@@ -17,6 +17,10 @@
         "status": "scanned"
       },
       {
+        "path": "D:/mwcps2-2.4-001213",
+        "status": "scanned"
+      },
+      {
         "path": "<workspace>/toolchains",
         "status": "scanned"
       }
@@ -126,6 +130,21 @@
         ]
       },
       {
+        "experiment": "global_field_interior_alias",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "interior_alias"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "member_base"
+          }
+        ]
+      },
+      {
         "experiment": "invariant_mask",
         "variants": [
           {
@@ -141,12 +160,102 @@
         ]
       },
       {
+        "experiment": "p3_cursor_vertex_loop",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "cached_outer_scope"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "iteration_scope_reload"
+          }
+        ]
+      },
+      {
         "experiment": "p3_global_base_scaled_index",
         "variants": [
           {
             "baseline_relation_equal": true,
             "object_sha256_equal": true,
             "variant": "p3_loop_shape"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_kwln_raster_regs",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "baseline"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "lifetime_split"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_panel_dispatch_slots",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "extern_object"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "literal_dereference"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "per_case_scope"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "pointer_to_function_pointer_local"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_scrcomu_empty_blocks",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "empty_labels"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "explicit_zero_selection"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "self_assignment_selection"
+          }
+        ]
+      },
+      {
+        "experiment": "p3_tutorial_switch_regs",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "global_outer_selector"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "local_outer_selector"
           }
         ]
       },
@@ -177,6 +286,21 @@
             "baseline_relation_equal": true,
             "object_sha256_equal": true,
             "variant": "right_then_left"
+          }
+        ]
+      },
+      {
+        "experiment": "signed_byte_return",
+        "variants": [
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "signed_return"
+          },
+          {
+            "baseline_relation_equal": true,
+            "object_sha256_equal": true,
+            "variant": "unsigned_return"
           }
         ]
       },
@@ -891,7 +1015,7 @@
   },
   "capture": {
     "direct_object_corpus": {
-      "experiment_count": 10,
+      "experiment_count": 17,
       "experiments": [
         {
           "baseline_variant": "logical_and_expression",
@@ -1122,6 +1246,42 @@
           ]
         },
         {
+          "baseline_variant": "member_base",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "global_field_interior_alias",
+          "question": "Does b210 fold a global record-data interior alias differently from member-based access when selecting the first unsigned halfword of a four-byte entry?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "member_base"
+            },
+            {
+              "equal": false,
+              "variant": "interior_alias"
+            }
+          ],
+          "variants": [
+            {
+              "function": "global_field_interior_alias",
+              "intent": "Addresses the selected entry through records[record].data, whose byte-array field starts at offset 0xac in a 0x364-byte record.",
+              "name": "member_base",
+              "object_sha256": "1be0099a77008359be234708895cd8f04e687f8b5927b2e592435f44f979a67b",
+              "object_size": 808,
+              "source": "member_base.c"
+            },
+            {
+              "function": "global_field_interior_alias",
+              "intent": "Assumes records_data aliases the first record's data field at records + 0xac; it adds record * sizeof(struct record) and index * 4 before loading the first unsigned halfword.",
+              "name": "interior_alias",
+              "object_sha256": "2156154823d644d549472556cce19cfbfea604f1e8374e9d9082493048a85cb3",
+              "object_size": 808,
+              "source": "interior_alias.c"
+            }
+          ]
+        },
+        {
           "baseline_variant": "loop_internal_mask",
           "compiler_flags": [
             "-O2"
@@ -1158,6 +1318,42 @@
           ]
         },
         {
+          "baseline_variant": "cached_outer_scope",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_cursor_vertex_loop",
+          "question": "In a four-vertex P3-style loop, does narrowing the zBufferNear global-load lifetime from the whole loop to each iteration change b210 semantic PCode or GPR/FPR allocation?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "cached_outer_scope"
+            },
+            {
+              "equal": false,
+              "variant": "iteration_scope_reload"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_cursor_vertex_loop",
+              "intent": "Caches rwGlobals.device.zBufferNear in an outer local before the four-vertex loop, matching the current H_Cursor_UpdateTask source shape.",
+              "name": "cached_outer_scope",
+              "object_sha256": "0a19985dd6cbd72340d7ab94d31a723123915519efba3c45896370e823011ce5",
+              "object_size": 1080,
+              "source": "baseline.c"
+            },
+            {
+              "function": "p3_cursor_vertex_loop",
+              "intent": "Changes only zBufferNear lifetime: initializes the same local from rwGlobals.device.zBufferNear inside each loop iteration.",
+              "name": "iteration_scope_reload",
+              "object_sha256": "fb667d790f81da031befa28304fdb021d43fef4a8c4d7479ea3a081ce8cba9f9",
+              "object_size": 1080,
+              "source": "variant.c"
+            }
+          ]
+        },
+        {
           "baseline_variant": "p3_loop_shape",
           "compiler_flags": [
             "-O2"
@@ -1178,6 +1374,186 @@
               "object_sha256": "2d611a5683de86009fc6041a77af0cbabbac5027cdeeab4b6d562636c8338e54",
               "object_size": 856,
               "source": "p3_loop_shape.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "baseline",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_kwln_raster_regs",
+          "question": "Does ending the signed-delta temporary lifetime before the global store cause MWCCPS2 b210 to reload the stored delta for percent division?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "baseline"
+            },
+            {
+              "equal": false,
+              "variant": "lifetime_split"
+            }
+          ],
+          "variants": [
+            {
+              "function": "raster_delta_percent",
+              "intent": "Keeps the signed-to-float delta temporary in an inner block and reads the global directly for percent.",
+              "name": "baseline",
+              "object_sha256": "575956666420169753d42a93a22230204c838422d3924d056f3dce4c5ff27a71",
+              "object_size": 968,
+              "source": "baseline.c"
+            },
+            {
+              "function": "raster_delta_percent",
+              "intent": "Eliminates the post-branch delta temporary lifetime by assigning the global in each conversion branch, without volatile access or changing percent arithmetic.",
+              "name": "lifetime_split",
+              "object_sha256": "14cdf8bb2b3b23ad7bcb7d2e6fa4d5b6ab34f785fb39871d0cf7f7d66d550573",
+              "object_size": 984,
+              "source": "lifetime_split.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "literal_dereference",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_panel_dispatch_slots",
+          "question": "For a switch-dispatch loop with two absolute callback slots, which b210 source address form preserves callback-slot bases across calls and loops?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "literal_dereference"
+            },
+            {
+              "equal": false,
+              "variant": "extern_object"
+            },
+            {
+              "equal": true,
+              "variant": "pointer_to_function_pointer_local"
+            },
+            {
+              "equal": true,
+              "variant": "per_case_scope"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Direct typed absolute-slot dereferences, matching the current P3 macros.",
+              "name": "literal_dereference",
+              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_size": 1008,
+              "source": "literal_dereference.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Uses externally declared callback objects instead of absolute typed-slot dereferences.",
+              "name": "extern_object",
+              "object_sha256": "94dbf9ac8c85e31d7fedb8b1680bc3da233cd852ed06ca01db3acec50035e169",
+              "object_size": 1160,
+              "source": "extern_object.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Binds each absolute callback-slot address to one function-pointer-object local before dispatch.",
+              "name": "pointer_to_function_pointer_local",
+              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_size": 1008,
+              "source": "pointer_to_function_pointer_local.c"
+            },
+            {
+              "function": "p3_panel_dispatch_slots",
+              "intent": "Binds absolute callback-slot addresses in each switch-case scope.",
+              "name": "per_case_scope",
+              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_size": 1008,
+              "source": "per_case_scope.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "empty_labels",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_scrcomu_empty_blocks",
+          "question": "Does MWCC b210 preserve equivalent default/zero/one/two flag-selection labels and a shared return, and can explicit zero assignments retain the semantically redundant default/zero blocks?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "empty_labels"
+            },
+            {
+              "equal": false,
+              "variant": "explicit_zero_selection"
+            },
+            {
+              "equal": true,
+              "variant": "self_assignment_selection"
+            }
+          ],
+          "variants": [
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Equivalent default and zero labels are empty jumps to a shared flag-value and return path.",
+              "name": "empty_labels",
+              "object_sha256": "a09c215221235f8c30caa7e8fa25082a69b7336713ed1f740c9f6d279840cf57",
+              "object_size": 736,
+              "source": "empty_labels.c"
+            },
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Makes default and zero perform source-level assignments to the later-consumed flag while preserving the same result for every selector.",
+              "name": "explicit_zero_selection",
+              "object_sha256": "1ad75e22e7237cc92bf3060700a9716a839490ca56f7e1993c8893a0178b4f9a",
+              "object_size": 752,
+              "source": "explicit_zero_selection.c"
+            },
+            {
+              "function": "scrcomu_empty_labels",
+              "intent": "Adds source-level self-assignments of the later-consumed flag in the equivalent default and zero labels without changing any returned value.",
+              "name": "self_assignment_selection",
+              "object_sha256": "a09c215221235f8c30caa7e8fa25082a69b7336713ed1f740c9f6d279840cf57",
+              "object_size": 736,
+              "source": "self_assignment_selection.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "global_outer_selector",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "p3_tutorial_switch_regs",
+          "question": "Does selecting the outer state through a live local base rather than the global base first diverge in semantic PCode or only during register allocation for nested switches with repeated calls?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "global_outer_selector"
+            },
+            {
+              "equal": true,
+              "variant": "local_outer_selector"
+            }
+          ],
+          "variants": [
+            {
+              "function": "p3_tutorial_switch_regs",
+              "intent": "Baseline: the outer switch reads global_work[1] while the local work base remains live through the nested switch.",
+              "name": "global_outer_selector",
+              "object_sha256": "9c01bbdc774b06587123740d56fef81e4165a1f2974ff9411c5e9a890d137b2d",
+              "object_size": 1704,
+              "source": "baseline.c"
+            },
+            {
+              "function": "p3_tutorial_switch_regs",
+              "intent": "Changes only the outer selector address form to work[1], retaining the same global initialization, nested dispatches, calls, and local lifetimes.",
+              "name": "local_outer_selector",
+              "object_sha256": "9c01bbdc774b06587123740d56fef81e4165a1f2974ff9411c5e9a890d137b2d",
+              "object_size": 1704,
+              "source": "variant.c"
             }
           ]
         },
@@ -1250,6 +1626,42 @@
               "object_sha256": "760f65d90fa672c5bef629683a04122bbe8782bd8485df096f3503ac71d6b12c",
               "object_size": 640,
               "source": "right_then_left.c"
+            }
+          ]
+        },
+        {
+          "baseline_variant": "unsigned_return",
+          "compiler_flags": [
+            "-O2"
+          ],
+          "name": "signed_byte_return",
+          "question": "Does a function's declared byte return signedness affect b210 code generation when it returns an indexed element from an unsigned-byte buffer?",
+          "variant_object_equal_to_baseline": [
+            {
+              "equal": true,
+              "variant": "unsigned_return"
+            },
+            {
+              "equal": false,
+              "variant": "signed_return"
+            }
+          ],
+          "variants": [
+            {
+              "function": "signed_byte_return",
+              "intent": "Return the indexed unsigned-byte buffer element with an unsigned-byte return type.",
+              "name": "unsigned_return",
+              "object_sha256": "5ff77ecbf2e8343ebfe8a028fe27eb564a621882e71ad4bc96728ac2f5f7f866",
+              "object_size": 760,
+              "source": "unsigned_return.c"
+            },
+            {
+              "function": "signed_byte_return",
+              "intent": "Return the same indexed unsigned-byte buffer element with a signed-byte return type.",
+              "name": "signed_return",
+              "object_sha256": "8a1c078cb6abeffaaa633c9363ea6054eea5868979b293882f265d8329900418",
+              "object_size": 760,
+              "source": "signed_return.c"
             }
           ]
         },

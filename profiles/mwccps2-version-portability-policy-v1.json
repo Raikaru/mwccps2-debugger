@@ -17,6 +17,7 @@
   "search_roots": [
     "C:/tmp",
     "D:/mwcps2-3.0.1b210-060308",
+    "D:/mwcps2-2.4-001213",
     "../../toolchains"
   ],
   "requested_builds": [
@@ -108,6 +109,19 @@
             "absolute_operand_site": "0x004365af"
           }
         ]
+      }
+    },
+    {
+      "key": "v24",
+      "release": "mwcps2-2.4-0017-001213",
+      "candidate_paths": [
+        "D:/mwcps2-2.4-001213/debug/mwccps2.exe"
+      ],
+      "binary": {
+        "sha256": "1233acf014b53ae39669da4cc050062f316d73dd63257150024ad25ad33dbb30",
+        "size": 1379328,
+        "pe_timestamp": "0x3a375fef",
+        "image_base": "0x00400000"
       }
     }
   ]

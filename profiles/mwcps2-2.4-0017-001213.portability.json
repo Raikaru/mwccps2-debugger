@@ -1,10 +1,10 @@
 {
   "availability": {
     "candidate_paths_checked": [
-      "C:/tmp/mwcps2-3.0.1b205-051227/mwccps2.exe"
+      "D:/mwcps2-2.4-001213/debug/mwccps2.exe"
     ],
     "matching_paths": [
-      "C:/tmp/mwcps2-3.0.1b205-051227/mwccps2.exe"
+      "D:/mwcps2-2.4-001213/debug/mwccps2.exe"
     ],
     "missing_candidate_paths": [],
     "search_root_evidence": [
@@ -25,13 +25,20 @@
         "status": "scanned"
       }
     ],
-    "selected_path": "C:/tmp/mwcps2-3.0.1b205-051227/mwccps2.exe",
+    "selected_path": "D:/mwcps2-2.4-001213/debug/mwccps2.exe",
     "status": "available"
   },
   "behavior_comparison_to_b210": {
-    "alternate_build": "b205",
+    "alternate_build": "v24",
     "baseline_build": "b210",
-    "behavior_localization": null,
+    "behavior_localization": {
+      "alternate_object_sha256": "01f25cedeb5e890d8178cf4ce0a46626fc5ef36c72819a75c014f90c71359f5e",
+      "b210_object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
+      "evidence": "The same source and compiler flags produced different direct object SHA-256 values.",
+      "experiment": "boolean_block_order",
+      "kind": "direct_object_sha256_changed",
+      "variant": "early_returns"
+    },
     "comparison_method": "direct_object_sha256_and_variant_to_baseline_relation",
     "experiments": [
       {
@@ -39,22 +46,22 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "early_returns"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "inverted_condition"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "logical_and_expression"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "result_local"
           }
         ]
@@ -64,32 +71,32 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "array_base_index"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "array_index_base"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "byte_base_offset"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "byte_offset_base"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "pointer_base_index"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "pointer_index_base"
           }
         ]
@@ -99,17 +106,17 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "fresh_times_invariant"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "invariant_times_fresh"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "local_fresh_times_invariant"
           }
         ]
@@ -119,12 +126,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "less_than"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "reversed_greater_than"
           }
         ]
@@ -134,12 +141,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "interior_alias"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "member_base"
           }
         ]
@@ -149,12 +156,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "hoisted_mask"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "loop_internal_mask"
           }
         ]
@@ -164,12 +171,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "cached_outer_scope"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "iteration_scope_reload"
           }
         ]
@@ -179,7 +186,7 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "p3_loop_shape"
           }
         ]
@@ -189,12 +196,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "baseline"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "lifetime_split"
           }
         ]
@@ -204,22 +211,22 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "extern_object"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "literal_dereference"
           },
           {
-            "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "baseline_relation_equal": false,
+            "object_sha256_equal": false,
             "variant": "per_case_scope"
           },
           {
-            "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "baseline_relation_equal": false,
+            "object_sha256_equal": false,
             "variant": "pointer_to_function_pointer_local"
           }
         ]
@@ -229,17 +236,17 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "empty_labels"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "explicit_zero_selection"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "self_assignment_selection"
           }
         ]
@@ -249,12 +256,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "global_outer_selector"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "local_outer_selector"
           }
         ]
@@ -264,12 +271,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "explicit_cast"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "short_parameter"
           }
         ]
@@ -279,12 +286,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "left_then_right"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "right_then_left"
           }
         ]
@@ -294,12 +301,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "signed_return"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "unsigned_return"
           }
         ]
@@ -309,17 +316,17 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "ordered_if_chain"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "switch_ascending_cases"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "switch_reordered_cases"
           }
         ]
@@ -329,12 +336,12 @@
         "variants": [
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "redundant_remask"
           },
           {
             "baseline_relation_equal": true,
-            "object_sha256_equal": true,
+            "object_sha256_equal": false,
             "variant": "single_mask"
           }
         ]
@@ -344,87 +351,19 @@
   "binary": {
     "anchor_inventory": [
       {
-        "category": "backend-message",
-        "locations": [
-          {
-            "absolute_operand_sites": [
-              "0x004360a1"
-            ],
-            "address": "0x005e24a1",
-            "file_offset": "0x001df6a1",
-            "rva": "0x001e24a1",
-            "rva_operand_sites": []
-          }
-        ],
-        "text": "After peepholeoptimizepcode [POST COLORING]"
-      },
-      {
-        "category": "backend-message",
-        "locations": [
-          {
-            "absolute_operand_sites": [
-              "0x0043655f"
-            ],
-            "address": "0x005e25b5",
-            "file_offset": "0x001df7b5",
-            "rva": "0x001e25b5",
-            "rva_operand_sites": []
-          }
-        ],
-        "text": "After peepholeoptimizepcode [POST SCHEDULE]"
-      },
-      {
         "category": "backend-source",
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0048fc32",
-              "0x0048fc6f",
-              "0x0048fca3",
-              "0x00490169",
-              "0x0049054e",
-              "0x00490846",
-              "0x00490c36"
+              "0x0040f2bf",
+              "0x004ade36"
             ],
-            "address": "0x005e80a8",
-            "file_offset": "0x001e52a8",
-            "rva": "0x001e80a8",
-            "rva_operand_sites": []
-          }
-        ],
-        "text": "Alias.c"
-      },
-      {
-        "category": "backend-source",
-        "locations": [
-          {
-            "absolute_operand_sites": [
-              "0x0054af46",
-              "0x0054b238",
-              "0x0054b2bb",
-              "0x0054b553",
-              "0x0054b568"
-            ],
-            "address": "0x005ea20f",
-            "file_offset": "0x001e740f",
-            "rva": "0x001ea20f",
-            "rva_operand_sites": []
-          }
-        ],
-        "text": "AliasPropagation.c"
-      },
-      {
-        "category": "backend-source",
-        "locations": [
-          {
-            "absolute_operand_sites": [
-              "0x004c3dd6",
-              "0x004c3ee6"
-            ],
-            "address": "0x005e9125",
-            "file_offset": "0x001e6325",
-            "rva": "0x001e9125",
-            "rva_operand_sites": []
+            "address": "0x00535ce8",
+            "file_offset": "0x00132ae8",
+            "rva": "0x00135ce8",
+            "rva_operand_sites": [
+              "0x0040e011"
+            ]
           }
         ],
         "text": "BE_schedule.c"
@@ -434,43 +373,28 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x00431f09",
-              "0x00432436",
-              "0x00434136",
-              "0x0043419c",
-              "0x00434466",
-              "0x004344e6",
-              "0x004348e1",
-              "0x00434cdd",
-              "0x00434e58",
-              "0x00435a1b",
-              "0x00435af8",
-              "0x00435b4e",
-              "0x00435b76",
-              "0x0043671a",
-              "0x00436ad6",
-              "0x00436b79",
-              "0x00436b96",
-              "0x00436bac",
-              "0x00436bc6",
-              "0x00436bdc",
+              "0x00433995",
+              "0x004339e6",
+              "0x004343b6",
+              "0x004345fc",
+              "0x00434b46",
+              "0x00434fac",
+              "0x0043511b",
+              "0x0043517c",
+              "0x004354a6",
+              "0x00435d4b",
+              "0x00435e76",
+              "0x004363f8",
+              "0x00436b74",
               "0x00436bf6",
-              "0x00436c0c",
-              "0x00436c26",
-              "0x00436c3c",
-              "0x00436c56",
-              "0x00436ec1",
-              "0x00436f36",
-              "0x004370ad",
-              "0x004373d6",
-              "0x004375d6",
-              "0x004379da",
-              "0x00438436",
-              "0x00438472"
+              "0x00436c89",
+              "0x00436d9a",
+              "0x00437026",
+              "0x00439826"
             ],
-            "address": "0x005e1cb0",
-            "file_offset": "0x001deeb0",
-            "rva": "0x001e1cb0",
+            "address": "0x0052b418",
+            "file_offset": "0x00128218",
+            "rva": "0x0012b418",
             "rva_operand_sites": []
           }
         ],
@@ -481,11 +405,11 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x004c18b5"
+              "0x004ab4af"
             ],
-            "address": "0x005e90d8",
-            "file_offset": "0x001e62d8",
-            "rva": "0x001e90d8",
+            "address": "0x00535a78",
+            "file_offset": "0x00132878",
+            "rva": "0x00135a78",
             "rva_operand_sites": []
           }
         ],
@@ -496,11 +420,11 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x004c2436"
+              "0x004abb06"
             ],
-            "address": "0x005e90e3",
-            "file_offset": "0x001e62e3",
-            "rva": "0x001e90e3",
+            "address": "0x00535a88",
+            "file_offset": "0x00132888",
+            "rva": "0x00135a88",
             "rva_operand_sites": []
           }
         ],
@@ -511,12 +435,12 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x005409f8",
-              "0x00540a0e"
+              "0x004f9c41",
+              "0x004f9c59"
             ],
-            "address": "0x005ea158",
-            "file_offset": "0x001e7358",
-            "rva": "0x001ea158",
+            "address": "0x0053e260",
+            "file_offset": "0x0013b060",
+            "rva": "0x0013e260",
             "rva_operand_sites": []
           }
         ],
@@ -527,30 +451,25 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0049c43a",
-              "0x0049d126",
-              "0x0049e7c6",
-              "0x0049ef26",
-              "0x0049f7ed",
-              "0x0049f816",
-              "0x004a3199",
-              "0x004a33ea",
-              "0x004a34ba",
-              "0x004a35aa",
-              "0x004a365b",
-              "0x004a3c66",
-              "0x004a81a6",
-              "0x004a8346",
-              "0x004a8906",
-              "0x004a8aa6",
-              "0x004a8cea",
-              "0x004a8d96",
-              "0x004a8e2c",
-              "0x004a8f5d"
+              "0x004990ae",
+              "0x004991dd",
+              "0x00499259",
+              "0x00499306",
+              "0x0049941c",
+              "0x00499479",
+              "0x004996fc",
+              "0x00499c36",
+              "0x0049c9d0",
+              "0x0049ce06",
+              "0x0049ce1e",
+              "0x0049efd6",
+              "0x0049f0f6",
+              "0x0049f726",
+              "0x0049febe"
             ],
-            "address": "0x005e8b80",
-            "file_offset": "0x001e5d80",
-            "rva": "0x001e8b80",
+            "address": "0x005353ac",
+            "file_offset": "0x001321ac",
+            "rva": "0x001353ac",
             "rva_operand_sites": []
           }
         ],
@@ -561,14 +480,11 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x004be6fc",
-              "0x004be846",
-              "0x004be8c6",
-              "0x004bead6"
+              "0x004a3702"
             ],
-            "address": "0x005e9059",
-            "file_offset": "0x001e6259",
-            "rva": "0x001e9059",
+            "address": "0x00535700",
+            "file_offset": "0x00132500",
+            "rva": "0x00135700",
             "rva_operand_sites": []
           }
         ],
@@ -579,11 +495,12 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0055cc27"
+              "0x004ffb3a",
+              "0x00501e96"
             ],
-            "address": "0x005ea3ee",
-            "file_offset": "0x001e75ee",
-            "rva": "0x001ea3ee",
+            "address": "0x0053e6f0",
+            "file_offset": "0x0013b4f0",
+            "rva": "0x0013e6f0",
             "rva_operand_sites": []
           }
         ],
@@ -594,14 +511,12 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0046dbfb",
-              "0x0046eed6",
-              "0x0046eee9",
-              "0x0046eefc"
+              "0x00488756",
+              "0x00488b56"
             ],
-            "address": "0x005e5c00",
-            "file_offset": "0x001e2e00",
-            "rva": "0x001e5c00",
+            "address": "0x00532364",
+            "file_offset": "0x0012f164",
+            "rva": "0x00132364",
             "rva_operand_sites": []
           }
         ],
@@ -611,13 +526,10 @@
         "category": "backend-source",
         "locations": [
           {
-            "absolute_operand_sites": [
-              "0x0047c23d",
-              "0x0047c376"
-            ],
-            "address": "0x005e6131",
-            "file_offset": "0x001e3331",
-            "rva": "0x001e6131",
+            "absolute_operand_sites": [],
+            "address": "0x00534ec8",
+            "file_offset": "0x00131cc8",
+            "rva": "0x00134ec8",
             "rva_operand_sites": []
           }
         ],
@@ -628,22 +540,14 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0049b310",
-              "0x0049b5a6",
-              "0x0049b5ba",
-              "0x0049b6eb",
-              "0x0049b796",
-              "0x0049bb96",
-              "0x0049bfd3",
-              "0x0049c02e",
-              "0x0049c082",
-              "0x0049c236",
-              "0x0049c286",
-              "0x0049c2ee"
+              "0x0049897c",
+              "0x004989d9",
+              "0x00498b36",
+              "0x00498cbb"
             ],
-            "address": "0x005e8908",
-            "file_offset": "0x001e5b08",
-            "rva": "0x001e8908",
+            "address": "0x00535031",
+            "file_offset": "0x00131e31",
+            "rva": "0x00135031",
             "rva_operand_sites": []
           }
         ],
@@ -653,16 +557,10 @@
         "category": "backend-source",
         "locations": [
           {
-            "absolute_operand_sites": [
-              "0x0048ef77",
-              "0x0048f68f",
-              "0x0048f7cf",
-              "0x0048f8e1",
-              "0x0048fb01"
-            ],
-            "address": "0x005e8075",
-            "file_offset": "0x001e5275",
-            "rva": "0x001e8075",
+            "absolute_operand_sites": [],
+            "address": "0x00534e88",
+            "file_offset": "0x00131c88",
+            "rva": "0x00134e88",
             "rva_operand_sites": []
           }
         ],
@@ -672,17 +570,10 @@
         "category": "backend-source",
         "locations": [
           {
-            "absolute_operand_sites": [
-              "0x00472756",
-              "0x0047276b",
-              "0x0047277e",
-              "0x00473376",
-              "0x004733f3",
-              "0x004736d3"
-            ],
-            "address": "0x005e6069",
-            "file_offset": "0x001e3269",
-            "rva": "0x001e6069",
+            "absolute_operand_sites": [],
+            "address": "0x00535e7c",
+            "file_offset": "0x00132c7c",
+            "rva": "0x00135e7c",
             "rva_operand_sites": []
           }
         ],
@@ -693,12 +584,11 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x004c0b46",
-              "0x004c0bfd"
+              "0x004aa986"
             ],
-            "address": "0x005e90c1",
-            "file_offset": "0x001e62c1",
-            "rva": "0x001e90c1",
+            "address": "0x00535a48",
+            "file_offset": "0x00132848",
+            "rva": "0x00135a48",
             "rva_operand_sites": []
           }
         ],
@@ -709,13 +599,11 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x0055e0d8",
-              "0x0055e123",
-              "0x0055e364"
+              "0x00503ea5"
             ],
-            "address": "0x005ea3fe",
-            "file_offset": "0x001e75fe",
-            "rva": "0x001ea3fe",
+            "address": "0x0053e700",
+            "file_offset": "0x0013b500",
+            "rva": "0x0013e700",
             "rva_operand_sites": []
           }
         ],
@@ -726,13 +614,13 @@
         "locations": [
           {
             "absolute_operand_sites": [
-              "0x004d0096",
-              "0x004d02b3",
-              "0x004d043b"
+              "0x00496613",
+              "0x00496734",
+              "0x00496848"
             ],
-            "address": "0x005e9192",
-            "file_offset": "0x001e6392",
-            "rva": "0x001e9192",
+            "address": "0x00534ea0",
+            "file_offset": "0x00131ca0",
+            "rva": "0x00134ea0",
             "rva_operand_sites": []
           }
         ],
@@ -743,9 +631,9 @@
         "locations": [
           {
             "absolute_operand_sites": [],
-            "address": "0x005d69e0",
-            "file_offset": "0x001d3be0",
-            "rva": "0x001d69e0",
+            "address": "0x00515f94",
+            "file_offset": "0x00112d94",
+            "rva": "0x00115f94",
             "rva_operand_sites": []
           }
         ],
@@ -757,16 +645,13 @@
       "mwccps2_identity_present": true,
       "source_inventory": {
         "counts_by_suffix": {
-          ".c": 116,
+          ".c": 103,
           ".cc": 1,
           ".cpp": 4,
-          ".h": 27,
+          ".h": 2,
           ".hpp": 1
         },
         "files": [
-          "0.c",
-          "Alias.c",
-          "AliasPropagation.c",
           "Arguments.c",
           "BE_binary.c",
           "BE_macro.c",
@@ -797,8 +682,10 @@
           "CLOverlays.c",
           "CLPluginRequests.cpp",
           "CLPlugins.c",
+          "CLPrefs.c",
           "CLProj.c",
           "CLSegs.c",
+          "CLTarg.c",
           "CLToolExec.c",
           "CLWriteObjectFile.c",
           "CMachine.c",
@@ -814,7 +701,6 @@
           "CScope.c",
           "CTemplateClass.c",
           "CTemplateFunc.c",
-          "CTemplateFuncInst.c",
           "CTemplateNew.c",
           "CTemplateTools.c",
           "CodeGen.c",
@@ -824,44 +710,32 @@
           "DWARF.c",
           "ELFgen.c",
           "Exceptions.c",
-          "FEInterface.c",
           "Files.c",
           "FuncLevelAsm.c",
           "FunctionCalls.c",
-          "GCCInlineAsm.c",
+          "IROUseDef.c",
           "InlineAsm.c",
           "InlineAsmMIPS.c",
+          "InlineAsmMnemonics.c",
           "InstrSelection.c",
           "InterferenceGraph.c",
           "Intrinsics.c",
-          "IrObitvect.c",
           "IrOptimizer.c",
-          "IroAggregateAssignment.c",
-          "IroCounterLoop.c",
-          "IroDependenceAnalysis.c",
-          "IroDependsKills.c",
-          "IroExprRegeneration.c",
-          "IroExprs.c",
+          "IroBitVect.c",
+          "IroCSE.c",
+          "IroEmptyLoop.c",
           "IroFlowgraph.c",
-          "IroFlowgraph.h",
-          "IroLifetime.c",
           "IroLinearForm.c",
           "IroLoop.c",
-          "IroLoopInvariants.c",
-          "IroNonRegLoopAccesses.c",
           "IroPointerAnalysis.c",
           "IroPointerAnalysisADTs.c",
-          "IroPropagate.c",
           "IroRangePropagation.c",
-          "IroScalarization.c",
-          "IroStrengthReduction.c",
           "IroTransform.c",
-          "IroType.c",
           "IroUnrollLoop.c",
           "IroUtil.c",
           "IroVars.c",
+          "LocalCSE.c",
           "MIPSError.c",
-          "MIPSSimulation.c",
           "MIPS_Peephole.c",
           "MacFileTypes.c",
           "MacSpecs.c",
@@ -887,32 +761,8 @@
           "TXET.hpp",
           "Targets.c",
           "VReg.c",
-          "assert.h",
-          "complex.h",
-          "ctype.h",
-          "errno.h",
-          "fenv.h",
-          "float.h",
-          "inttypes.h",
-          "iso646.h",
-          "limits.h",
-          "locale.h",
-          "math.h",
           "mips.c",
-          "pipeline1.c",
-          "setjmp.h",
-          "signal.h",
-          "stdarg.h",
-          "stdbool.h",
-          "stddef.h",
-          "stdint.h",
-          "stdio.h",
-          "stdlib.h",
-          "string.h",
-          "tgmath.h",
-          "time.h",
-          "wchar.h",
-          "wctype.h"
+          "pipeline1.c"
         ]
       }
     },
@@ -925,92 +775,100 @@
         {
           "characteristics": "0xc0000040",
           "name": ".CRT",
-          "raw_offset": "0x001f6000",
+          "raw_offset": "0x0013c800",
           "raw_size": "0x00000200",
-          "virtual_address": "0x001fa000",
-          "virtual_size": "0x00000010"
+          "virtual_address": "0x00141000",
+          "virtual_size": "0x00000008"
         },
         {
           "characteristics": "0xc0000080",
           "name": ".bss",
           "raw_offset": "0x00000000",
           "raw_size": "0x00000000",
-          "virtual_address": "0x001fc000",
-          "virtual_size": "0x0003b4b5"
+          "virtual_address": "0x00143000",
+          "virtual_size": "0x0003017d"
         },
         {
           "characteristics": "0xc0000040",
           "name": ".data",
-          "raw_offset": "0x001c5200",
-          "raw_size": "0x00028a00",
-          "virtual_address": "0x001c8000",
-          "virtual_size": "0x000289b4"
+          "raw_offset": "0x00104e00",
+          "raw_size": "0x00036800",
+          "virtual_address": "0x00108000",
+          "virtual_size": "0x00036758"
         },
         {
           "characteristics": "0x40000040",
           "name": ".edata",
-          "raw_offset": "0x001f6c00",
-          "raw_size": "0x00000400",
-          "virtual_address": "0x00238000",
-          "virtual_size": "0x0000021b"
+          "raw_offset": "0x0013cc00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00174000",
+          "virtual_size": "0x00000137"
         },
         {
           "characteristics": "0x40000040",
           "name": ".exc",
-          "raw_offset": "0x001b8a00",
+          "raw_offset": "0x00104c00",
           "raw_size": "0x00000200",
-          "virtual_address": "0x001ba000",
-          "virtual_size": "0x0000010c"
+          "virtual_address": "0x00107000",
+          "virtual_size": "0x000001bc"
         },
         {
           "characteristics": "0xc0000040",
           "name": ".idata",
-          "raw_offset": "0x001f6200",
-          "raw_size": "0x00000a00",
-          "virtual_address": "0x001fb000",
-          "virtual_size": "0x0000091a"
+          "raw_offset": "0x0013c000",
+          "raw_size": "0x00000800",
+          "virtual_address": "0x00140000",
+          "virtual_size": "0x000006f6"
         },
         {
           "characteristics": "0x40000040",
           "name": ".rdata",
-          "raw_offset": "0x001b8c00",
-          "raw_size": "0x0000c600",
-          "virtual_address": "0x001bb000",
-          "virtual_size": "0x0000c4e0"
+          "raw_offset": "0x00104800",
+          "raw_size": "0x00000400",
+          "virtual_address": "0x00106000",
+          "virtual_size": "0x0000022d"
         },
         {
           "characteristics": "0x42000040",
           "name": ".reloc",
-          "raw_offset": "0x001f7000",
-          "raw_size": "0x0001d200",
-          "virtual_address": "0x00239000",
-          "virtual_size": "0x0001d1c4"
+          "raw_offset": "0x0013ce00",
+          "raw_size": "0x00013e00",
+          "virtual_address": "0x00175000",
+          "virtual_size": "0x00013c88"
         },
         {
           "characteristics": "0xc0000040",
           "name": ".rsrc",
-          "raw_offset": "0x001edc00",
-          "raw_size": "0x00008400",
-          "virtual_address": "0x001f1000",
-          "virtual_size": "0x00008398"
+          "raw_offset": "0x0013b600",
+          "raw_size": "0x00000a00",
+          "virtual_address": "0x0013f000",
+          "virtual_size": "0x0000083c"
         },
         {
           "characteristics": "0x60000020",
           "name": ".text",
           "raw_offset": "0x00000400",
-          "raw_size": "0x001b8600",
+          "raw_size": "0x00104400",
           "virtual_address": "0x00001000",
-          "virtual_size": "0x001b85bc"
+          "virtual_size": "0x0010432a"
+        },
+        {
+          "characteristics": "0xc0000040",
+          "name": ".tls",
+          "raw_offset": "0x0013ca00",
+          "raw_size": "0x00000200",
+          "virtual_address": "0x00142000",
+          "virtual_size": "0x00000200"
         }
       ],
-      "timestamp": "0x43b0e54e"
+      "timestamp": "0x3a375fef"
     },
-    "sha256": "e1c5d935bdbfe080e40244c078a98028a58357e9b85d93b4730dec4bc76f989d",
-    "size": 2179584
+    "sha256": "1233acf014b53ae39669da4cc050062f316d73dd63257150024ad25ad33dbb30",
+    "size": 1379328
   },
   "build": {
-    "key": "b205",
-    "release": "mwcps2-3.0.1b205-051227"
+    "key": "v24",
+    "release": "mwcps2-2.4-0017-001213"
   },
   "capture": {
     "direct_object_corpus": {
@@ -1046,7 +904,7 @@
               "function": "boolean_block_order",
               "intent": "Baseline direct && boolean materialization.",
               "name": "logical_and_expression",
-              "object_sha256": "7399063f409ffbc07cec7b13a9fe70cd6ed8cd7242f44be4e5b69fdafe6cd756",
+              "object_sha256": "08fd7f124b5c00f7a9c8bfebd8d099c823f5041eb12ac98eacee0b70c938209d",
               "object_size": 656,
               "source": "logical_and_expression.c"
             },
@@ -1054,15 +912,15 @@
               "function": "boolean_block_order",
               "intent": "Materialize false through short-circuit early returns.",
               "name": "early_returns",
-              "object_sha256": "384cb83c922336e8e7af714697e599a14e21de0fbe70891bfb53af6abac0eef7",
-              "object_size": 656,
+              "object_sha256": "01f25cedeb5e890d8178cf4ce0a46626fc5ef36c72819a75c014f90c71359f5e",
+              "object_size": 640,
               "source": "early_returns.c"
             },
             {
               "function": "boolean_block_order",
               "intent": "Assign the materialized result through a local variable.",
               "name": "result_local",
-              "object_sha256": "24aff0c89dfa6644bed8cc8e3904bc1fd91d4c9cfc545ad642a1969870544cfa",
+              "object_sha256": "9a8c078ae08e02ec6970cc537c1940afbbb6cc694a0d1aacbc0a3bff7d38d340",
               "object_size": 672,
               "source": "result_local.c"
             },
@@ -1070,7 +928,7 @@
               "function": "boolean_block_order",
               "intent": "Test the inverted false condition with a final true return.",
               "name": "inverted_condition",
-              "object_sha256": "db264ab1bcfab1f333adfd2843f45d5aafe1f47eb7922512335a253754bd97ae",
+              "object_sha256": "754ec19e4cbfdfd7d304350cfccbd9a4674b2d0a347f5c076ff018981f39ebd5",
               "object_size": 672,
               "source": "inverted_condition.c"
             }
@@ -1114,7 +972,7 @@
               "function": "commutative_addu",
               "intent": "Uses ordinary base[index] spelling so the base operand precedes the index in source.",
               "name": "array_base_index",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "array_base_index.c"
             },
@@ -1122,7 +980,7 @@
               "function": "commutative_addu",
               "intent": "Uses the equivalent index[base] spelling to reverse the source order of the subscript operands.",
               "name": "array_index_base",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "array_index_base.c"
             },
@@ -1130,7 +988,7 @@
               "function": "commutative_addu",
               "intent": "Uses typed base + index pointer arithmetic with the pointer base written first.",
               "name": "pointer_base_index",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "pointer_base_index.c"
             },
@@ -1138,7 +996,7 @@
               "function": "commutative_addu",
               "intent": "Uses equivalent typed index + base pointer arithmetic with the index written first.",
               "name": "pointer_index_base",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "pointer_index_base.c"
             },
@@ -1146,7 +1004,7 @@
               "function": "commutative_addu",
               "intent": "Converts the base to bytes and adds an explicitly scaled byte offset with the base written first.",
               "name": "byte_base_offset",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "byte_base_offset.c"
             },
@@ -1154,7 +1012,7 @@
               "function": "commutative_addu",
               "intent": "Uses the same raw byte offset with the scaled index written before the byte base.",
               "name": "byte_offset_base",
-              "object_sha256": "2299513e3d4ba526d27436d62f9486e84c6dc7403fb84456b45cf5f6e6263e03",
+              "object_sha256": "20a8c3d3e1c99b25f0db51e44a7655cf6bcd7338206f5c16769b5a95d9de6b04",
               "object_size": 640,
               "source": "byte_offset_base.c"
             }
@@ -1186,7 +1044,7 @@
               "function": "commutative_mul_s",
               "intent": "Multiplies the freshly named scalar by the invariant-named scalar in source order.",
               "name": "fresh_times_invariant",
-              "object_sha256": "1a32a5a280538b494cffd403e79780605782d7000564833c9827b1cf62cd006e",
+              "object_sha256": "4f7983d50f25739298da8acab589a76312d9a8578fa912cbddc7832ef7d8e784",
               "object_size": 624,
               "source": "fresh_times_invariant.c"
             },
@@ -1194,7 +1052,7 @@
               "function": "commutative_mul_s",
               "intent": "Reverses the same scalar multiplication spelling so the invariant-named scalar appears first.",
               "name": "invariant_times_fresh",
-              "object_sha256": "3891fc42c42de9efe1f7b8a01e8f611dfdae0abfbdd035fefc3ea639b7c773ea",
+              "object_sha256": "b4bae28a294c1360bcd55e322644cf8401536c30fca72a436b53d784b0de096a",
               "object_size": 624,
               "source": "invariant_times_fresh.c"
             },
@@ -1202,7 +1060,7 @@
               "function": "commutative_mul_s",
               "intent": "Copies fresh through one volatile float local before the same multiplication, a minimal shape likely to create a distinct virtual register.",
               "name": "local_fresh_times_invariant",
-              "object_sha256": "c20aec7d5655466caa4278a7888f356210ece3c5a4e950a8c23d1f3b1d52d2b9",
+              "object_sha256": "7ac957c16c0ad7d50eaafe960e86da1b63837131a85697b9937664635237919f",
               "object_size": 640,
               "source": "local_fresh_times_invariant.c"
             }
@@ -1230,7 +1088,7 @@
               "function": "compare_destination",
               "intent": "Select the left operand when an explicit left-less-than-right comparison succeeds.",
               "name": "less_than",
-              "object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+              "object_sha256": "68ac9bf00f766c39a2a16efa3b0b82fa002c874c3d9bbe65bf1f143d25017cb6",
               "object_size": 656,
               "source": "less_than.c"
             },
@@ -1238,7 +1096,7 @@
               "function": "compare_destination",
               "intent": "Use the equivalent right-greater-than-left comparison before selecting the same destination.",
               "name": "reversed_greater_than",
-              "object_sha256": "79d9daaec04f6e0f8c9dbf980ab448db34a733f764092b6a40cdadefc76eddd2",
+              "object_sha256": "68ac9bf00f766c39a2a16efa3b0b82fa002c874c3d9bbe65bf1f143d25017cb6",
               "object_size": 656,
               "source": "reversed_greater_than.c"
             }
@@ -1266,7 +1124,7 @@
               "function": "global_field_interior_alias",
               "intent": "Addresses the selected entry through records[record].data, whose byte-array field starts at offset 0xac in a 0x364-byte record.",
               "name": "member_base",
-              "object_sha256": "1be0099a77008359be234708895cd8f04e687f8b5927b2e592435f44f979a67b",
+              "object_sha256": "604ab858c5f94b474b58a97267301db6394092c5bddf6229fc1943ca1d13c40f",
               "object_size": 808,
               "source": "member_base.c"
             },
@@ -1274,7 +1132,7 @@
               "function": "global_field_interior_alias",
               "intent": "Assumes records_data aliases the first record's data field at records + 0xac; it adds record * sizeof(struct record) and index * 4 before loading the first unsigned halfword.",
               "name": "interior_alias",
-              "object_sha256": "2156154823d644d549472556cce19cfbfea604f1e8374e9d9082493048a85cb3",
+              "object_sha256": "5e6587be8658fd221d11ef0fd9949c0b9eba563551ee611abdf22895b331fdd4",
               "object_size": 808,
               "source": "interior_alias.c"
             }
@@ -1302,7 +1160,7 @@
               "function": "invariant_mask",
               "intent": "Apply the invariant mask inside each loop iteration.",
               "name": "loop_internal_mask",
-              "object_sha256": "fb838e92905501703554d302c7d6c926e4b4abd06320adffa94dc1a17e39354b",
+              "object_sha256": "aeda98af3355cf683a1f5ed95d1986b2c63fef0c98a1f8083a5facddac6f78c8",
               "object_size": 672,
               "source": "loop_internal_mask.c"
             },
@@ -1310,7 +1168,7 @@
               "function": "invariant_mask",
               "intent": "Precompute the same invariant mask before entering the loop.",
               "name": "hoisted_mask",
-              "object_sha256": "c31a3963c1c501648d29543a0b5126679eeedaeb2c384bae252943c418b4ab26",
+              "object_sha256": "e888f1b876a7d71b1a62a00b20765e57f45a46e584ded6a8e4ba0cf18d701925",
               "object_size": 672,
               "source": "hoisted_mask.c"
             }
@@ -1338,16 +1196,16 @@
               "function": "p3_cursor_vertex_loop",
               "intent": "Caches rwGlobals.device.zBufferNear in an outer local before the four-vertex loop, matching the current H_Cursor_UpdateTask source shape.",
               "name": "cached_outer_scope",
-              "object_sha256": "0a19985dd6cbd72340d7ab94d31a723123915519efba3c45896370e823011ce5",
-              "object_size": 1080,
+              "object_sha256": "5e011bc6893461c420ae292f2ff67123106628f168f9cbde516d6fcd5a4ccba9",
+              "object_size": 1064,
               "source": "baseline.c"
             },
             {
               "function": "p3_cursor_vertex_loop",
               "intent": "Changes only zBufferNear lifetime: initializes the same local from rwGlobals.device.zBufferNear inside each loop iteration.",
               "name": "iteration_scope_reload",
-              "object_sha256": "fb667d790f81da031befa28304fdb021d43fef4a8c4d7479ea3a081ce8cba9f9",
-              "object_size": 1080,
+              "object_sha256": "99dd29620d820db4d656422cc6036637812f00c9de0a2431133828361a10b71e",
+              "object_size": 1064,
               "source": "variant.c"
             }
           ]
@@ -1370,7 +1228,7 @@
               "function": "p3_global_base_scaled_index",
               "intent": "Keeps a gFldUnitsPc global base, a separate local units base, and a 0x1c0-byte scaled loop index; the matching return separately rematerializes gFldUnitsPc plus that scaled index.",
               "name": "p3_loop_shape",
-              "object_sha256": "2d611a5683de86009fc6041a77af0cbabbac5027cdeeab4b6d562636c8338e54",
+              "object_sha256": "7e726597d7b5d84eb24db88b5dc3d1ca5a5c36839bc0977ed00017144712e055",
               "object_size": 856,
               "source": "p3_loop_shape.c"
             }
@@ -1398,7 +1256,7 @@
               "function": "raster_delta_percent",
               "intent": "Keeps the signed-to-float delta temporary in an inner block and reads the global directly for percent.",
               "name": "baseline",
-              "object_sha256": "575956666420169753d42a93a22230204c838422d3924d056f3dce4c5ff27a71",
+              "object_sha256": "fc522a09d8548394a57bb154fb5084cac67138b47723970b671abc883719cd34",
               "object_size": 968,
               "source": "baseline.c"
             },
@@ -1406,7 +1264,7 @@
               "function": "raster_delta_percent",
               "intent": "Eliminates the post-branch delta temporary lifetime by assigning the global in each conversion branch, without volatile access or changing percent arithmetic.",
               "name": "lifetime_split",
-              "object_sha256": "14cdf8bb2b3b23ad7bcb7d2e6fa4d5b6ab34f785fb39871d0cf7f7d66d550573",
+              "object_sha256": "be56d7c312f3b8b3fc1595004e6e55d87733364b213df150f28464ce71cdc163",
               "object_size": 984,
               "source": "lifetime_split.c"
             }
@@ -1429,11 +1287,11 @@
               "variant": "extern_object"
             },
             {
-              "equal": true,
+              "equal": false,
               "variant": "pointer_to_function_pointer_local"
             },
             {
-              "equal": true,
+              "equal": false,
               "variant": "per_case_scope"
             }
           ],
@@ -1442,7 +1300,7 @@
               "function": "p3_panel_dispatch_slots",
               "intent": "Direct typed absolute-slot dereferences, matching the current P3 macros.",
               "name": "literal_dereference",
-              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_sha256": "b0017275f6b2588e1f57fcb949c69e8a16a844d90bc0a11d7726565e5ba9787a",
               "object_size": 1008,
               "source": "literal_dereference.c"
             },
@@ -1450,7 +1308,7 @@
               "function": "p3_panel_dispatch_slots",
               "intent": "Uses externally declared callback objects instead of absolute typed-slot dereferences.",
               "name": "extern_object",
-              "object_sha256": "94dbf9ac8c85e31d7fedb8b1680bc3da233cd852ed06ca01db3acec50035e169",
+              "object_sha256": "15c445933267c4ec9159ae005ef43877f24ac0ceaa1e6ea0d724eb4fcc71bc27",
               "object_size": 1160,
               "source": "extern_object.c"
             },
@@ -1458,7 +1316,7 @@
               "function": "p3_panel_dispatch_slots",
               "intent": "Binds each absolute callback-slot address to one function-pointer-object local before dispatch.",
               "name": "pointer_to_function_pointer_local",
-              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_sha256": "ed6777dbb0ee533ed12bf96537b224ce5b0c4e92059a1c1f5822ef8b4f355b69",
               "object_size": 1008,
               "source": "pointer_to_function_pointer_local.c"
             },
@@ -1466,7 +1324,7 @@
               "function": "p3_panel_dispatch_slots",
               "intent": "Binds absolute callback-slot addresses in each switch-case scope.",
               "name": "per_case_scope",
-              "object_sha256": "39ec42830a682ba6e5bbcdb8e0ec0c3736efc456ffab03be956a3d09dfce3309",
+              "object_sha256": "1948df27df6a558dcdf0c1d785c4ed68c0e1bda3cb68f1f827e00e736369f5d9",
               "object_size": 1008,
               "source": "per_case_scope.c"
             }
@@ -1498,7 +1356,7 @@
               "function": "scrcomu_empty_labels",
               "intent": "Equivalent default and zero labels are empty jumps to a shared flag-value and return path.",
               "name": "empty_labels",
-              "object_sha256": "a09c215221235f8c30caa7e8fa25082a69b7336713ed1f740c9f6d279840cf57",
+              "object_sha256": "82b8c8bff0f688e5d93e5f84398bac932d4a944a366f123a899127e059579d00",
               "object_size": 736,
               "source": "empty_labels.c"
             },
@@ -1506,15 +1364,15 @@
               "function": "scrcomu_empty_labels",
               "intent": "Makes default and zero perform source-level assignments to the later-consumed flag while preserving the same result for every selector.",
               "name": "explicit_zero_selection",
-              "object_sha256": "1ad75e22e7237cc92bf3060700a9716a839490ca56f7e1993c8893a0178b4f9a",
-              "object_size": 752,
+              "object_sha256": "0ca88a6e7774e7f0617eeb98e61325b0cd51b60d485b15a2db15364a0c818a8f",
+              "object_size": 736,
               "source": "explicit_zero_selection.c"
             },
             {
               "function": "scrcomu_empty_labels",
               "intent": "Adds source-level self-assignments of the later-consumed flag in the equivalent default and zero labels without changing any returned value.",
               "name": "self_assignment_selection",
-              "object_sha256": "a09c215221235f8c30caa7e8fa25082a69b7336713ed1f740c9f6d279840cf57",
+              "object_sha256": "82b8c8bff0f688e5d93e5f84398bac932d4a944a366f123a899127e059579d00",
               "object_size": 736,
               "source": "self_assignment_selection.c"
             }
@@ -1542,16 +1400,16 @@
               "function": "p3_tutorial_switch_regs",
               "intent": "Baseline: the outer switch reads global_work[1] while the local work base remains live through the nested switch.",
               "name": "global_outer_selector",
-              "object_sha256": "9c01bbdc774b06587123740d56fef81e4165a1f2974ff9411c5e9a890d137b2d",
-              "object_size": 1704,
+              "object_sha256": "657fd3cea0c2e21d72b21408c9f03fde8c38d01c1e99ffaf4182b72b05418b2b",
+              "object_size": 1672,
               "source": "baseline.c"
             },
             {
               "function": "p3_tutorial_switch_regs",
               "intent": "Changes only the outer selector address form to work[1], retaining the same global initialization, nested dispatches, calls, and local lifetimes.",
               "name": "local_outer_selector",
-              "object_sha256": "9c01bbdc774b06587123740d56fef81e4165a1f2974ff9411c5e9a890d137b2d",
-              "object_size": 1704,
+              "object_sha256": "657fd3cea0c2e21d72b21408c9f03fde8c38d01c1e99ffaf4182b72b05418b2b",
+              "object_size": 1672,
               "source": "variant.c"
             }
           ]
@@ -1578,7 +1436,7 @@
               "function": "repeated_sign_extension",
               "intent": "Pass a narrowed value repeatedly to a helper whose parameter is short.",
               "name": "short_parameter",
-              "object_sha256": "1d4d62228e72d06ad1957a8d5243c33585cee80fc2dfa758559c92f66f632991",
+              "object_sha256": "53a1ee4a2a9428c885fdc6b81362c6dfcca81babad5480d56246765756d6d79c",
               "object_size": 1056,
               "source": "short_parameter.c"
             },
@@ -1586,7 +1444,7 @@
               "function": "repeated_sign_extension",
               "intent": "Pass the original value repeatedly to an int helper that casts to short.",
               "name": "explicit_cast",
-              "object_sha256": "3921f724c6bceaf207f72cf12f3194c7701ceaf9d6d1d74e19998dc0bbcd762e",
+              "object_sha256": "1c50f89ed011432273750d782d440d12adc254c93e00921ad780766360501cd3",
               "object_size": 1056,
               "source": "explicit_cast.c"
             }
@@ -1614,7 +1472,7 @@
               "function": "scheduler_ready_tie",
               "intent": "Multiplies a*b before c*d in the expression tree, then combines the independent products.",
               "name": "left_then_right",
-              "object_sha256": "112efa06692614e4167811d7cead4360977281ab416ac6bce70d397cb3214bdb",
+              "object_sha256": "6482e2ffd51dd0a1eca13e74632606eb983cbc1593b11efe4ed8276d8120eeab",
               "object_size": 640,
               "source": "left_then_right.c"
             },
@@ -1622,7 +1480,7 @@
               "function": "scheduler_ready_tie",
               "intent": "Multiplies c*d before a*b in the expression tree, preserving the commutative product sum.",
               "name": "right_then_left",
-              "object_sha256": "760f65d90fa672c5bef629683a04122bbe8782bd8485df096f3503ac71d6b12c",
+              "object_sha256": "2174baafe47a8b5c527c8154f5740c97a6ed11443ff186d990f400e7fbf25f76",
               "object_size": 640,
               "source": "right_then_left.c"
             }
@@ -1650,7 +1508,7 @@
               "function": "signed_byte_return",
               "intent": "Return the indexed unsigned-byte buffer element with an unsigned-byte return type.",
               "name": "unsigned_return",
-              "object_sha256": "5ff77ecbf2e8343ebfe8a028fe27eb564a621882e71ad4bc96728ac2f5f7f866",
+              "object_sha256": "efcc7674668251ca8b885a7cb9c5353f65faaf1720b2802afd55f73c3e9e3516",
               "object_size": 760,
               "source": "unsigned_return.c"
             },
@@ -1658,7 +1516,7 @@
               "function": "signed_byte_return",
               "intent": "Return the same indexed unsigned-byte buffer element with a signed-byte return type.",
               "name": "signed_return",
-              "object_sha256": "8a1c078cb6abeffaaa633c9363ea6054eea5868979b293882f265d8329900418",
+              "object_sha256": "9b52e0754f9bd2de5e2258ba2856e262d1a57e0fdd0ffc4841b838326d17f748",
               "object_size": 760,
               "source": "signed_return.c"
             }
@@ -1690,7 +1548,7 @@
               "function": "switch_case_order",
               "intent": "Baseline sparse switch with ascending source cases.",
               "name": "switch_ascending_cases",
-              "object_sha256": "9e9af3f3f2d0e9dd196e576ecbe6963a912555ae0c1c843e78faab0fa68519c7",
+              "object_sha256": "4b27f25646abd9e2c8846bc1c293aa1ac928e99b6372b4a42786b9eb3bf9b857",
               "object_size": 704,
               "source": "switch_ascending_cases.c"
             },
@@ -1698,7 +1556,7 @@
               "function": "switch_case_order",
               "intent": "Equivalent comparisons written as an ascending ordered if chain.",
               "name": "ordered_if_chain",
-              "object_sha256": "a5c251349c6d911d64244eef4274a4b3d067fd1a0d8939f450206a0120da3801",
+              "object_sha256": "40138aad51cc7859e8ac9e24a9da92e894df28b803ac132514c05870ae568958",
               "object_size": 704,
               "source": "ordered_if_chain.c"
             },
@@ -1706,7 +1564,7 @@
               "function": "switch_case_order",
               "intent": "Equivalent switch whose sparse case labels appear in a different source order.",
               "name": "switch_reordered_cases",
-              "object_sha256": "7aa571483c138cba20a8920c4f686181d3a644c4378024f13267d6e1b93dab7e",
+              "object_sha256": "a82c1ad47be10df6f2ab65a8bf081e080661d0672a36a4cf73f844772ef1f817",
               "object_size": 704,
               "source": "switch_reordered_cases.c"
             }
@@ -1734,7 +1592,7 @@
               "function": "u16_remask",
               "intent": "Mask the input to 16 bits once and reuse the narrowed value.",
               "name": "single_mask",
-              "object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+              "object_sha256": "c88cb927f1f34b0a682a3986376b14f9590358c6d6598a79c6b35337904ce510",
               "object_size": 624,
               "source": "single_mask.c"
             },
@@ -1742,7 +1600,7 @@
               "function": "u16_remask",
               "intent": "Reapply the equivalent 16-bit mask at each use of the already narrowed value.",
               "name": "redundant_remask",
-              "object_sha256": "53eb9d4ac8412b40bde52367739ae295f7ebd7bb9d55b2c4fc1ba77cc4a8b052",
+              "object_sha256": "c88cb927f1f34b0a682a3986376b14f9590358c6d6598a79c6b35337904ce510",
               "object_size": 624,
               "source": "redundant_remask.c"
             }

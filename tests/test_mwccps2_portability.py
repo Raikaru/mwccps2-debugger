@@ -408,6 +408,26 @@ class PublicPathSanitizationTests(unittest.TestCase):
 
             self.assertEqual(result["status"], "completed")
             self.assertEqual(run_compile.call_args.args[0], compiler.resolve())
+class ExperimentDirectoryTests(unittest.TestCase):
+    def test_ignores_empty_work_directories(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            valid = root / "valid"
+            valid.mkdir()
+            (valid / "experiment.json").write_text("{}", encoding="utf-8")
+            (root / "empty-worktree").mkdir()
+            self.assertEqual(portability._experiment_directories(root), [valid])
+
+    def test_rejects_nonempty_directory_without_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            malformed = root / "malformed"
+            malformed.mkdir()
+            (malformed / "source.c").write_text("int f(void) { return 0; }", encoding="utf-8")
+            with self.assertRaisesRegex(PortabilityError, "lacks experiment.json"):
+                portability._experiment_directories(root)
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

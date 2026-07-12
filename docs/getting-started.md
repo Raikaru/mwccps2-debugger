@@ -1,8 +1,19 @@
 # Getting started
 
-This guide takes a new contributor from an empty local `build/` directory to a
-verified b210 PCode experiment. Read the project [README](../README.md) first for
-the support boundary and evidence rules.
+For a first human-readable 2.4 capture, the shortest path is:
+
+```powershell
+python mwccps2_prepare_24.py D:/mwcps2-2.4-001213/mwccps2.exe --output D:/mwcps2-2.4-001213/debug/mwccps2.exe
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -- -O4,p
+```
+
+The second command automatically starts GDB and produces readable frontend,
+PCode, scheduler, and register-allocation files. No manual GDB session or
+breakpoint entry is required. Read the project [README](../README.md) for the
+artifact walkthrough, exact support boundary, and evidence rules.
+
+The rest of this guide covers the longer b210 differential-experiment workflow
+from an empty local `build/` directory.
 
 ## Prerequisites
 
@@ -12,7 +23,8 @@ Required:
   MWCCPS2 executable;
 - Python 3.10 or newer;
 - GNU GDB with Python scripting support; GDB 16.3 is the validated version;
-- a legally obtained `mwcps2-3.0.1b210-060308/mwccps2.exe`;
+- a legally obtained supported compiler: the exact b210 executable for the
+  differential workflow, or the exact 2.4 archive for the human live workflow;
 - enough permission for GDB to start and debug the compiler process.
 
 The runtime uses the Python standard library. No project-specific package
@@ -191,9 +203,25 @@ To run all checked-in reducers directly under every available requested build:
 python mwccps2_portability.py --run-corpus --work-dir build/version-corpus --json build/version-corpus.json
 ```
 
-Only b210 receives full live-profile validation. Other builds receive exact PE
-fingerprints and direct-object behavior comparisons unless a separately
-validated live profile is added.
+For the exact MWCCPS2 2.4 engineering build 0017 archive:
+
+```powershell
+python mwccps2_prepare_24.py D:/mwcps2-2.4-001213/mwccps2.exe --output D:/mwcps2-2.4-001213/debug/mwccps2.exe
+```
+
+The preparer validates both the original and resulting SHA-256 fingerprints.
+Use a nested output directory so the portability scanner finds the prepared
+binary under the required `mwccps2.exe` basename. The prepared image also
+matches the independently recovered live profile. Capture one function with:
+
+```powershell
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -- -O4,p
+```
+
+This creates readable frontend, eight-pass backend PCode, scheduler, and
+register-allocation files plus equivalent JSON and a manifest. The profile is
+selected by the prepared executable's exact SHA-256. b151, b198, and b205 still
+receive fingerprints and direct-object comparisons only.
 
 ## Bounded solver
 

@@ -14,19 +14,61 @@ fingerprinting, PCode snapshots, experiment runner, scheduler capture,
 register-allocation capture, semantic replayers, and cross-version corpus.
 Persona 3 integration is an optional adapter at the repository boundary.
 
-## Status and support boundary
+## Human quick start
 
-The fully validated live-debug profile is:
+The primary interactive workflow is one command: give the debugger an exact
+compiler, a source file, the function to inspect, and the normal compiler
+flags. It starts GDB, selects the matching live profile by SHA-256, compiles the
+source, and writes pass-by-pass text files without requiring any manual
+breakpoint commands:
 
-```text
-Compiler:   mwcps2-3.0.1b210-060308
-SHA-256:    286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7
-PE time:    0x440f429b
-Image base: 0x00400000
+```powershell
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -- -O4,p
 ```
 
-Portable fingerprints and direct-object corpus support also exist for b151,
-b198, and b205. Their live internal layouts are not assumed to equal b210.
+The output is designed to be read directly:
+
+```text
+frontend-*.txt    function and frontend-IR boundaries
+backend-*.txt     numbered PCode before and after each backend pass
+regalloc-*.txt    virtual-register priority and physical assignments
+scheduler.txt     every ready-list choice, rejection, and idle cycle
+manifest.json     capture status and complete artifact index
+```
+
+Every text artifact has equivalent JSON for scripts and comparisons. Use
+`-o build/<name>` to choose the new output directory, `-g <gdb.exe>` when GDB
+is not on `PATH`, or `-a="-O4,p -sym on"` when copying flags as one quoted
+command line. Omit the function name to capture every generated function.
+
+For the archived 2.4 compiler, run the exact-fingerprint preparer once before
+the command above:
+
+```powershell
+python mwccps2_prepare_24.py D:/mwcps2-2.4-001213/mwccps2.exe --output D:/mwcps2-2.4-001213/debug/mwccps2.exe
+```
+
+## Status and support boundary
+
+The fully validated live-debug profiles are:
+
+```text
+MWCCPS2 3.0.1 b210 (2006-03-08)
+  SHA-256:    286548490e2e902cfef21dcf39cd5af23766731585d90dea747f8781eadcafd7
+  PE time:    0x440f429b
+  Image base: 0x00400000
+
+MWCCPS2 2.4 Engineering Build 0017 (2000-12-13), prepared image
+  SHA-256:    1233acf014b53ae39669da4cc050062f316d73dd63257150024ad25ad33dbb30
+  PE time:    0x3a375fef
+  Image base: 0x00400000
+```
+
+The 2.4 profile independently validates frontend boundaries, eight backend
+PCode boundaries, scheduler choices, and colorgraph allocation state. Portable
+fingerprints and direct-object corpus support also exist for b151, b198, and
+b205; their live internal layouts are not assumed to equal either validated
+profile.
 
 Validated host configuration:
 
@@ -82,6 +124,8 @@ stage rather than fabricated data.
 ```text
 mwccps2_probe.py                  PE fingerprint and static anchor report
 mwccps2_debug_launch.py           suspended Windows launch for manual attach
+mwccps2_debugger.py                one-command human-readable live debugger
+mwccps2_prepare_24.py              exact-fingerprint 2.4 preparation
 mwccps2_experiment.py             normal PCode/regalloc differential runner
 mwccps2_scheduler_experiment.py   live scheduler differential runner
 mwccps2_portability.py            compiler discovery and cross-version corpus
@@ -92,6 +136,8 @@ mwccps2_family_sweep.py           whole-decomp residual-family clustering
 
 
 gdb/
+  mwccps2_capture.py               profile-driven human capture command
+  mwccps2_profile_model.py         bounded 2.4 layout decoder and formatter
   mwccps2_b210_snapshot.py        GDB command for PCode/regalloc snapshots
   mwccps2_b210_scheduler.py       GDB command for scheduler decisions
   b210_*_model.py                 pure validation and normalization models
@@ -155,7 +201,30 @@ python mwccps2_probe.py D:/mwcps2-3.0.1b210-060308/mwccps2.exe --json build/comp
 Do not continue with the b210 live profile if the SHA-256 differs. Absolute
 addresses and internal layouts are executable-specific.
 
-### 3. Run a first experiment
+### 3. Dump one function with the human debugger
+
+The one-command workflow mirrors the interface of `cadmic/mwcc-debugger`: give
+it the compiler, source, function name, and normal compiler flags. The compiler
+profile is selected by SHA-256; no address is guessed.
+
+```powershell
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -- -O4,p
+```
+
+Use `-a` when copying flags as one quoted command-line fragment:
+
+```powershell
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -a="-O4,p -sym on" -o build/load-indexed-24
+```
+
+The new output directory contains numbered readable `frontend-*.txt`,
+`backend-*.txt`, `regalloc-*.txt`, and `scheduler.txt` files. Matching JSON and
+`manifest.json` preserve the same evidence for automation. Omit the function
+name to capture every generated function. Existing output is never overwritten.
+
+### 4. Run a first experiment
+
+The experiment runner below remains the b210 differential workflow.
 
 Every output directory must be a fresh child of this repository's ignored
 `build/` directory:
@@ -185,7 +254,7 @@ build/quickstart-mul/experiment-summary-v1.json
 Each variant also contains human-readable `*.pcode.txt` files alongside the
 machine-readable JSON snapshots.
 
-### 4. Interpret the first divergence
+### 5. Interpret the first divergence
 
 Use the earliest *semantic PCode* divergence, not the earliest raw graph hash
 change:
@@ -334,6 +403,26 @@ Run the reducer corpus across every available requested build:
 
 ```powershell
 python mwccps2_portability.py --run-corpus --work-dir build/version-corpus --json build/version-corpus.json
+```
+
+MWCCPS2 2.4 engineering build 0017 requires one deterministic preparation
+step before unattended compilation. The preparer accepts only the exact
+2000-12-13 executable fingerprint, writes no binary into this repository, and
+copies the required `LMGR326B.DLL` beside the result:
+
+```powershell
+python mwccps2_prepare_24.py D:/mwcps2-2.4-001213/mwccps2.exe --output D:/mwcps2-2.4-001213/debug/mwccps2.exe
+python mwccps2_portability.py --run-corpus --work-dir build/version-corpus --json build/version-corpus.json
+```
+
+The generated `mwcps2-2.4-0017-001213.portability.json` profile remains the
+direct-compilation/cross-version report. Live GDB capture uses the independently
+recovered `profiles/mwcps2-2.4-0017-001213.json`; it contains no inherited b210
+addresses.
+Run a readable 2.4 capture with:
+
+```powershell
+python mwccps2_debugger.py -e D:/mwcps2-2.4-001213/debug/mwccps2.exe fixtures/codegen_smoke.c load_indexed -- -O4,p
 ```
 
 Create a deterministic P3 analysis bundle:
