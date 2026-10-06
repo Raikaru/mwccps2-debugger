@@ -28,6 +28,26 @@
       "address": "0x004c0790",
       "canonical_name": null,
       "evidence": "Called by CodeGen_Generator immediately before the post-schedule trace point."
+    },
+    "backend_optimization_dispatch": {
+      "address": "0x004bb320",
+      "canonical_name": null,
+      "evidence": "Called by CodeGen_Generator after the AFTER CodeGen trace point; selects one optimizer pipeline by the optimization-level byte at 0x006365cb (level 2 -> 0x004bb5b0)."
+    },
+    "backend_optimization_level2": {
+      "address": "0x004bb5b0",
+      "canonical_name": null,
+      "evidence": "Runs 0x004bbcf0, 0x00555510, 0x004bb840 and 0x00556230 in order; each is followed by the b210 trace strings 'After removecommonsubexpressions', 'After propagatecopyinstructions', 'After peephole' and 'After pipeline1'."
+    },
+    "propagate_copy_instructions": {
+      "address": "0x00555510",
+      "canonical_name": null,
+      "evidence": "Runs the generic propagation driver 0x00555750 once with table 0x005ea39c: candidate 0x00555710 accepts virtual GPR copies only; check 0x00555600 rejects a use that is itself a copy, or that reads and writes the destination, and asks 0x0054bcd0 whether the source is still available; apply 0x00555540 keeps copies of physical sources."
+    },
+    "peephole": {
+      "address": "0x004bb840",
+      "canonical_name": null,
+      "evidence": "Per-block pattern driver; patterns are registered by opcode in 0x00557530 and see only definitions earlier in the same block."
     }
   },
   "globals": {
@@ -235,6 +255,13 @@
     "evidence": "PCodeInfo.c initializer 0x0047ccc0 clears 0x4af entries at 0x00626638 with stride 0x30; independent readers at 0x004925c0, 0x0049bd50, and 0x004c2f30 use the same table. Opcode 1 registration at 0x0047ccc0 supplies the sentinel values."
   },
   "pcode_breakpoints": {
+    "after_remove_common_subexpressions": "0x004bb5d2",
+    "after_propagate_copy_instructions": "0x004bb5fd",
+    "after_peephole": "0x004bb617",
+    "after_pipeline1": "0x004bb634",
+    "after_backend_optimization": "0x00435eef",
+    "after_macro_expansion": "0x00435ef9",
+    "after_loop_invariants": "0x00435f97",
     "before_scheduling": "0x00435ff7",
     "after_scheduling": "0x00435ffc",
     "before_register_allocation": "0x0043602b",
