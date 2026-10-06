@@ -54,8 +54,20 @@ from b210_regalloc_model import (  # noqa: E402 - GDB sources this module by pat
 
 DEFAULT_PROFILE_PATH = _SCRIPT_DIRECTORY.parent / "profiles" / "mwcps2-3.0.1-b210.json"
 MANIFEST_FILENAME = "snapshot-manifest.json"
+# The after_* optimizer stages follow the calls whose results b210 itself
+# dumps under its "After ..." trace strings; a stage whose pass does not run at
+# the requested optimization level is simply not reached.
 STAGE_ORDER = (
     ("codegen_entry", ("functions", "CodeGen_Generator", "address")),
+    ("after_remove_common_subexpressions",
+     ("pcode_breakpoints", "after_remove_common_subexpressions")),
+    ("after_propagate_copy_instructions",
+     ("pcode_breakpoints", "after_propagate_copy_instructions")),
+    ("after_peephole", ("pcode_breakpoints", "after_peephole")),
+    ("after_pipeline1", ("pcode_breakpoints", "after_pipeline1")),
+    ("after_backend_optimization", ("pcode_breakpoints", "after_backend_optimization")),
+    ("after_macro_expansion", ("pcode_breakpoints", "after_macro_expansion")),
+    ("after_loop_invariants", ("pcode_breakpoints", "after_loop_invariants")),
     ("before_scheduling", ("pcode_breakpoints", "before_scheduling")),
     ("after_scheduling", ("pcode_breakpoints", "after_scheduling")),
     ("before_register_allocation", ("pcode_breakpoints", "before_register_allocation")),

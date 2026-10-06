@@ -102,6 +102,20 @@ C / frontend IR
     ↓
 codegen_entry
     ↓
+after_remove_common_subexpressions     ┐
+    ↓                                  │ b210 -O2 backend optimizer
+after_propagate_copy_instructions      │ (0x004bb5b0); each stage follows
+    ↓                                  │ the call that b210 itself traces
+after_peephole                         │ as "After ..."
+    ↓                                  │
+after_pipeline1                        ┘
+    ↓
+after_backend_optimization
+    ↓
+after_macro_expansion
+    ↓
+after_loop_invariants
+    ↓
 before_scheduling
     ↓
 after_scheduling
@@ -118,6 +132,12 @@ object code
 Not every optimization level executes every stage. In particular, an `-O2`
 compile may not hit the scheduler breakpoints; this is reported as a missing
 stage rather than fabricated data.
+
+The b210 optimizer stages expose where a source-level local stops existing:
+`after_propagate_copy_instructions` forwards virtual GPR copies into their
+uses (a use that is itself a copy blocks it), and `after_peephole` folds
+block-local copies of any class, which is where float locals usually
+disappear.
 
 ## Repository map
 
