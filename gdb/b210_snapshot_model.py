@@ -352,6 +352,7 @@ def _read_block(memory: Any, address: int) -> dict[str, int]:
         "previous": struct.unpack_from("<I", data, 0x04)[0],
         "pcode_head": struct.unpack_from("<I", data, 0x14)[0],
         "pcode_tail": struct.unpack_from("<I", data, 0x18)[0],
+        "loop_weight_i32": struct.unpack_from("<i", data, 0x28)[0],
         "pcode_count_i16": struct.unpack_from("<h", data, 0x2C)[0],
         "flags_u16": struct.unpack_from("<H", data, 0x2E)[0],
     }
@@ -976,6 +977,7 @@ def normalize_runtime_graph(raw: Mapping[str, Any]) -> dict[str, Any]:
             "next": _reference(block["next"], block_ids),
             "pcode_head": _reference(block["pcode_head"], node_ids),
             "pcode_tail": _reference(block["pcode_tail"], node_ids),
+            "loop_weight_i32": block["loop_weight_i32"],
             "pcode_count_i16": block["pcode_count_i16"],
             "flags_u16": f"0x{block['flags_u16']:04x}",
         }
